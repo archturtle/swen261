@@ -6,7 +6,7 @@ An online E-store system built in Java 11=> and ___ _replace with other platform
 ## Team
 
 - Siddhartha Juluru
-- MEMBER2
+- Ashlyn King
 - MEMBER3
 - MEMBER4
 
