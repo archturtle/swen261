@@ -8,8 +8,7 @@ An online E-store system built in Java 11=> and ___ _replace with other platform
 - Siddhartha Juluru
 - Ashlyn King
 - Cathy Liu
-- MEMBER4
-
+- Issac Kim
 
 ## Prerequisites
 
