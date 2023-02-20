@@ -1,5 +1,7 @@
 package com.estore.api.estoreapi.model;
 
+import javax.annotation.Generated;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -52,6 +54,30 @@ public class Keyboard {
    * @return The name of the keyboard
    */
   public String getName() { return this.name; }
+
+  /**
+   * Sets the price of the keyboard - necessary for JSON object to Java object deserialization
+   * @param name The price of the keyboard
+   */
+  public void setPrice(double price) { this.price = price; }
+
+  /**
+   * Retrieves the price of the keyboard
+   * @return The price of the keyboard
+   */
+  public double getPrice() { return this.price; } 
+
+  /**
+   * Sets the quantity of the keyboard - necessary for JSON object to Java object deserialization
+   * @param name The quantity of the keyboard
+   */
+  public void setQuantity(int quantity) { this.quantity = quantity; }
+
+  /**
+   * Retrieves the quantity of the keyboard
+   * @return The quantity of the keyboard
+   */
+  public int getQuantity() { return this.quantity; } 
 
   /**
    * {@inheritDoc}
