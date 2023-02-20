@@ -7,6 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 class KeyboardEStoreAPIApplicationTests {
   @Test
   void contextLoads() {
-    
+
   }
 }

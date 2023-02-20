@@ -15,7 +15,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * Implements the functionality for JSON file-based peristance for Keyboard
  * 
- * {@literal @}Component Spring annotation instantiates a single instance of this
+ * {@literal @}Component Spring annotation instantiates a single instance of
+ * this
  * class and injects the instance into other classes as needed
  * 
  * @author Siddhartha Juluru (ssj4651@rit.edu)
@@ -31,12 +32,13 @@ public class KeyboardFileDAO implements KeyboardDAO {
    */
   private Map<Integer, Keyboard> keyboards;
   /**
-   * The object mapper which helps turn a {@linkplain Keyboard keyboard} object 
+   * The object mapper which helps turn a {@linkplain Keyboard keyboard} object
    * into JSON.
    */
   private ObjectMapper objectMapper;
   /**
-   * The filename for which data should be stored in. This is automatically populated 
+   * The filename for which data should be stored in. This is automatically
+   * populated
    * based on whatever is listed in application.properties.
    */
   private String filename;
@@ -44,8 +46,9 @@ public class KeyboardFileDAO implements KeyboardDAO {
   /**
    * Creates a Keyboard File Data Access Object
    *
-   * @param filename Filename to read from and write to
-   * @param objectMapper Provides JSON Object to/from Java Object serialization and deserialization
+   * @param filename     Filename to read from and write to
+   * @param objectMapper Provides JSON Object to/from Java Object serialization
+   *                     and deserialization
    *
    * @throws IOException when file cannot be accessed or read from
    */
@@ -89,7 +92,7 @@ public class KeyboardFileDAO implements KeyboardDAO {
     // Add each hero to the tree map and keep track of the greatest id
     for (Keyboard keyboard : keyboardArray) {
       keyboards.put(keyboard.getId(), keyboard);
-        
+
       if (keyboard.getId() > nextId) {
         nextId = keyboard.getId();
       }
@@ -101,7 +104,8 @@ public class KeyboardFileDAO implements KeyboardDAO {
   }
 
   /**
-   * Saves the {@linkplain Keyboard keyboards} from the map into the file as an array of JSON objects
+   * Saves the {@linkplain Keyboard keyboards} from the map into the file as an
+   * array of JSON objects
    *
    * @return true if the {@link Keyboard keyboards} were written successfully
    *
@@ -118,13 +122,14 @@ public class KeyboardFileDAO implements KeyboardDAO {
   }
 
   /**
-   * Finds all the {@linkplain Keyboard keyboard} objects whose name contains a certain string. 
+   * Finds all the {@linkplain Keyboard keyboard} objects whose name contains a
+   * certain string.
    * If null is passed, every {@linkplain Keyboard keyboard} object is returned.
    * 
    * @param containsText The text that should be matched against.
    * 
-   * @return An array of {@linkplain Keyboard keyboard} objects that contain the text. It can be
-   * empty.
+   * @return An array of {@linkplain Keyboard keyboard} objects that contain the
+   *         text. It can be empty.
    */
   private Keyboard[] getKeyboards(String containsText) {
     ArrayList<Keyboard> foundKeyboard = new ArrayList<>();
@@ -142,7 +147,7 @@ public class KeyboardFileDAO implements KeyboardDAO {
    */
   @Override
   public Keyboard[] getAllKeyboards() throws IOException {
-    synchronized(keyboards) {
+    synchronized (keyboards) {
       return getKeyboards(null);
     }
   }
@@ -152,7 +157,7 @@ public class KeyboardFileDAO implements KeyboardDAO {
    */
   @Override
   public Keyboard[] findKeyboardsByName(String containsText) throws IOException {
-    synchronized(keyboards) {
+    synchronized (keyboards) {
       return getKeyboards(containsText);
     }
   }
@@ -162,8 +167,9 @@ public class KeyboardFileDAO implements KeyboardDAO {
    */
   @Override
   public Keyboard getKeyboardById(int id) throws IOException {
-    synchronized(keyboards) {
-      if (!keyboards.containsKey(id)) return null;
+    synchronized (keyboards) {
+      if (!keyboards.containsKey(id))
+        return null;
       return keyboards.get(id);
     }
   }
@@ -173,7 +179,7 @@ public class KeyboardFileDAO implements KeyboardDAO {
    */
   @Override
   public Keyboard createKeyboard(Keyboard keyboard) throws IOException {
-    synchronized(keyboards) {
+    synchronized (keyboards) {
       Keyboard newKeyboard = new Keyboard(nextId(), keyboard.getName(), keyboard.getPrice(), keyboard.getQuantity());
       keyboards.put(newKeyboard.getId(), newKeyboard);
 
@@ -187,8 +193,9 @@ public class KeyboardFileDAO implements KeyboardDAO {
    */
   @Override
   public Keyboard updateKeyboard(Keyboard keyboard) throws IOException {
-    synchronized(keyboards) {
-      if (keyboards.containsKey(keyboard.getId()) == false) return null;  
+    synchronized (keyboards) {
+      if (keyboards.containsKey(keyboard.getId()) == false)
+        return null;
 
       keyboards.put(keyboard.getId(), keyboard);
       saveData(); // may throw an IOException
@@ -201,8 +208,9 @@ public class KeyboardFileDAO implements KeyboardDAO {
    */
   @Override
   public boolean deleteKeyboard(int id) throws IOException {
-    synchronized(keyboards) {
-      if (!keyboards.containsKey(id)) return false;
+    synchronized (keyboards) {
+      if (!keyboards.containsKey(id))
+        return false;
 
       keyboards.remove(id);
       return saveData();
