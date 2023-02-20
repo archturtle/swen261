@@ -22,7 +22,7 @@ public interface KeyboardDAO {
    * Finds all {@linkplain Keyboard keyboards} whose name contains the given text.
    *
    * @param containsText The text to match against.
-   *                     '
+   * 
    * @return An array of {@link Keyboard keyboard} objects whose nemes contains
    *         the given text, may be empty.
    * @throws IOException if an issue with underlying storage.

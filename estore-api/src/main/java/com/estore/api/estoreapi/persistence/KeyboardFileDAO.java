@@ -16,8 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * Implements the functionality for JSON file-based peristance for Keyboard
  * 
  * {@literal @}Component Spring annotation instantiates a single instance of
- * this
- * class and injects the instance into other classes as needed
+ * this class and injects the instance into other classes as needed
  * 
  * @author Siddhartha Juluru (ssj4651@rit.edu)
  */
@@ -38,8 +37,7 @@ public class KeyboardFileDAO implements KeyboardDAO {
   private ObjectMapper objectMapper;
   /**
    * The filename for which data should be stored in. This is automatically
-   * populated
-   * based on whatever is listed in application.properties.
+   * populated based on whatever is listed in application.properties.
    */
   private String filename;
 
@@ -123,8 +121,8 @@ public class KeyboardFileDAO implements KeyboardDAO {
 
   /**
    * Finds all the {@linkplain Keyboard keyboard} objects whose name contains a
-   * certain string.
-   * If null is passed, every {@linkplain Keyboard keyboard} object is returned.
+   * certain string. If null is passed, every {@linkplain Keyboard keyboard} object 
+   * is returned.
    * 
    * @param containsText The text that should be matched against.
    * 
