@@ -190,13 +190,13 @@ curl.exe -X GET \
 // Update the price
 curl.exe -X PUT `
          -H "Content-Type:application/json" `
-         -d '{\"id\": 1, \"price\": 99.99}' `
+         -d '{\"id\": 1, \"name\": \"GMMK 2\", \"price\": 99.99, \"quantity\": 300}' `
          http://localhost:8080/keyboards
 
 // Update the quantity
 curl.exe -X PUT `
          -H "Content-Type:application/json" `
-         -d '{\"id\": 2, \"quantity\": 400}' `
+         -d '{\"id\": 2, \"name\": "GMMK PRO\", \"price\": 349.99, \"quantity\": 400}' `
          http://localhost:8080/keyboards
 ```
 
@@ -209,13 +209,13 @@ curl.exe -X PUT `
 // Update the price
 curl.exe -X PUT ^
          -H "Content-Type:application/json" ^
-         -d "{\"id\": 1, \"price\": 99.99}" ^
+         -d "{\"id\": 1, \"name\": \"GMMK 2\", \"price\": 99.99, \"quantity\": 300}" ^
          http://localhost:8080/keyboards
 
 // Update the quantity
 curl.exe -X PUT ^
          -H "Content-Type:application/json" ^
-         -d "{\"id\": 2, \"quantity\": 400}" ^
+         -d "{\"id\": 2, \"name\": "GMMK PRO\", \"price\": 349.99, \"quantity\": 400}" ^
          http://localhost:8080/keyboards
 ```
 
@@ -229,13 +229,13 @@ curl.exe -X PUT ^
 curl -X PUT \ 
      -H 'Content-Type:application/json' \
      'http://localhost:8080/keyboards' \
-     -d '{ "id": 1, "price": 99.99 }'
+     -d '{ "id": 1, "name": "GMMK 2", "price": 99.99, "quantity": 300 }'
 
 // Update the quantity
 curl -X PUT \ 
      -H 'Content-Type:application/json' \
      'http://localhost:8080/keyboards' \
-     -d '{ "id": 2, "quantity": 400 }'
+     -d '{ "id": 2, "name": "GMMK PRO", "price": 349.99 "quantity": 400 }'
 ```
 
 </details>
