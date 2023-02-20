@@ -30,7 +30,15 @@ import com.estore.api.estoreapi.persistence.KeyboardDAO;
 @RestController
 @RequestMapping("keyboards")
 public class KeyboardController {
+  /**
+   * The logger used to print out messages to standard out.
+   */
   private static final Logger LOG = Logger.getLogger(KeyboardController.class.getName());
+  /**
+   * The {@linkplain KeyboardDAO Keyboard Data Access Object}. Look at 
+   * {@link KeyboardController#KeyboardController(KeyboardDAO)} for more information 
+   * on how this is set.
+   */
   private KeyboardDAO keyboardDAO;
 
   /**

@@ -3,17 +3,34 @@ package com.estore.api.estoreapi.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Represents a Keyboard entity
+ * Represents a Keyboard entity.
  * 
  * @author Siddhartha Juluru (ssj4651@rit.edu)
  */
 public class Keyboard {
-  // Package private for tests
+  /**
+   * The format that should be used when printing a {@linkplain Keyboard keyboard} object.
+   */
   private static final String STRING_FORMAT = "Keyboard [id=%d, name=%s, price=%f, quantity=%d]";
 
+  /**
+   * The ID associated with this {@linkplain Keyboard keyboard}. 
+   */
   @JsonProperty("id") private int id;
+
+  /**
+   * The name associated with this {@linkplain Keyboard keyboard}. 
+   */
   @JsonProperty("name") private String name;
+
+  /**
+   * The price associated with this {@linkplain Keyboard keyboard}. 
+   */
   @JsonProperty("price") private double price;
+
+  /**
+   * The quantity associated with this {@linkplain Keyboard keyboard}. 
+   */
   @JsonProperty("quantity") private int quantity;
 
   /**

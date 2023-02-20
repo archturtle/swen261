@@ -22,9 +22,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 @Component
 public class KeyboardFileDAO implements KeyboardDAO {
+  /**
+   * The next id to use for a {@linkplain Keyboard keyboard} object.
+   */
   private static int nextId;
+  /**
+   * The local cache all the {@linkplain Keyboard keyboard} objects.
+   */
   private Map<Integer, Keyboard> keyboards;
+  /**
+   * The object mapper which helps turn a {@linkplain Keyboard keyboard} object 
+   * into JSON.
+   */
   private ObjectMapper objectMapper;
+  /**
+   * The filename for which data should be stored in. This is automatically populated 
+   * based on whatever is listed in application.properties.
+   */
   private String filename;
 
   /**
@@ -74,11 +88,11 @@ public class KeyboardFileDAO implements KeyboardDAO {
 
     // Add each hero to the tree map and keep track of the greatest id
     for (Keyboard keyboard : keyboardArray) {
-        keyboards.put(keyboard.getId(), keyboard);
+      keyboards.put(keyboard.getId(), keyboard);
         
-        if (keyboard.getId() > nextId) {
-          nextId = keyboard.getId();
-        }
+      if (keyboard.getId() > nextId) {
+        nextId = keyboard.getId();
+      }
     }
 
     // Make the next id one greater than the maximum from the file
@@ -103,17 +117,29 @@ public class KeyboardFileDAO implements KeyboardDAO {
     return true;
   }
 
+  /**
+   * Finds all the {@linkplain Keyboard keyboard} objects whose name contains a certain string. 
+   * If null is passed, every {@linkplain Keyboard keyboard} object is returned.
+   * 
+   * @param containsText The text that should be matched against.
+   * 
+   * @return An array of {@linkplain Keyboard keyboard} objects that contain the text. It can be
+   * empty.
+   */
   private Keyboard[] getKeyboards(String containsText) {
     ArrayList<Keyboard> foundKeyboard = new ArrayList<>();
     for (Keyboard keyboard : keyboards.values()) {
-        if (containsText == null || keyboard.getName().contains(containsText)) {
-            foundKeyboard.add(keyboard);
-        }
+      if (containsText == null || keyboard.getName().contains(containsText)) {
+        foundKeyboard.add(keyboard);
+      }
     }
 
     return foundKeyboard.toArray(new Keyboard[0]);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Keyboard[] getAllKeyboards() throws IOException {
     synchronized(keyboards) {
@@ -121,6 +147,9 @@ public class KeyboardFileDAO implements KeyboardDAO {
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Keyboard[] findKeyboardsByName(String containsText) throws IOException {
     synchronized(keyboards) {
@@ -128,6 +157,9 @@ public class KeyboardFileDAO implements KeyboardDAO {
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Keyboard getKeyboardById(int id) throws IOException {
     synchronized(keyboards) {
@@ -136,6 +168,9 @@ public class KeyboardFileDAO implements KeyboardDAO {
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Keyboard createKeyboard(Keyboard keyboard) throws IOException {
     synchronized(keyboards) {
@@ -147,6 +182,9 @@ public class KeyboardFileDAO implements KeyboardDAO {
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Keyboard updateKeyboard(Keyboard keyboard) throws IOException {
     synchronized(keyboards) {
@@ -158,6 +196,9 @@ public class KeyboardFileDAO implements KeyboardDAO {
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean deleteKeyboard(int id) throws IOException {
     synchronized(keyboards) {
