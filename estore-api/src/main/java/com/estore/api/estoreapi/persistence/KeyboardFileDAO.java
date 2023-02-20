@@ -1,10 +1,16 @@
 package com.estore.api.estoreapi.persistence;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.estore.api.estoreapi.model.Keyboard;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Implements the functionality for JSON file-based peristance for Keyboard
@@ -16,40 +22,149 @@ import com.estore.api.estoreapi.model.Keyboard;
  */
 @Component
 public class KeyboardFileDAO implements KeyboardDAO {
+  private static int nextId;
+  private Map<Integer, Keyboard> keyboards;
+  private ObjectMapper objectMapper;
+  private String filename;
+
+  /**
+   * Creates a Keyboard File Data Access Object
+   *
+   * @param filename Filename to read from and write to
+   * @param objectMapper Provides JSON Object to/from Java Object serialization and deserialization
+   *
+   * @throws IOException when file cannot be accessed or read from
+   */
+  public KeyboardFileDAO(@Value("${keyboards.file}") String filename, ObjectMapper objectMapper) throws IOException {
+    this.filename = filename;
+    this.objectMapper = objectMapper;
+
+    loadData();
+  }
+
+  /**
+   * Generates the next id for a new {@linkplain Keyboard keyboard}
+   *
+   * @return The next id
+   */
+  private synchronized static int nextId() {
+    int id = nextId;
+    ++nextId;
+
+    return id;
+  }
+
+  /**
+   * Loads {@linkplain Keyboard keyboards} from the JSON file into the map
+   * <br>
+   * Also sets next id to one more than the greatest id found in the file
+   *
+   * @return true if the file was read successfully
+   *
+   * @throws IOException when file cannot be accessed or read from
+   */
+  private boolean loadData() throws IOException {
+    keyboards = new TreeMap<>();
+    nextId = 0;
+
+    // Deserializes the JSON objects from the file into an array of heroes
+    // readValue will throw an IOException if there's an issue with the file
+    // or reading from the file
+    Keyboard[] keyboardArray = objectMapper.readValue(new File(filename), Keyboard[].class);
+
+    // Add each hero to the tree map and keep track of the greatest id
+    for (Keyboard keyboard : keyboardArray) {
+        keyboards.put(keyboard.getId(), keyboard);
+        
+        if (keyboard.getId() > nextId) {
+          nextId = keyboard.getId();
+        }
+    }
+
+    // Make the next id one greater than the maximum from the file
+    ++nextId;
+    return true;
+  }
+
+  /**
+   * Saves the {@linkplain Keyboard keyboards} from the map into the file as an array of JSON objects
+   *
+   * @return true if the {@link Keyboard keyboards} were written successfully
+   *
+   * @throws IOException when file cannot be accessed or written to
+   */
+  private boolean saveData() throws IOException {
+    Keyboard[] keyboardArray = getKeyboards(null);
+
+    // Serializes the Java Objects to JSON objects into the file
+    // writeValue will thrown an IOException if there is an issue
+    // with the file or reading from the file
+    objectMapper.writeValue(new File(filename), keyboardArray);
+    return true;
+  }
+
+  private Keyboard[] getKeyboards(String containsText) {
+    ArrayList<Keyboard> foundKeyboard = new ArrayList<>();
+    for (Keyboard keyboard : keyboards.values()) {
+        if (containsText == null || keyboard.getName().contains(containsText)) {
+            foundKeyboard.add(keyboard);
+        }
+    }
+
+    return foundKeyboard.toArray(new Keyboard[0]);
+  }
+
   @Override
   public Keyboard[] getAllKeyboards() throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+    synchronized(keyboards) {
+      return getKeyboards(null);
+    }
   }
 
   @Override
   public Keyboard[] findKeyboardsByName(String containsText) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+    synchronized(keyboards) {
+      return getKeyboards(containsText);
+    }
   }
 
   @Override
   public Keyboard getKeyboardById(int id) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+    synchronized(keyboards) {
+      if (!keyboards.containsKey(id)) return null;
+      return keyboards.get(id);
+    }
   }
 
   @Override
   public Keyboard createKeyboard(Keyboard keyboard) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+    synchronized(keyboards) {
+      Keyboard newKeyboard = new Keyboard(nextId(), keyboard.getName(), keyboard.getPrice(), keyboard.getQuantity());
+      keyboards.put(newKeyboard.getId(), newKeyboard);
+
+      saveData(); // may throw an IOException
+      return newKeyboard;
+    }
   }
 
   @Override
   public Keyboard updateKeyboard(Keyboard keyboard) throws IOException {
-    // TODO Auto-generated method stub
-    return null;
+    synchronized(keyboards) {
+      if (keyboards.containsKey(keyboard.getId()) == false) return null;  
+
+      keyboards.put(keyboard.getId(), keyboard);
+      saveData(); // may throw an IOException
+      return keyboard;
+    }
   }
 
   @Override
   public boolean deleteKeyboard(int id) throws IOException {
-    // TODO Auto-generated method stub
-    return false;
+    synchronized(keyboards) {
+      if (!keyboards.containsKey(id)) return false;
+
+      keyboards.remove(id);
+      return saveData();
+    }
   }
-   
 }

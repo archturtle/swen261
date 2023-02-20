@@ -1,7 +1,5 @@
 package com.estore.api.estoreapi.model;
 
-import javax.annotation.Generated;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
