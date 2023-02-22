@@ -73,7 +73,7 @@ public interface KeyboardDAO {
    *
    * @return true if the {@link Keyboard keyboard} was deleted
    *         <br>
-   *         false if hero with the given id does not exist
+   *         false if keyboard with the given id does not exist
    * @throws IOException if underlying storage cannot be accessed
    */
   boolean deleteKeyboard(int id) throws IOException;
