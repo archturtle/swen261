@@ -68,10 +68,10 @@ public interface GenericDAO<T> {
    *
    * @param id The id of the type {@link T} object.
    *
-   * @return the type {@link T} object if it was successfully deleted
+   * @return true if the type {@link T} object was deleted
    *         <br>
-   *         null if it wasn't.
+   *         false if type {@link T} object with the given id does not exist
    * @throws IOException if underlying storage cannot be accessed
    */
-  T delete(int id) throws IOException;
+  boolean delete(int id) throws IOException;
 }
