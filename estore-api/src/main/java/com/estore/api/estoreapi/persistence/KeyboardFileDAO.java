@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author Siddhartha Juluru (ssj4651@rit.edu)
  */
 @Component
-public class KeyboardFileDAOv2 implements GenericDAO<Keyboard> {
+public class KeyboardFileDAO implements GenericDAO<Keyboard> {
   /**
    * The next id to use for a {@linkplain Keyboard keyboard} object.
    */
@@ -50,7 +50,7 @@ public class KeyboardFileDAOv2 implements GenericDAO<Keyboard> {
    *
    * @throws IOException when file cannot be accessed or read from
    */
-  public KeyboardFileDAOv2(@Value("${keyboards.file}") String filename, ObjectMapper objectMapper) throws IOException {
+  public KeyboardFileDAO(@Value("${keyboards.file}") String filename, ObjectMapper objectMapper) throws IOException {
     this.filename = filename;
     this.objectMapper = objectMapper;
 
