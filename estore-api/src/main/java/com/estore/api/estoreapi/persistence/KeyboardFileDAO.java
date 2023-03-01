@@ -82,12 +82,12 @@ public class KeyboardFileDAO implements GenericDAO<Keyboard> {
     keyboards = new TreeMap<>();
     nextId = 0;
 
-    // Deserializes the JSON objects from the file into an array of heroes
+    // Deserializes the JSON objects from the file into an array of keyboards
     // readValue will throw an IOException if there's an issue with the file
     // or reading from the file
     Keyboard[] keyboardArray = objectMapper.readValue(new File(filename), Keyboard[].class);
 
-    // Add each hero to the tree map and keep track of the greatest id
+    // Add each keyboard to the tree map and keep track of the greatest id
     for (Keyboard keyboard : keyboardArray) {
       keyboards.put(keyboard.getId(), keyboard);
 

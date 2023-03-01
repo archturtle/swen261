@@ -23,7 +23,7 @@ curl.exe -X POST `
 </details>
 
 <details>
-<summary>Windows (Command)</summary>
+<summary>Windows (Command Prompt)</summary>
 
 ```curl
 // Product 1
@@ -75,7 +75,7 @@ curl.exe -X GET `
 </details>
 
 <details>
-<summary>Windows (Command)</summary>
+<summary>Windows (Command Prompt)</summary>
 
 ```curl
 curl.exe -X GET ^ 
@@ -114,7 +114,7 @@ curl.exe -X GET `
 </details>
 
 <details>
-<summary>Windows (Command)</summary>
+<summary>Windows (Command Prompt)</summary>
 
 ```curl
 // Get Product 1
@@ -159,7 +159,7 @@ curl.exe -X GET `
 </details>
 
 <details>
-<summary>Windows (Command)</summary>
+<summary>Windows (Command Prompt)</summary>
 
 ```curl
 curl.exe -X GET ^
