@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author Siddhartha Juluru (ssj4651@rit.edu)
  */
 @Component
-public class KeyboardFileDAO implements KeyboardDAO {
+public class KeyboardFileDAO implements GenericDAO<Keyboard> {
   /**
    * The next id to use for a {@linkplain Keyboard keyboard} object.
    */
@@ -144,7 +144,7 @@ public class KeyboardFileDAO implements KeyboardDAO {
    * {@inheritDoc}
    */
   @Override
-  public Keyboard[] getAllKeyboards() throws IOException {
+  public Keyboard[] getAll() throws IOException {
     synchronized (keyboards) {
       return getKeyboards(null);
     }
@@ -154,7 +154,7 @@ public class KeyboardFileDAO implements KeyboardDAO {
    * {@inheritDoc}
    */
   @Override
-  public Keyboard[] findKeyboardsByName(String containsText) throws IOException {
+  public Keyboard[] findByName(String containsText) throws IOException {
     synchronized (keyboards) {
       return getKeyboards(containsText);
     }
@@ -164,7 +164,7 @@ public class KeyboardFileDAO implements KeyboardDAO {
    * {@inheritDoc}
    */
   @Override
-  public Keyboard getKeyboardById(int id) throws IOException {
+  public Keyboard findByID(int id) throws IOException {
     synchronized (keyboards) {
       if (!keyboards.containsKey(id))
         return null;
@@ -176,9 +176,9 @@ public class KeyboardFileDAO implements KeyboardDAO {
    * {@inheritDoc}
    */
   @Override
-  public Keyboard createKeyboard(Keyboard keyboard) throws IOException {
+  public Keyboard create(Keyboard obj) throws IOException {
     synchronized (keyboards) {
-      Keyboard newKeyboard = new Keyboard(nextId(), keyboard.getName(), keyboard.getPrice(), keyboard.getQuantity());
+      Keyboard newKeyboard = new Keyboard(nextId(), obj.getName(), obj.getPrice(), obj.getQuantity());
       keyboards.put(newKeyboard.getId(), newKeyboard);
 
       saveData(); // may throw an IOException
@@ -190,14 +190,14 @@ public class KeyboardFileDAO implements KeyboardDAO {
    * {@inheritDoc}
    */
   @Override
-  public Keyboard updateKeyboard(Keyboard keyboard) throws IOException {
+  public Keyboard update(Keyboard obj) throws IOException {
     synchronized (keyboards) {
-      if (keyboards.containsKey(keyboard.getId()) == false)
+      if (keyboards.containsKey(obj.getId()) == false)
         return null;
 
-      keyboards.put(keyboard.getId(), keyboard);
+      keyboards.put(obj.getId(), obj);
       saveData(); // may throw an IOException
-      return keyboard;
+      return obj;
     }
   }
 
@@ -205,7 +205,7 @@ public class KeyboardFileDAO implements KeyboardDAO {
    * {@inheritDoc}
    */
   @Override
-  public boolean deleteKeyboard(int id) throws IOException {
+  public boolean delete(int id) throws IOException {
     synchronized (keyboards) {
       if (!keyboards.containsKey(id))
         return false;

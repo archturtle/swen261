@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.estore.api.estoreapi.model.Keyboard;
-import com.estore.api.estoreapi.persistence.KeyboardDAO;
+import com.estore.api.estoreapi.persistence.GenericDAO;
 
 /**
  * Handles the REST API requests for the Keyboard resource
@@ -40,7 +40,7 @@ public class KeyboardController {
    * {@link KeyboardController#KeyboardController(KeyboardDAO)} for more
    * information on how this is set.
    */
-  private KeyboardDAO keyboardDAO;
+  private GenericDAO<Keyboard> keyboardDAO;
 
   /**
    * Creates a REST API controller to reponds to requests
@@ -50,7 +50,7 @@ public class KeyboardController {
    *                    <br>
    *                    This dependency is injected by the Spring Framework
    */
-  public KeyboardController(KeyboardDAO keyboardDAO) {
+  public KeyboardController(GenericDAO<Keyboard> keyboardDAO) {
     this.keyboardDAO = keyboardDAO;
   }
 
@@ -70,7 +70,7 @@ public class KeyboardController {
     LOG.info("GET /keyboards/" + id);
 
     try {
-      Keyboard keyboard = this.keyboardDAO.getKeyboardById(id);
+      Keyboard keyboard = this.keyboardDAO.findByID(id);
       if (keyboard == null)
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
@@ -94,7 +94,7 @@ public class KeyboardController {
     LOG.info("GET /keyboards");
 
     try {
-      Keyboard[] keyboards = this.keyboardDAO.getAllKeyboards();
+      Keyboard[] keyboards = this.keyboardDAO.getAll();
       return new ResponseEntity<Keyboard[]>(keyboards, HttpStatus.OK);
     } catch (IOException e) {
       LOG.log(Level.SEVERE, e.getLocalizedMessage());
@@ -123,7 +123,7 @@ public class KeyboardController {
     LOG.info("GET /keyboards/?name=" + name);
 
     try {
-      Keyboard[] keyboards = this.keyboardDAO.findKeyboardsByName(name);
+      Keyboard[] keyboards = this.keyboardDAO.findByName(name);
       return new ResponseEntity<Keyboard[]>(keyboards, HttpStatus.OK);
     } catch (IOException e) {
       LOG.log(Level.SEVERE, e.getLocalizedMessage());
@@ -147,11 +147,11 @@ public class KeyboardController {
     LOG.info("POST /keyboards " + keyboard);
 
     try {
-      Keyboard[] found = this.keyboardDAO.findKeyboardsByName(keyboard.getName());
+      Keyboard[] found = this.keyboardDAO.findByName(keyboard.getName());
       if (found.length != 0)
         return new ResponseEntity<>(HttpStatus.CONFLICT);
 
-      Keyboard newKeyboard = this.keyboardDAO.createKeyboard(keyboard);
+      Keyboard newKeyboard = this.keyboardDAO.create(keyboard);
       return new ResponseEntity<>(newKeyboard, HttpStatus.CREATED);
     } catch (IOException e) {
       LOG.log(Level.SEVERE, e.getLocalizedMessage());
@@ -175,11 +175,11 @@ public class KeyboardController {
     LOG.info("PUT /keyboards " + keyboard);
 
     try {
-      Keyboard found = this.keyboardDAO.getKeyboardById(keyboard.getId());
+      Keyboard found = this.keyboardDAO.findByID(keyboard.getId());
       if (found == null)
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-      Keyboard newKeyboard = this.keyboardDAO.updateKeyboard(keyboard);
+      Keyboard newKeyboard = this.keyboardDAO.update(keyboard);
       return new ResponseEntity<>(newKeyboard, HttpStatus.OK);
     } catch (IOException e) {
       LOG.log(Level.SEVERE, e.getLocalizedMessage());
@@ -201,11 +201,11 @@ public class KeyboardController {
     LOG.info("DELETE /keyboards/" + id);
 
     try {
-      Keyboard found = this.keyboardDAO.getKeyboardById(id);
+      Keyboard found = this.keyboardDAO.findByID(id);
       if (found == null)
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-      this.keyboardDAO.deleteKeyboard(id);
+      this.keyboardDAO.delete(id);
       return new ResponseEntity<>(HttpStatus.OK);
     } catch (IOException e) {
       LOG.log(Level.SEVERE, e.getLocalizedMessage());
