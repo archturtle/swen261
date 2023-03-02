@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.estore.api.estoreapi.model.Keyboard;
 import com.estore.api.estoreapi.persistence.GenericDAO;
+import com.estore.api.estoreapi.persistence.KeyboardFileDAO;
 
 /**
  * Handles the REST API requests for the Keyboard resource
@@ -36,21 +37,21 @@ public class KeyboardController {
    */
   private static final Logger LOG = Logger.getLogger(KeyboardController.class.getName());
   /**
-   * The {@linkplain KeyboardDAO Keyboard Data Access Object}. Look at
-   * {@link KeyboardController#KeyboardController(KeyboardDAO)} for more
+   * The {@linkplain KeyboardFileDAO Keyboard Data Access Object}. Look at
+   * {@link KeyboardController#KeyboardController(KeyboardFileDAO)} for more
    * information on how this is set.
    */
-  private GenericDAO<Keyboard> keyboardDAO;
+  private KeyboardFileDAO keyboardDAO;
 
   /**
    * Creates a REST API controller to reponds to requests
    *
-   * @param keyboardDao The {@link KeyboardDAO Keyboard Data Access Object} to
+   * @param keyboardDao The {@link KeyboardFileDAO Keyboard Data Access Object} to
    *                    perform CRUD operations
    *                    <br>
    *                    This dependency is injected by the Spring Framework
    */
-  public KeyboardController(GenericDAO<Keyboard> keyboardDAO) {
+  public KeyboardController(KeyboardFileDAO keyboardDAO) {
     this.keyboardDAO = keyboardDAO;
   }
 
