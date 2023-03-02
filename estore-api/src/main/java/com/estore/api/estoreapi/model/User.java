@@ -1,6 +1,7 @@
 package com.estore.api.estoreapi.model;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -17,16 +18,15 @@ public class User {
   private int role;
 
   @JsonProperty("cart")
-  private Keyboard[] cart;
+  private List<Keyboard> cart;
 
   public User(@JsonProperty("id") int id, 
               @JsonProperty("name") String name,
-              @JsonProperty("role") int role, 
-              @JsonProperty("cart") Keyboard[] cart) {
+              @JsonProperty("role") int role) {
     this.id = id;
     this.name = name;
     this.role = role;
-    this.cart = cart;
+    this.cart = new ArrayList<Keyboard>();
   }
 
   public int getId() {
@@ -49,18 +49,22 @@ public class User {
     return this.role;
   }
 
-  public Keyboard[] getCart() {
+  public List<Keyboard> getCart() {
     return this.cart;
   }
 
-  public void setCart(Keyboard[] cart) {
-    this.cart = cart;
+  public boolean addToCart(Keyboard item) {
+    return this.cart.add(item);
+  }
+
+  public boolean removeFromCart(Keyboard item) {
+    return this.cart.remove(item);
   }
 
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder("[");
-    Arrays.stream(this.cart).forEach(keyboard -> {
+    this.cart.forEach(keyboard -> {
       stringBuilder.append(keyboard.toString() + "\n");
     });
     stringBuilder.append("]");
