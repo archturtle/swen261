@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import com.estore.api.estoreapi.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * 
  * @author Siddhartha Juluru (ssj4651@rit.edu)
  */
+@Component
 public class UserFileDAO implements GenericDAO<User> {
    /**
    * The next id to use for a {@linkplain User user} object.
