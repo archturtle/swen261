@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.estore.api.estoreapi.model.Keyboard;
-import com.estore.api.estoreapi.persistence.GenericDAO;
 import com.estore.api.estoreapi.persistence.KeyboardFileDAO;
 
 /**
