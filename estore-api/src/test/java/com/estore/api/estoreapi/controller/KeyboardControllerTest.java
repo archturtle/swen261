@@ -7,8 +7,8 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 
-import com.estore.api.estoreapi.persistence.GenericDAO;
-import com.estore.api.estoreapi.model.Keyboard;
+import com.keyboards.api.estoreapi.persistence.GenericDAO;
+import com.keyboards.api.estoreapi.model.Keyboard;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;

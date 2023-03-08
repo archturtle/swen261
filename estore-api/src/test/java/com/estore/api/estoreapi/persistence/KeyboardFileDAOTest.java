@@ -14,7 +14,7 @@ import java.io.File;
 import java.io.IOException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.estore.api.estoresapi.model.Keyboard;
+import com.keyboards.api.estoresapi.model.Keyboard;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
