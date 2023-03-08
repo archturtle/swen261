@@ -1,4 +1,4 @@
-package com.estore.api.heroesapi.persistence;
+package com.estore.api.estoreapi.persistence;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -125,7 +125,7 @@ public class KeyboardFileDAOTest {
 
       // analyze
       assertNotNull(result);
-      Keyboard actual = keyboardFileDAO.findById(hero.getId());
+      Keyboard actual = keyboardFileDAO.findById(keyboard.getId());
       assertEquals(actual, keyboard);
   }
 
