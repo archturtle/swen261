@@ -12,12 +12,13 @@ import java.util.List;
  * 
  * @author Issac Kim (idk4565@rit.edu)
 */
+
 public class UserTest {
 
     private final int expectedID = 1; //The ID for the user
 
     private final String expectedName = "Issac"; //The name for the user
-    
+
     private final int expectedRole = 0; //The role for the user
 
     private final List<Keyboard> expectedCart = new ArrayList<Keyboard>(); //The cart for the user
