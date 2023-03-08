@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
  * 
  * @author Cathy Liu (cl6606@rit.edu)
  */
+@Tag("Controller-tier")
 public class KeyboardControllerTest {
   private KeyboardController keyboardController;
   private GenericDAO mockGenericDAO;
@@ -43,8 +44,8 @@ public class KeyboardControllerTest {
     ResponseEntity<Keyboard> response = keyboardController.getKeyboard(keyboard.getId());
 
     // analyze
-    assertEquals(HttpStatus.OK,response.getStatusCode());
-    assertEquals(keyboard,response.getBody());
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(keyboard, response.getBody());
   }
 
   @Test
