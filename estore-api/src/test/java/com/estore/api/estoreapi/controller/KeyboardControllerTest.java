@@ -198,7 +198,7 @@ public class KeyboardControllerTest {
     doThrow(new IOException()).when(mockKeyboardFileDAO).getAll();
 
     // invoke
-    ResponseEntity<Keyboard[]> response = keyboardController.getAll();
+    ResponseEntity<Keyboard[]> response = keyboardController.getKeyboards();
 
     // analyze
     assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
@@ -259,7 +259,7 @@ public class KeyboardControllerTest {
     int keyboardId = 99;
 
     // when deleteKeyboard is called return false, simulating failed deletion
-    when(mockKeyboardFileDAO.delete(keyboard)).thenReturn(false);
+    when(mockKeyboardFileDAO.delete(keyboardId)).thenReturn(false);
 
     // invoke
     ResponseEntity<Keyboard> response = keyboardController.deleteKeyboard(keyboardId);
