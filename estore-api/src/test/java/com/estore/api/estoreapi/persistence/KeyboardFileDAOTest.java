@@ -66,7 +66,7 @@ public class KeyboardFileDAOTest {
   @Test
   public void testFindKeyboards() throws IOException {
       // invoke
-      Keyboard[] keyboards = keyboardFileDAO.findByName("na");
+      Keyboard[] keyboards = keyboardFileDAO.findByName("an");
 
       // analyze
       assertEquals(keyboards.length, 2);
