@@ -6,7 +6,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
-import java.security.Key;
 
 import com.estore.api.estoreapi.persistence.UserFileDAO;
 import com.estore.api.estoreapi.model.User;
