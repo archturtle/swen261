@@ -63,7 +63,7 @@ public class UserControllerTest {
     @Test
     public void testCreateUser() throws IOException{
         User testUser = new User(0, "Issac", 0);
-
+        when(mockUserFileDao.findByName("Issac")).thenReturn(new User[0]);
         when(mockUserFileDao.create(testUser)).thenReturn(testUser);
 
         ResponseEntity<User> response = userController.createUser(testUser);
@@ -75,7 +75,7 @@ public class UserControllerTest {
     @Test
     public void testCreateUserFailed() throws IOException{
         User testUser = new User(0, "Issac", 0);
-
+        when(mockUserFileDao.findByName("Issac")).thenReturn(new User[] { testUser });
         when(mockUserFileDao.create(testUser)).thenReturn(null);
 
         ResponseEntity<User> response = userController.createUser(testUser);
@@ -86,7 +86,7 @@ public class UserControllerTest {
     @Test
     public void testCreateUserHandleException() throws IOException{
         User testUser = new User(0, "Issac", 0);
-
+        when(mockUserFileDao.findByName("Issac")).thenReturn(new User[0]);
         doThrow(new IOException()).when(mockUserFileDao).create(testUser);
 
         ResponseEntity<User> response = userController.createUser(testUser);
@@ -98,8 +98,8 @@ public class UserControllerTest {
     public void testUpdateUser() throws IOException{
         User testUser = new User(0, "Issac", 0);
         
+        when(mockUserFileDao.findByID(0)).thenReturn(testUser);
         when(mockUserFileDao.update(testUser)).thenReturn(testUser);
-        //ResponseEntity<User> response = userController.updateUser(testUser);
         testUser.setName("Chan");
 
         ResponseEntity<User> response = userController.updateUser(testUser);
@@ -123,6 +123,7 @@ public class UserControllerTest {
     public void testUpdateUserHandleException() throws IOException{
         User testUser = new User(0, "Issac", 0);
 
+        when(mockUserFileDao.findByID(0)).thenReturn(testUser);
         doThrow(new IOException()).when(mockUserFileDao).update(testUser);
 
         ResponseEntity<User> response = userController.updateUser(testUser);
@@ -182,7 +183,9 @@ public class UserControllerTest {
     @Test
     public void testDeleteUser() throws IOException{
         int userID = 0;
+        User testUser = new User(userID, "Issac", 0);
 
+        when(mockUserFileDao.findByID(userID)).thenReturn(testUser);
         when(mockUserFileDao.delete(userID)).thenReturn(true);
 
         ResponseEntity<User> response = userController.deleteUser(userID);
@@ -204,7 +207,9 @@ public class UserControllerTest {
     @Test
     public void testDeleteUserHandleException() throws IOException{
         int userID = 0;
+        User testUser = new User(userID, "Issac", 0);
 
+        when(mockUserFileDao.findByID(userID)).thenReturn(testUser);
         doThrow(new IOException()).when(mockUserFileDao).delete(userID);
 
         ResponseEntity<User> response = userController.deleteUser(userID);
