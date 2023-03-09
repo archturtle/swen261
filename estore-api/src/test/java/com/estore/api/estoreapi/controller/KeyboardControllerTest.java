@@ -277,7 +277,7 @@ public class KeyboardControllerTest {
     doThrow(new IOException()).when(mockKeyboardFileDAO).delete(keyboardId);
 
     // invoke
-    ResponseEntity<Keyboard> response = keyboardController.deleteKeyboard(keyboardId);
+  ResponseEntity<Keyboard> response = keyboardController.deleteKeyboard(keyboardId);
 
     // analyze
     assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
