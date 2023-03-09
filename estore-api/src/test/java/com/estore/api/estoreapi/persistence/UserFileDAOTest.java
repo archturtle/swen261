@@ -73,7 +73,7 @@ public class UserFileDAOTest {
         // Analyze
         assertEquals(users.length,2);
         assertEquals(users[0],testUsers[0]);
-        assertEquals(users[1],testUsers[4]);
+        assertEquals(users[1],testUsers[3]);
     }
 
     @Test
@@ -103,7 +103,7 @@ public class UserFileDAOTest {
     @Test
     public void testCreate() throws IOException {
         // Setup
-        User newuser = new User(102, "Person", 0);
+        User newuser = new User(4, "Person", 0);
 
         // Invoke
         User result = assertDoesNotThrow(() -> userFileDAO.create(newuser),
@@ -119,7 +119,7 @@ public class UserFileDAOTest {
     @Test
     public void testUpdate() throws IOException {
         // Setup
-        User user = new User(99, "Jill", 0);
+        User user = new User(3, "Jill", 0);
 
         // Invoke
         User result = assertDoesNotThrow(() -> userFileDAO.update(user),
@@ -161,7 +161,7 @@ public class UserFileDAOTest {
 
         // Analyze
         assertEquals(result,false);
-        assertEquals(userFileDAO.user.size(),testUsers.length);
+        assertEquals(userFileDAO.users.size(),testUsers.length);
     }
     
 
