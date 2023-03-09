@@ -38,7 +38,7 @@ public class KeyboardControllerTest {
     Keyboard keyboard = new Keyboard(1, "GMMK PRO", 349.99, 300);
 
     // when the same id is passed in, our mock Generic DAO will return the Keyboard object
-    when(mockKeyboardFileDAO.findById(keyboard.getId())).thenReturn(keyboard);
+    when(mockKeyboardFileDAO.findByID(keyboard.getId())).thenReturn(keyboard);
 
     // invoke
     ResponseEntity<Keyboard> response = keyboardController.getKeyboard(keyboard.getId());
@@ -55,7 +55,7 @@ public class KeyboardControllerTest {
 
     // when the same id is passed in, our mock Generic DAO will return null, simulating
     // no keyboard found
-    when(mockKeyboardFileDAO.findById(keyboardId)).thenReturn(null);
+    when(mockKeyboardFileDAO.findByID(keyboardId)).thenReturn(null);
 
     // invoke
     ResponseEntity<Keyboard> response = keyboardController.getKeyboard(keyboardId);
@@ -70,7 +70,7 @@ public class KeyboardControllerTest {
     int keyboardId = 1;
 
     // when getKeyboard is called on the Mock Generic DAO, throw an IOException
-    doThrow(new IOException()).when(mockKeyboardFileDAO).findById(keyboardId);
+    doThrow(new IOException()).when(mockKeyboardFileDAO).findByID(keyboardId);
 
     // invoke
     ResponseEntity<Keyboard> response = keyboardController.getKeyboard(keyboardId);
