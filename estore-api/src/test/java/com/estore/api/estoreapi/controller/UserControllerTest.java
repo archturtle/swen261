@@ -146,4 +146,55 @@ public class UserControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(testUsers, response.getBody());
     }
+
+    @Test
+    public void testGetUsersHandleException() throws IOException{
+        doThrow(new IOException()).when(mockUserFileDao).getAll();
+
+        ResponseEntity<User[]> response = userController.getUsers();
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
+    @Test
+    public void testSearchUser() throws IOException{
+        String searchString = "Is";
+        User[] testUsers = new User[2];
+        testUsers[0] = new User(0, "Issac", 0);
+        testUsers[1] = new User(1, "Maya", 0);
+
+        when(mockUserFileDao.findByName(searchString)).thenReturn(testUsers);
+
+        ResponseEntity<User[]> response = userController.searchUsers(searchString);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(testUsers, response.getBody());
+    }
+
+    @Test
+    public void testSearchUserHandleException() throws IOException{
+        String searchString = "Is";
+        
+        doThrow(new IOException()).when(mockUserFileDao).findByName(searchString);
+
+        ResponseEntity<User[]> response = userController.searchUsers(searchString);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
+    @Test
+    public void testDeleteUser() throws IOException{
+        int userID = 0;
+
+        when(mockUserFileDao.delete(userID)).thenReturn(true);
+
+        ResponseEntity<User> response = userController.deleteUser(userID);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    public void testDeleteUserFail() throws IOException{
+        int userID = 
+    }
 }
