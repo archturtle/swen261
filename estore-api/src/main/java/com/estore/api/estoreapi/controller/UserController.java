@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.estore.api.estoreapi.model.User;
-import com.estore.api.estoreapi.persistence.GenericDAO;
 import com.estore.api.estoreapi.persistence.UserFileDAO;
 
 @RestController
@@ -42,8 +41,8 @@ public class UserController {
    *                    <br>
    *                    This dependency is injected by the Spring Framework
    */
-  public UserController(GenericDAO mockGenericDao) {
-    this.userDAO = mockGenericDao;
+  public UserController(UserFileDAO userDAO) {
+    this.userDAO = userDAO;
   }
 
   /**
