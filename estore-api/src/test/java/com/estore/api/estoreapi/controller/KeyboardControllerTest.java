@@ -85,6 +85,7 @@ public class KeyboardControllerTest {
     Keyboard keyboard = new Keyboard(99, "Pear", 250, 10);
 
     // when createKeyboard is called, return true simulating successful creation and save
+    when(mockKeyboardFileDAO.findByName("Pear")).thenReturn(new Keyboard[0]);
     when(mockKeyboardFileDAO.create(keyboard)).thenReturn(keyboard);
 
     // invoke
@@ -101,6 +102,7 @@ public class KeyboardControllerTest {
     Keyboard keyboard = new Keyboard(99, "Apple", 250, 10);
 
     // when createKeyboard is called, return false simulating failed creation and save
+    when(mockKeyboardFileDAO.findByName("Apple")).thenReturn(new Keyboard[] { keyboard });
     when(mockKeyboardFileDAO.create(keyboard)).thenReturn(null);
 
     // invoke
@@ -116,13 +118,14 @@ public class KeyboardControllerTest {
     Keyboard keyboard = new Keyboard(99, "Banana", 100, 15);
 
     // when createKeyboard is called on the Mock Generic DAO, throw an IOException
+    when(mockKeyboardFileDAO.findByName("Banana")).thenReturn(new Keyboard[] { keyboard });
     doThrow(new IOException()).when(mockKeyboardFileDAO).create(keyboard);
 
     // invoke
     ResponseEntity<Keyboard> response = keyboardController.createKeyboard(keyboard);
 
     // analyze
-    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
   }
 
   @Test
@@ -131,6 +134,7 @@ public class KeyboardControllerTest {
     Keyboard keyboard = new Keyboard(99, "Pear", 250, 10);
     
     // when updateKeyboard is called, return true simulating successful update and save
+    when(mockKeyboardFileDAO.findByID(99)).thenReturn(keyboard);
     when(mockKeyboardFileDAO.update(keyboard)).thenReturn(keyboard);
     ResponseEntity<Keyboard> response = keyboardController.updateKeyboard(keyboard);
     keyboard.setName("Apple");
@@ -164,6 +168,7 @@ public class KeyboardControllerTest {
     Keyboard keyboard = new Keyboard(99, "Berry", 250, 15);
 
     // when updateKeyboard is called on the Mock Keyboard DAO, throw an IOException
+    when(mockKeyboardFileDAO.findByID(99)).thenReturn(keyboard);
     doThrow(new IOException()).when(mockKeyboardFileDAO).update(keyboard);
 
     // invoke
@@ -242,8 +247,10 @@ public class KeyboardControllerTest {
   public void testDeleteKeyboard() throws IOException {
     // setup
     int keyboardId = 99;
-
+    Keyboard keyboard = new Keyboard(99, "Pear", 250, 10);
+    
     // when delete is called return true, simulating successful deletion
+    when(mockKeyboardFileDAO.findByID(99)).thenReturn(keyboard);
     when(mockKeyboardFileDAO.delete(keyboardId)).thenReturn(true);
 
     // invoke
@@ -272,12 +279,14 @@ public class KeyboardControllerTest {
   public void testDeleteKeyboardHandleException() throws IOException {
     // setup
     int keyboardId = 99;
-
+    Keyboard keyboard = new Keyboard(99, "Pear", 250, 10);
+    
     // when deleteKeyboard is called on the Mock Generic DAO, throw an IOException
+    when(mockKeyboardFileDAO.findByID(99)).thenReturn(keyboard);
     doThrow(new IOException()).when(mockKeyboardFileDAO).delete(keyboardId);
 
     // invoke
-  ResponseEntity<Keyboard> response = keyboardController.deleteKeyboard(keyboardId);
+    ResponseEntity<Keyboard> response = keyboardController.deleteKeyboard(keyboardId);
 
     // analyze
     assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
