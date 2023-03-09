@@ -25,7 +25,9 @@ public class UserTest {
 
     private final List<Keyboard> expectedCart = new ArrayList<Keyboard>(); //The cart for the user
 
-    private final String expectedToString = "User [id=1, name=Issac, role=0, cart=[[]]"; //The expected toString for the user
+    private final String expectedToString = "User [id=1, name=Issac, role=0, cart=[\n\t]]"; //The expected toString for the user
+
+    private final String expectedRemovedString = "User [id=1, name=Issac, role=0, cart=[\n]]";
 
     private final int keyboardID = 1; //The expected ID for the keyboard
 
@@ -35,7 +37,7 @@ public class UserTest {
 
     private final int keyboardQuantity = 300; //The expected quantity for the keyboard
 
-    private final String combinedToString = "User [id=1, name=Issac, role=0, cart=\n\t[Keyboard [id=1, name=GMMK PRO, price=349.990000, quantity=300]\n]]";
+    private final String combinedToString = "User [id=1, name=Issac, role=0, cart=[\n\tKeyboard [id=1, name=GMMK PRO, price=349.990000, quantity=300]\n]]";
         //The expected toString for the user after adding to cart
 
     @Test
@@ -89,6 +91,6 @@ public class UserTest {
         assertEquals(newUser.toString(), combinedToString);
         
         newUser.removeFromCart(newKeyboard);
-        assertEquals(newUser.toString(), expectedToString);
+        assertEquals(newUser.toString(), expectedRemovedString);
     }
 }
