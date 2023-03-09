@@ -195,6 +195,23 @@ public class UserControllerTest {
 
     @Test
     public void testDeleteUserFail() throws IOException{
-        int userID = 
+        int userID = 0;
+
+        when(mockUserFileDao.delete(userID)).thenReturn(false);
+
+        ResponseEntity<User> response = userController.deleteUser(userID);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void testDeleteUserHandleException() throws IOException{
+        int userID = 0;
+
+        doThrow(new IOException()).when(mockUserFileDao).delete(userID);
+
+        ResponseEntity<User> response = userController.deleteUser(userID);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 }
