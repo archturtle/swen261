@@ -1,4 +1,5 @@
 package com.estore.api.estoreapi.persistence;
+package com.estore.api.estoreapi.model.Keyboard;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.estore.api.estoreapi.model.Keyboard;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -144,7 +144,7 @@ public class KeyboardFileDAOTest {
   }
 
   @Test
-  public void testGetKeyboardNotFound() {
+  public void testGetKeyboardNotFound() throws IOException {
       // invoke
       Keyboard keyboard = keyboardFileDAO.findByID(98);
 
