@@ -40,9 +40,9 @@ public class KeyboardFileDAOTest {
   public void setupKeyboardFileDAO() throws IOException {
     mockObjectMapper = mock(ObjectMapper.class);
     testKeyboards = new Keyboard[3];
-    testKeyboards[0] = new Keyboard(99, "Apple", 250, 10);
-    testKeyboards[1] = new Keyboard(100,"Banana", 100, 1);
-    testKeyboards[2] = new Keyboard(101,"Orange", 150, 15);
+    testKeyboards[0] = new Keyboard(0, "Apple", 250, 10);
+    testKeyboards[1] = new Keyboard(1,"Banana", 100, 1);
+    testKeyboards[2] = new Keyboard(2,"Orange", 150, 15);
 
     // when the object mapper is supposed to read from the file
     // the mock object mapper will return the keyboard array above
@@ -77,7 +77,7 @@ public class KeyboardFileDAOTest {
   @Test
   public void testGetKeyboard() throws IOException {
       // invoke
-      Keyboard keyboard = keyboardFileDAO.findByID(99);
+      Keyboard keyboard = keyboardFileDAO.findByID(0);
 
       // analzye
       assertEquals(keyboard, testKeyboards[0]);
@@ -86,7 +86,7 @@ public class KeyboardFileDAOTest {
   @Test
   public void testDeleteKeyboard() {
       // invoke
-      boolean result = assertDoesNotThrow(() -> keyboardFileDAO.delete(99),
+      boolean result = assertDoesNotThrow(() -> keyboardFileDAO.delete(0),
                           "Unexpected exception thrown");
 
       // analzye
@@ -102,7 +102,7 @@ public class KeyboardFileDAOTest {
   @Test
   public void testCreateKeyboard() throws IOException {
       // setup
-      Keyboard keyboard = new Keyboard(102, "Pear", 300, 20);
+      Keyboard keyboard = new Keyboard(3, "Pear", 300, 20);
 
       // invoke
       Keyboard result = assertDoesNotThrow(() -> keyboardFileDAO.create(keyboard),
@@ -118,7 +118,7 @@ public class KeyboardFileDAOTest {
   @Test
   public void testUpdateKeyboard() throws IOException {
       // setup
-      Keyboard keyboard = new Keyboard(99, "Apple", 250, 10);
+      Keyboard keyboard = new Keyboard(0, "Apple", 250, 10);
 
       // invoke
       Keyboard result = assertDoesNotThrow(() -> keyboardFileDAO.update(keyboard),
@@ -136,7 +136,7 @@ public class KeyboardFileDAOTest {
           .when(mockObjectMapper)
               .writeValue(any(File.class), any(Keyboard[].class));
 
-      Keyboard keyboard = new Keyboard(105, "Sock", 1, 1);
+      Keyboard keyboard = new Keyboard(4, "Sock", 1, 1);
 
       assertThrows(IOException.class,
                       () -> keyboardFileDAO.create(keyboard),
@@ -146,7 +146,7 @@ public class KeyboardFileDAOTest {
   @Test
   public void testGetKeyboardNotFound() throws IOException {
       // invoke
-      Keyboard keyboard = keyboardFileDAO.findByID(98);
+      Keyboard keyboard = keyboardFileDAO.findByID(4);
 
       // analyze
       assertEquals(keyboard, null);
@@ -155,7 +155,7 @@ public class KeyboardFileDAOTest {
   @Test
   public void testDeleteKeyboardNotFound() {
       // invoke
-      boolean result = assertDoesNotThrow(() -> keyboardFileDAO.delete(98),
+      boolean result = assertDoesNotThrow(() -> keyboardFileDAO.delete(4),
                                                     "Unexpected exception thrown");
 
       // analyze
@@ -166,7 +166,7 @@ public class KeyboardFileDAOTest {
   @Test
   public void testUpdateKeyboardNotFound() {
       // setup
-      Keyboard keyboard = new Keyboard(98, "Shoe", 4.99, 2);
+      Keyboard keyboard = new Keyboard(4, "Shoe", 4.99, 2);
 
       // invoke
       Keyboard result = assertDoesNotThrow(() -> keyboardFileDAO.update(keyboard),

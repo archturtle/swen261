@@ -30,8 +30,10 @@ public class UserTest {
 
     private final int keyboardQuantity = 300; //The expected quantity for the keyboard
 
+    //The expected toString for the user after adding to cart
     private final String combinedToString = "User [id=1, name=Issac, role=0, cart=[\n\tKeyboard [id=1, name=GMMK PRO, price=349.990000, quantity=300]\n]]";
-        //The expected toString for the user after adding to cart
+
+    private final String expectedCartString = "[Keyboard [id=1, name=GMMK PRO, price=349.990000, quantity=300]]";
 
     @Test
     public void testConstruction(){
@@ -72,6 +74,15 @@ public class UserTest {
 
         newUser.addToCart(newKeyboard);
         assertEquals(newUser.toString(), combinedToString);
+    }
+
+    @Test void testGetCart() {
+        // Checks if getting the cart works
+        Keyboard newKeyboard = new Keyboard(keyboardID, keyboardName, keyboardPrice, keyboardQuantity);
+        User newUser = new User(expectedID, expectedName, expectedRole);
+
+        newUser.addToCart(newKeyboard);
+        assertEquals(expectedCartString, newUser.getCart().toString());
     }
 
     @Test
