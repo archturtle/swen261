@@ -53,7 +53,7 @@ public class KeyboardFileDAOTest {
   }
 
   @Test
-  public void testGetKeyboards() {
+  public void testGetKeyboards() throws IOException {
       // invoke
       Keyboard[] keyboards = keyboardFileDAO.getAll();
 
@@ -69,13 +69,13 @@ public class KeyboardFileDAOTest {
       Keyboard[] keyboards = keyboardFileDAO.findByName("na");
 
       // analyze
-      assertEquals(keyboard.length, 2);
+      assertEquals(keyboards.length, 2);
       assertEquals(keyboards[0], testKeyboards[1]);
       assertEquals(keyboards[1], testKeyboards[2]);
   }
 
   @Test
-  public void testGetKeyboard() {
+  public void testGetKeyboard() throws IOException {
       // invoke
       Keyboard keyboard = keyboardFileDAO.findByID(99);
 
