@@ -64,7 +64,7 @@ public class KeyboardFileDAOTest {
   }
 
   @Test
-  public void testFindKeyboards() {
+  public void testFindKeyboards() throws IOException {
       // invoke
       Keyboard[] keyboards = keyboardFileDAO.findByName("na");
 
@@ -116,7 +116,7 @@ public class KeyboardFileDAOTest {
   }
 
   @Test
-  public void testUpdateKeyboard() {
+  public void testUpdateKeyboard() throws IOException {
       // setup
       Keyboard keyboard = new Keyboard(99, "Apple", 250, 10);
 
