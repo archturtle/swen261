@@ -2,6 +2,7 @@ package com.estore.api.estoreapi.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Siddhartha Juluru (ssj4651@rit.edu)
  */
+@Tag("Model-tier")
 public class KeyboardTest {
   /* The expected ID for the keyboard object. */
   private final int expectedID = 1;

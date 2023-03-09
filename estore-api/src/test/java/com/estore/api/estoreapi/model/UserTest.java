@@ -5,16 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Tag;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /** 
  * The unit test class for the User class 
  * 
  * @author Issac Kim (idk4565@rit.edu)
 */
 
-@Tag("Model-Tier")
+@Tag("Model-tier")
 public class UserTest {
 
     private final int expectedID = 1; //The ID for the user
@@ -22,10 +19,6 @@ public class UserTest {
     private final String expectedName = "Issac"; //The name for the user
 
     private final int expectedRole = 0; //The role for the user
-
-    private final List<Keyboard> expectedCart = new ArrayList<Keyboard>(); //The cart for the user
-
-    private final String expectedToString = "User [id=1, name=Issac, role=0, cart=[\n\t]]"; //The expected toString for the user
 
     private final String expectedRemovedString = "User [id=1, name=Issac, role=0, cart=[\n]]";
 

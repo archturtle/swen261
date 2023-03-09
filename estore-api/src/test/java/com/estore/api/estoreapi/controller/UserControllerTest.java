@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-@Tag("Controller-Tier")
+@Tag("Controller-tier")
 public class UserControllerTest {
     private UserController userController;
     private UserFileDAO mockUserFileDao;
