@@ -3,6 +3,7 @@ package com.estore.api.estoreapi.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Tag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
  * @author Issac Kim (idk4565@rit.edu)
 */
 
+@Tag("Model-Tier")
 public class UserTest {
 
     private final int expectedID = 1; //The ID for the user

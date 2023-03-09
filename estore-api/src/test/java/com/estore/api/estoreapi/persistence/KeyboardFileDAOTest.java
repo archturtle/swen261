@@ -14,7 +14,7 @@ import java.io.File;
 import java.io.IOException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.keyboards.api.estoresapi.model.Keyboard;
+import com.estore.api.estoreapi.model.Keyboard;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -53,7 +53,7 @@ public class KeyboardFileDAOTest {
   }
 
   @Test
-  public void testGetKeyboards() {
+  public void testGetKeyboards() throws IOException {
       // invoke
       Keyboard[] keyboards = keyboardFileDAO.getAll();
 
@@ -64,20 +64,20 @@ public class KeyboardFileDAOTest {
   }
 
   @Test
-  public void testFindKeyboards() {
+  public void testFindKeyboards() throws IOException {
       // invoke
       Keyboard[] keyboards = keyboardFileDAO.findByName("na");
 
       // analyze
-      assertEquals(keyboard.length, 2);
+      assertEquals(keyboards.length, 2);
       assertEquals(keyboards[0], testKeyboards[1]);
       assertEquals(keyboards[1], testKeyboards[2]);
   }
 
   @Test
-  public void testGetKeyboard() {
+  public void testGetKeyboard() throws IOException {
       // invoke
-      Keyboard keyboard = keyboardFileDAO.findById(99);
+      Keyboard keyboard = keyboardFileDAO.findByID(99);
 
       // analzye
       assertEquals(keyboard, testKeyboards[0]);
@@ -91,6 +91,7 @@ public class KeyboardFileDAOTest {
 
       // analzye
       assertEquals(result, true);
+
       // we check the internal tree map size against the length
       // of the test keyboards array - 1 (because of the delete)
       // because keyboards attribute of KeyboardFileDAO is package private
@@ -99,23 +100,23 @@ public class KeyboardFileDAOTest {
   }
 
   @Test
-  public void testCreateKeyboard() {
+  public void testCreateKeyboard() throws IOException {
       // setup
       Keyboard keyboard = new Keyboard(102, "Pear", 300, 20);
 
-      // Invoke
+      // invoke
       Keyboard result = assertDoesNotThrow(() -> keyboardFileDAO.create(keyboard),
                               "Unexpected exception thrown");
 
-      // Analyze
+      // analyze
       assertNotNull(result);
-      Keyboard actual = keyboardFileDAO.findById(keyboard.getId());
+      Keyboard actual = keyboardFileDAO.findByID(keyboard.getId());
       assertEquals(actual.getId(), keyboard.getId());
       assertEquals(actual.getName(), keyboard.getName());
   }
 
   @Test
-  public void testUpdateKeyboard() {
+  public void testUpdateKeyboard() throws IOException {
       // setup
       Keyboard keyboard = new Keyboard(99, "Apple", 250, 10);
 
@@ -125,7 +126,7 @@ public class KeyboardFileDAOTest {
 
       // analyze
       assertNotNull(result);
-      Keyboard actual = keyboardFileDAO.findById(keyboard.getId());
+      Keyboard actual = keyboardFileDAO.findByID(keyboard.getId());
       assertEquals(actual, keyboard);
   }
 
@@ -143,9 +144,9 @@ public class KeyboardFileDAOTest {
   }
 
   @Test
-  public void testGetKeyboardNotFound() {
+  public void testGetKeyboardNotFound() throws IOException {
       // invoke
-      Keyboard keyboard = keyboardFileDAO.findByName(98);
+      Keyboard keyboard = keyboardFileDAO.findByID(98);
 
       // analyze
       assertEquals(keyboard, null);
@@ -179,6 +180,7 @@ public class KeyboardFileDAOTest {
   public void testConstructorException() throws IOException {
       // setup
       ObjectMapper mockObjectMapper = mock(ObjectMapper.class);
+      
       // we want to simulate with a Mock Object Mapper that an
       // exception was raised during JSON object deseerialization
       // into Java objects

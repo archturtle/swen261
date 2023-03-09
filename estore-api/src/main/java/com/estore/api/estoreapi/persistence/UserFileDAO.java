@@ -29,7 +29,7 @@ public class UserFileDAO implements GenericDAO<User> {
   /**
    * The local cache all the {@linkplain User user} objects.
    */
-  private Map<Integer, User> users;
+  Map<Integer, User> users;
   /**
    * The object mapper which helps turn a {@linkplain User user} object
    * into JSON.

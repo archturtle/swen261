@@ -1,24 +1,214 @@
 package com.estore.api.estoreapi.controller;
 
-import java.io.File;
-import java.io.IOException;
-
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 
+import com.estore.api.estoreapi.persistence.UserFileDAO;
+import com.estore.api.estoreapi.model.User;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+@Tag("Controller-Tier")
 public class UserControllerTest {
-    
+    private UserController userController;
+    private UserFileDAO mockUserFileDao;
+
+    @BeforeEach
+    public void setupUserController(){
+        mockUserFileDao = mock(UserFileDAO.class);
+        userController = new UserController(mockUserFileDao);
+    }
+
+    @Test
+    public void testGetUser() throws IOException{
+        User testUser = new User(0, "Issac", 0);
+        when(mockUserFileDao.findByID(testUser.getId())).thenReturn(testUser);
+
+        ResponseEntity<User> response = userController.getUser(testUser.getId());
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(testUser, response.getBody());
+    }
+
+    @Test
+    public void testGetUserNotFound() throws IOException{
+        int userID = 1;
+
+        when(mockUserFileDao.findByID(userID)).thenReturn(null);
+
+        ResponseEntity<User> response = userController.getUser(userID);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void testGetUserHandleExceptions() throws Exception{
+        int userID = 1;
+
+        doThrow(new IOException()).when(mockUserFileDao).findByID(userID);
+
+        ResponseEntity<User> response = userController.getUser(userID);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
+    @Test
+    public void testCreateUser() throws IOException{
+        User testUser = new User(0, "Issac", 0);
+
+        when(mockUserFileDao.create(testUser)).thenReturn(testUser);
+
+        ResponseEntity<User> response = userController.createUser(testUser);
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(testUser, response.getBody());
+    }
+
+    @Test
+    public void testCreateUserFailed() throws IOException{
+        User testUser = new User(0, "Issac", 0);
+
+        when(mockUserFileDao.create(testUser)).thenReturn(null);
+
+        ResponseEntity<User> response = userController.createUser(testUser);
+
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+    }
+
+    @Test
+    public void testCreateUserHandleException() throws IOException{
+        User testUser = new User(0, "Issac", 0);
+
+        doThrow(new IOException()).when(mockUserFileDao).create(testUser);
+
+        ResponseEntity<User> response = userController.createUser(testUser);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
+    @Test
+    public void testUpdateUser() throws IOException{
+        User testUser = new User(0, "Issac", 0);
+        
+        when(mockUserFileDao.update(testUser)).thenReturn(testUser);
+        ResponseEntity<User> response = userController.updateUser(testUser);
+        testUser.setName("Chan");
+
+        response = userController.updateUser(testUser);
+        
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(testUser, response.getBody());
+    }
+
+    @Test
+    public void testUpdateUserFail() throws IOException{
+        User testUser = new User(0, "Issac", 0);
+
+        when(mockUserFileDao.update(testUser)).thenReturn(null);
+
+        ResponseEntity<User> response = userController.updateUser(testUser);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void testUpdateUserHandleException() throws IOException{
+        User testUser = new User(0, "Issac", 0);
+
+        doThrow(new IOException()).when(mockUserFileDao).update(testUser);
+
+        ResponseEntity<User> response = userController.updateUser(testUser);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
+    @Test
+    public void testGetUsers() throws IOException{
+        User[] testUsers = new User[2];
+        testUsers[0] = new User(0, "Issac", 0);
+        testUsers[1] = new User(1, "Poopyface", 1);
+
+        when(mockUserFileDao.getAll()).thenReturn(testUsers);
+
+        ResponseEntity<User[]> response = userController.getUsers();
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(testUsers, response.getBody());
+    }
+
+    @Test
+    public void testGetUsersHandleException() throws IOException{
+        doThrow(new IOException()).when(mockUserFileDao).getAll();
+
+        ResponseEntity<User[]> response = userController.getUsers();
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
+    @Test
+    public void testSearchUser() throws IOException{
+        String searchString = "Is";
+        User[] testUsers = new User[2];
+        testUsers[0] = new User(0, "Issac", 0);
+        testUsers[1] = new User(1, "Maya", 0);
+
+        when(mockUserFileDao.findByName(searchString)).thenReturn(testUsers);
+
+        ResponseEntity<User[]> response = userController.searchUsers(searchString);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(testUsers, response.getBody());
+    }
+
+    @Test
+    public void testSearchUserHandleException() throws IOException{
+        String searchString = "Is";
+        
+        doThrow(new IOException()).when(mockUserFileDao).findByName(searchString);
+
+        ResponseEntity<User[]> response = userController.searchUsers(searchString);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
+    @Test
+    public void testDeleteUser() throws IOException{
+        int userID = 0;
+
+        when(mockUserFileDao.delete(userID)).thenReturn(true);
+
+        ResponseEntity<User> response = userController.deleteUser(userID);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    public void testDeleteUserFail() throws IOException{
+        int userID = 0;
+
+        when(mockUserFileDao.delete(userID)).thenReturn(false);
+
+        ResponseEntity<User> response = userController.deleteUser(userID);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void testDeleteUserHandleException() throws IOException{
+        int userID = 0;
+
+        doThrow(new IOException()).when(mockUserFileDao).delete(userID);
+
+        ResponseEntity<User> response = userController.deleteUser(userID);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
 }
