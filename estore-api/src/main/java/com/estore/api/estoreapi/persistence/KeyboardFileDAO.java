@@ -29,7 +29,7 @@ public class KeyboardFileDAO implements GenericDAO<Keyboard> {
   /**
    * The local cache all the {@linkplain Keyboard keyboard} objects.
    */
-  private Map<Integer, Keyboard> keyboards;
+  Map<Integer, Keyboard> keyboards;
   /**
    * The object mapper which helps turn a {@linkplain Keyboard keyboard} object
    * into JSON.

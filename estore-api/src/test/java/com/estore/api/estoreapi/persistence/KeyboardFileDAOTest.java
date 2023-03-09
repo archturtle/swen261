@@ -100,7 +100,7 @@ public class KeyboardFileDAOTest {
   }
 
   @Test
-  public void testCreateKeyboard() {
+  public void testCreateKeyboard() throws IOException {
       // setup
       Keyboard keyboard = new Keyboard(102, "Pear", 300, 20);
 
