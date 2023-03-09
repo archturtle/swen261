@@ -7,8 +7,8 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 
-import com.keyboards.api.estoreapi.persistence.GenericDAO;
-import com.keyboards.api.estoreapi.model.Keyboard;
+import com.estore.api.estoreapi.persistence.GenericDAO;
+import com.estore.api.estoreapi.model.Keyboard;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -211,7 +211,7 @@ public class KeyboardControllerTest {
     Keyboard[] keyboards = new Keyboard[2];
     keyboards[0] = new Keyboard(99, "Banana", 100, 15);
     keyboards[1] = new Keyboard(100, "Orange", 175, 10);
-    
+
     // when findKeyboards is called with the search string, return the two keyboards above
     when(mockKeyboardFileDAO.findByName(searchString)).thenReturn(keyboards);
 
