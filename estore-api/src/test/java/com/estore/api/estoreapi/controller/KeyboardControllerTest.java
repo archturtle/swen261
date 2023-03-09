@@ -88,7 +88,7 @@ public class KeyboardControllerTest {
     when(mockKeyboardFileDAO.create(keyboard)).thenReturn(keyboard);
 
     // invoke
-    ResponseEntity<Keyboard> response = keyboardController.createKeyboard(Keyboard);
+    ResponseEntity<Keyboard> response = keyboardController.createKeyboard(keyboard);
 
     // analyze
     assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -180,8 +180,8 @@ public class KeyboardControllerTest {
     keyboards[0] = new Keyboard(99, "Banana", 100, 15);
     keyboards[1] = new Keyboard(100, "Orange", 175, 10);
 
-    // when getKeyboards is called return the keyboards created above
-    when(mockKeyboardFileDAO.getKeyboards()).thenReturn(keyboards);
+    // when getAll is called return the keyboards created above
+    when(mockKeyboardFileDAO.getAll()).thenReturn(keyboards);
 
     // invoke
     ResponseEntity<Keyboard[]> response = keyboardController.getKeyboards();
@@ -194,11 +194,11 @@ public class KeyboardControllerTest {
   @Test
   public void testGetKeyboardsHandleException() throws IOException {
     // setup
-    // when getKeyboards is called on the Mock Generic DAO, throw an IOException
-    doThrow(new IOException()).when(mockKeyboardFileDAO).getKeyboards();
+    // when getAll is called on the Mock Generic DAO, throw an IOException
+    doThrow(new IOException()).when(mockKeyboardFileDAO).getAll();
 
     // invoke
-    ResponseEntity<Keyboard[]> response = keyboardController.getKeyboards();
+    ResponseEntity<Keyboard[]> response = keyboardController.getAll();
 
     // analyze
     assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
