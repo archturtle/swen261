@@ -35,7 +35,7 @@ public class UserTest {
 
     private final int keyboardQuantity = 300; //The expected quantity for the keyboard
 
-    private final String combinedToString = "User [id=1, name=Issac, role=0, cart=[\n\t[Keyboard [id=2, name=GMMK PRO, price=349.990000, quantity=300]\n]]";
+    private final String combinedToString = "User [id=1, name=Issac, role=0, cart=\n\t[Keyboard [id=1, name=GMMK PRO, price=349.990000, quantity=300]\n]]";
         //The expected toString for the user after adding to cart
 
     @Test
