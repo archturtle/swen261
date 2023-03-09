@@ -99,10 +99,10 @@ public class UserControllerTest {
         User testUser = new User(0, "Issac", 0);
         
         when(mockUserFileDao.update(testUser)).thenReturn(testUser);
-        ResponseEntity<User> response = userController.updateUser(testUser);
+        //ResponseEntity<User> response = userController.updateUser(testUser);
         testUser.setName("Chan");
 
-        response = userController.updateUser(testUser);
+        ResponseEntity<User> response = userController.updateUser(testUser);
         
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(testUser, response.getBody());

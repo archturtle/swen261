@@ -129,7 +129,7 @@ public class UserFileDAO implements GenericDAO<User> {
    * @return An array of {@linkplain User user} objects that contain the
    *         text. It can be empty.
    */
-  private User[] getUsers(String containsText) {
+  private User[]  getUsers(String containsText) {
     ArrayList<User> foundUsers = new ArrayList<>();
     for (User user : this.users.values()) {
       if (containsText == null || user.getName().contains(containsText)) {
