@@ -118,14 +118,14 @@ public class KeyboardControllerTest {
     Keyboard keyboard = new Keyboard(99, "Banana", 100, 15);
 
     // when createKeyboard is called on the Mock Generic DAO, throw an IOException
-    when(mockKeyboardFileDAO.findByName("Banana")).thenReturn(new Keyboard[] { keyboard });
+    when(mockKeyboardFileDAO.findByName("Banana")).thenReturn(new Keyboard[0]);
     doThrow(new IOException()).when(mockKeyboardFileDAO).create(keyboard);
 
     // invoke
     ResponseEntity<Keyboard> response = keyboardController.createKeyboard(keyboard);
 
     // analyze
-    assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
   }
 
   @Test
