@@ -63,9 +63,9 @@ public class User {
 
   @Override
   public String toString() {
-    StringBuilder stringBuilder = new StringBuilder("[");
+    StringBuilder stringBuilder = new StringBuilder("[\n");
     this.cart.forEach(keyboard -> {
-      stringBuilder.append(keyboard.toString() + "\n");
+      stringBuilder.append("\t" + keyboard.toString() + "\n");
     });
     stringBuilder.append("]");
 
