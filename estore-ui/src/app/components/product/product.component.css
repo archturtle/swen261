@@ -1,0 +1,36 @@
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.container:hover {
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.2);
+}
+
+.img {
+  height: 125px;
+  width: auto;
+  border-radius: 10px;
+}
+
+.prodStock {
+  top: 12.5px;
+  right: 15px;
+  font-size: 12px;
+  color: white;
+  position: absolute;
+}
+
+.prodName {
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.prodPrice {
+  font-size: 14px;
+  text-align: center;
+}

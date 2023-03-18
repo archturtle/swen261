@@ -13,7 +13,7 @@ export class ProductsService {
   constructor(private httpService: HttpClient) { }
 
   getProducts$(name: string | null): Observable<Keyboard[]> {
-    const url = (name != null) ? "http://localhost:8080/keyboards" : `http://localhost:8080/keyboards/?name=${name}`;
+    const url = (name == null) ? "http://localhost:8080/keyboards" : `http://localhost:8080/keyboards/?name=${name}`;
 
     return this.httpService.get(url)
       .pipe(
