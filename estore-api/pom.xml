@@ -14,7 +14,7 @@
 	<description>API for E-Store</description>
 	<properties>
 		<java.version>11</java.version>
-		<jacoco.version>0.8.7</jacoco.version>
+		<jacoco.version>0.8.8</jacoco.version>
 		<exec.maven.version>3.0.0</exec.maven.version>
 	</properties>
 	<dependencies>
