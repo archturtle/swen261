@@ -2,5 +2,5 @@
   <img class="img" src="../../../assets/kb.webp">
   <p class="prodStock">{{ product.quantity }} in stock</p>
   <h4 class="prodName">{{ product.name }}</h4>
-  <p class="prodPrice">${{ product.price }}</p>
+  <p class="prodPrice">${{ product.price | number: '1.2' }}</p>
 </div>
