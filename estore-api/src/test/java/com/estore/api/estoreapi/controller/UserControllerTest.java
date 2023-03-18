@@ -7,7 +7,9 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 
+import com.estore.api.estoreapi.persistence.KeyboardFileDAO;
 import com.estore.api.estoreapi.persistence.UserFileDAO;
+import com.estore.api.estoreapi.model.Keyboard;
 import com.estore.api.estoreapi.model.User;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -20,11 +22,13 @@ import org.springframework.http.ResponseEntity;
 public class UserControllerTest {
     private UserController userController;
     private UserFileDAO mockUserFileDao;
+    private KeyboardFileDAO mockKeyboardFileDAO;
 
     @BeforeEach
     public void setupUserController(){
         mockUserFileDao = mock(UserFileDAO.class);
-        userController = new UserController(mockUserFileDao);
+        mockKeyboardFileDAO = mock(KeyboardFileDAO.class);
+        userController = new UserController(mockUserFileDao, mockKeyboardFileDAO);
     }
 
     @Test
@@ -91,6 +95,116 @@ public class UserControllerTest {
 
         ResponseEntity<User> response = userController.createUser(testUser);
 
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
+    @Test
+    public void testAddAdminCartFails() throws IOException {
+        User adminUser = new User(0, "Issac", 0);
+        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, 10);
+        when(mockUserFileDao.findByID(0)).thenReturn(adminUser);
+        when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
+
+        ResponseEntity<User> response = userController.addItemToCart(adminUser.getId(), keyboard.getId());
+        assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
+    }
+
+    @Test
+    public void testAddUserCartSucceeds() throws IOException {
+        User user = new User(0, "Issac", 1);
+        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, 10);
+        when(mockUserFileDao.findByID(0)).thenReturn(user);
+        when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
+
+        ResponseEntity<User> response = userController.addItemToCart(user.getId(), keyboard.getId());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    public void testAddUserCartUserNotFound() throws IOException {
+        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, 10);
+        when(mockUserFileDao.findByID(0)).thenReturn(null);
+        when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
+
+        ResponseEntity<User> response = userController.addItemToCart(0, keyboard.getId());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void testAddUserCartKeyboardNotFound() throws IOException {
+        User user = new User(0, "Issac", 1);
+        when(mockUserFileDao.findByID(0)).thenReturn(user);
+        when(mockKeyboardFileDAO.findByID(0)).thenReturn(null);
+
+        ResponseEntity<User> response = userController.addItemToCart(user.getId(), 0);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void testAddUserCartThrowsException() throws IOException {
+        User user = new User(0, "Issac", 1);
+        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, 10);
+        when(mockUserFileDao.findByID(0)).thenReturn(user);
+        when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
+        doThrow(new IOException()).when(mockUserFileDao).findByID(0);
+
+        ResponseEntity<User> response = userController.addItemToCart(user.getId(), keyboard.getId());
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
+    @Test
+    public void testRemoveAdminCartFails() throws IOException {
+        User adminUser = new User(0, "Issac", 0);
+        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, 10);
+        when(mockUserFileDao.findByID(0)).thenReturn(adminUser);
+        when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
+
+        ResponseEntity<User> response = userController.removeItemFromCart(adminUser.getId(), keyboard.getId());
+        assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
+    }
+
+    @Test
+    public void testRemoveUserCartSucceeds() throws IOException {
+        User user = new User(0, "Issac", 1);
+        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, 10);
+        user.addToCart(keyboard);
+        when(mockUserFileDao.findByID(0)).thenReturn(user);
+        when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
+
+        ResponseEntity<User> response = userController.removeItemFromCart(user.getId(), keyboard.getId());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    public void testRemoveUserCartUserNotFound() throws IOException {
+        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, 10);
+        when(mockUserFileDao.findByID(0)).thenReturn(null);
+        when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
+
+        ResponseEntity<User> response = userController.removeItemFromCart(0, keyboard.getId());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void testRemoveUserCartKeyboardNotFound() throws IOException {
+        User user = new User(0, "Issac", 1);
+        when(mockUserFileDao.findByID(0)).thenReturn(user);
+        when(mockKeyboardFileDAO.findByID(0)).thenReturn(null);
+
+        ResponseEntity<User> response = userController.removeItemFromCart(user.getId(), 0);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void testRemoveUserCartThrowsException() throws IOException {
+        User user = new User(0, "Issac", 1);
+        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, 10);
+        user.addToCart(keyboard);
+        when(mockUserFileDao.findByID(0)).thenReturn(user);
+        when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
+        doThrow(new IOException()).when(mockUserFileDao).findByID(0);
+
+        ResponseEntity<User> response = userController.removeItemFromCart(user.getId(), keyboard.getId());
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 

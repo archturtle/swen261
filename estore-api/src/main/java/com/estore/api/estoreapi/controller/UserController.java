@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.estore.api.estoreapi.model.Keyboard;
 import com.estore.api.estoreapi.model.User;
+import com.estore.api.estoreapi.persistence.KeyboardFileDAO;
 import com.estore.api.estoreapi.persistence.UserFileDAO;
 
 @RestController
@@ -32,6 +34,7 @@ public class UserController {
    * information on how this is set.
    */
   private UserFileDAO userDAO;
+  private KeyboardFileDAO keyboardDAO;
 
   /**
    * Creates a REST API controller to reponds to requests
@@ -41,8 +44,9 @@ public class UserController {
    *                    <br>
    *                    This dependency is injected by the Spring Framework
    */
-  public UserController(UserFileDAO userDAO) {
+  public UserController(UserFileDAO userDAO, KeyboardFileDAO keyboardDAO) {
     this.userDAO = userDAO;
+    this.keyboardDAO = keyboardDAO;
   }
 
   /**
@@ -149,6 +153,48 @@ public class UserController {
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+  @PostMapping("/{userId}/cart")
+  public ResponseEntity<User> addItemToCart(@PathVariable int userId, @RequestParam int productId) {
+    LOG.info("POST /users/" + userId + "/cart?productId=" + productId);
+
+    try {
+      User user = this.userDAO.findByID(userId);
+      Keyboard keyboard = this.keyboardDAO.findByID(productId);
+      if (user == null || keyboard == null)
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      if (user.getRole() == 0) 
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+
+      user.addToCart(keyboard);
+      User updatedUser = this.userDAO.update(user); 
+      return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    } catch (IOException e) {
+      LOG.log(Level.SEVERE, e.getLocalizedMessage());
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @DeleteMapping("/{userId}/cart")
+  public ResponseEntity<User> removeItemFromCart(@PathVariable int userId, @RequestParam int productId) {
+    LOG.info("DELETE /users/" + userId + "/cart?productId=" + productId);
+
+    try {
+      User user = this.userDAO.findByID(userId);
+      Keyboard keyboard = this.keyboardDAO.findByID(productId);
+      if (user == null || keyboard == null)
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      if (user.getRole() == 0) 
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+
+      user.removeFromCart(keyboard);
+      User updatedUser = this.userDAO.update(user); 
+      return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    } catch (IOException e) {
+      LOG.log(Level.SEVERE, e.getLocalizedMessage());
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  } 
 
   /**
    * Updates the {@linkplain User user} with the provided
