@@ -1,7 +1,7 @@
 <h1 class="header">Mechanical Keyboard E-Store</h1>
 
 <div class="container">
-  <ng-container *ngFor="let product of products$ | async">
+  <ng-container *ngFor="let product of products">
     <app-product [product]="product"></app-product>
   </ng-container>
 </div>

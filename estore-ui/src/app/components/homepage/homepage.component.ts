@@ -9,11 +9,12 @@ import { ProductsService } from 'src/app/services/products.service';
   styleUrls: ['./homepage.component.css']
 })
 export class HomepageComponent implements OnInit {
-  products$: Observable<Keyboard[]> = this.productService.products$;
+  products!: Keyboard[];
 
   constructor(private productService: ProductsService) { }
+
   ngOnInit(): void {
     this.productService.getProducts$(null)
-      .subscribe();
+      .subscribe(items => this.products = items);
   }
 }
