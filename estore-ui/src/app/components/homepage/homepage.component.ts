@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Keyboard } from 'src/app/interfaces/keyboard';
 import { ProductsService } from 'src/app/services/products.service';
 
@@ -16,5 +15,9 @@ export class HomepageComponent implements OnInit {
   ngOnInit(): void {
     this.productService.getProducts$(null)
       .subscribe(items => this.products = items);
+  }
+
+  userSearching(value: string): void {
+    console.log(value);
   }
 }

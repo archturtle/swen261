@@ -1,4 +1,4 @@
-<app-navbar></app-navbar>
+<app-navbar (onSearchType)="userSearching($event)"></app-navbar>
 
 <div class="container">
   <ng-container *ngFor="let product of products">
