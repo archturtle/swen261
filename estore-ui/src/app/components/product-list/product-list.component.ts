@@ -24,7 +24,9 @@ export class ProductListComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.filteredProducts = this.filteredProducts.filter((item: Keyboard) => {
+    if (!this.products || !this.filteredProducts) return;
+
+    this.filteredProducts = this.products.filter((item: Keyboard) => {
       return item.name.toLowerCase().startsWith(changes['searchString'].currentValue);
     });
   }
