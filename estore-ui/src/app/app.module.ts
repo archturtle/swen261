@@ -10,6 +10,7 @@ import { ProductComponent } from './components/product/product.component';
 import { SearchComponent } from './components/search/search.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
+import { ProfileButtonComponent } from './components/profile-button/profile-button.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ProductListComponent } from './components/product-list/product-list.com
     ProductComponent,
     SearchComponent,
     NavbarComponent,
-    ProductListComponent
+    ProductListComponent,
+    ProfileButtonComponent
   ],
   imports: [
     BrowserModule,

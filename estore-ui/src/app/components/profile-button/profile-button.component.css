@@ -1,0 +1,19 @@
+.profile {
+  background-color: transparent;
+
+  border: 2px solid rgb(208, 207, 207);
+  border-radius: 50%;
+
+  margin-left: 5px;
+  width: 35px;
+  height: 35px;
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.profileImg {
+  fill: rgb(208, 207, 207);
+}
