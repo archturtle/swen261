@@ -12,4 +12,8 @@ export class LoginComponent {
   });
 
   constructor(private formBuilder: FormBuilder) {  }
+
+  loginFormSubmitted(): void {
+    console.log(this.loginForm.value['username'])
+  }
 }
