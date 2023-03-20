@@ -10,6 +10,29 @@
 
 .name {
   text-align: center;
-  margin-right: auto;
   height: auto;
+  margin-right: auto;
+}
+
+.items {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.item {
+  text-decoration: none;
+  font-size: 14px;
+  border: 1px solid rgb(208, 207, 207);
+  border-radius: 5px;
+  padding: 6.25px 7.5px 6.25px 7.5px;
+  margin: 0px 5px;
+}
+
+.item:first-child {
+  margin-left: 10px
+}
+
+.item:last-child {
+  margin-right: 0px
 }

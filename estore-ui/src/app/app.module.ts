@@ -10,7 +10,7 @@ import { ProductComponent } from './components/product/product.component';
 import { SearchComponent } from './components/search/search.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
-import { ProfileButtonComponent } from './components/profile-button/profile-button.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,7 @@ import { ProfileButtonComponent } from './components/profile-button/profile-butt
     SearchComponent,
     NavbarComponent,
     ProductListComponent,
-    ProfileButtonComponent
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
