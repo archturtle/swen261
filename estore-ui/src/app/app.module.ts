@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomepageComponent } from './components/homepage/homepage.component';
+import { ClientComponent } from './components/client/client.component';
 import { ProductComponent } from './components/product/product.component';
 import { SearchComponent } from './components/search/search.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -15,7 +15,7 @@ import { ProfileButtonComponent } from './components/profile-button/profile-butt
 @NgModule({
   declarations: [
     AppComponent,
-    HomepageComponent,
+    ClientComponent,
     ProductComponent,
     SearchComponent,
     NavbarComponent,
