@@ -1,8 +1,8 @@
-.navbar {
+:host {
+  background-color: blue;
   display: flex;
   flex-direction: row;
-  margin-top: 10px;
-  margin-bottom: 50px;
+  padding: 5px;
 }
 
 .name {

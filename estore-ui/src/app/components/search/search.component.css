@@ -5,9 +5,11 @@
 
 .search {
   appearance: none;
-  background-color: none;
+  background-color: transparent;
   font-size: 14px;
-  border: 1px solid black;
+  border: 1px solid rgb(208, 207, 207);
+  border-radius: 7.5px;
+
   margin: 5px;
   padding: 5px;
   width: 275px;
