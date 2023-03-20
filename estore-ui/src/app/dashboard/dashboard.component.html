@@ -1,0 +1,7 @@
+<h2>Top Keyboards</h2>
+<div class="keyboards-menu">
+  <a *ngFor="let keyboard of keyboards"
+    routerLink="/detail/{{keyboard.id}}">
+    {{keyboard.name}}
+  </a>
+</div>

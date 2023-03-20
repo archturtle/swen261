@@ -1,0 +1,12 @@
+<div id="search-component">
+    <label for="search-box">Keyboard Search</label>
+    <input #searchBox id="search-box" (input)="search(searchBox.value)" />
+  
+    <ul class="search-result">
+      <li *ngFor="let keyboard of keyboards$ | async" >
+        <a routerLink="/detail/{{keyboard.id}}">
+          {{keyboard.name}}
+        </a>
+      </li>
+    </ul>
+  </div>

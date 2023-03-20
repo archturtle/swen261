@@ -1,0 +1,6 @@
+<div *ngIf="keyboard">
+    <h2>{{keyboard.name}}</h2>
+    <div><span>price: $</span>{{keyboard.price}}</div>
+    <div><span>quantity left: </span>{{keyboard.quantity}}</div>
+    <button type="button" (click)="goBack()">go back</button>
+</div>
