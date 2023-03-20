@@ -1,0 +1,14 @@
+:host {
+  display: flex;
+  align-content: center;
+}
+
+.search {
+  appearance: none;
+  background-color: none;
+  font-size: 14px;
+  border: 1px solid black;
+  margin: 5px;
+  padding: 5px;
+  width: 275px;
+}

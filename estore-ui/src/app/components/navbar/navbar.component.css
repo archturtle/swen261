@@ -1,0 +1,12 @@
+.navbar {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  margin-bottom: 50px;
+}
+
+.name {
+  text-align: center;
+  margin-right: auto;
+  height: auto;
+}
