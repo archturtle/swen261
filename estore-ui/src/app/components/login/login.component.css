@@ -40,3 +40,12 @@
   cursor: pointer;
   width: 85px;
 }
+
+.error {
+  margin-top: 20px;
+  color: red;
+}
+
+.hidden {
+  display: none;
+}

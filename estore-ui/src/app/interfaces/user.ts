@@ -1,8 +1,8 @@
 import { Keyboard } from "./keyboard";
 
 export interface User {
-  id: number;
+  id?: number;
   name: string;
   role: number;
-  cart: [Keyboard];
+  cart: Keyboard[];
 }
