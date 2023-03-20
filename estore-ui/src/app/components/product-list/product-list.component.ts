@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { filter, map, Observable } from 'rxjs';
 import { Keyboard } from 'src/app/interfaces/keyboard';
 import { ProductsService } from 'src/app/services/products.service';
 
@@ -9,25 +10,22 @@ import { ProductsService } from 'src/app/services/products.service';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnChanges {
-  private products!: Keyboard[];
-  filteredProducts!: Keyboard[];
+  private products$: Observable<Keyboard[]> = this.productService.products$;
+  filteredProducts$: Observable<Keyboard[]> = this.productService.products$;
   @Input() searchString!: string;
 
   constructor(private productService: ProductsService) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
     this.productService.getProducts$(null)
-      .subscribe(items => {
-        this.products = items;
-        this.filteredProducts = items;
-      });
+      .subscribe();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!this.products || !this.filteredProducts) return;
-
-    this.filteredProducts = this.products.filter((item: Keyboard) => {
-      return item.name.toLowerCase().startsWith(changes['searchString'].currentValue);
-    });
+    this.filteredProducts$ = this.products$.pipe(
+      map(result => {
+        return result.filter(item => item.name.toLowerCase().startsWith(changes['searchString'].currentValue))
+      })
+    );
   }
 }

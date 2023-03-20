@@ -34,4 +34,11 @@ export class ProductsService {
         })
       )
   }
+
+  deleteProduct$(id: number): Observable<void> {
+    const url = `http://localhost:8080/keyboards/${id}`;
+
+    this._products.next(this._products.value.filter(item => item.id != id));
+    return this.httpService.delete<void>(url);
+  }
 }
