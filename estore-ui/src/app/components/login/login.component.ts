@@ -26,6 +26,7 @@ export class LoginComponent {
       resp = await firstValueFrom(this.usersService.createUser$(user));
     }
 
+    localStorage.setItem("user", resp.id?.toString()!);
     this.router.navigate(['/']);
   }
 }

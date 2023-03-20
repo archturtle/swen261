@@ -2,5 +2,6 @@
 <app-search (onSearchType)="searchBarChanged($event)"></app-search>
 
 <div class="items">
-  <a class="item" routerLink="/login">Login</a>
+  <a *ngIf="!(loggedInUser$ | async)" class="item" routerLink="/login">Login</a>
+  <a *ngIf="(loggedInUser$ | async)" class="item" routerLink="/" (click)="processLogout()">Logout: {{ (loggedInUser$ | async)?.name }} </a>
 </div>

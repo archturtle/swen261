@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { User } from '../interfaces/user';
 
@@ -8,7 +9,7 @@ import { User } from '../interfaces/user';
 })
 export class UsersService {
   private _user: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
-  public readonly products$: Observable<User | null> = this._user.asObservable();
+  public readonly user$: Observable<User | null> = this._user.asObservable();
 
   private static HTTP_OPTIONS: object = {
     headers: new HttpHeaders({
@@ -16,7 +17,7 @@ export class UsersService {
     })
   };
 
-  constructor(private httpService: HttpClient) { }
+  constructor(private router: Router, private httpService: HttpClient) { }
 
   getUser$(name: string): Observable<User | null> {
     const url = `http://localhost:8080/users/?name=${name}`;
@@ -51,6 +52,34 @@ export class UsersService {
       );
   }
 
+  getUserById$(id: number): Observable<User> {
+    const url = `http://localhost:8080/users/${id}`;
+
+    return this.httpService.get(url)
+    .pipe(
+      map((r: any) => {
+        return {
+          id: r["id"],
+          name: r["name"],
+          role: r["role"],
+          cart: r["cart"].map((v: any) => {
+            return {
+              id: v["id"],
+              name: v["name"],
+              price: v["price"],
+              quantity: v["quantity"]
+            }
+          })
+        }
+      }),
+      tap({
+        next: (value: User) => {
+          this._user.next(value);
+        }
+      })
+    ); 
+  }
+
   createUser$(user: User): Observable<User> {
     const url = `http://localhost:8080/users`;
 
@@ -62,5 +91,11 @@ export class UsersService {
           }
         })
       );
+  }
+
+  logOut$(): void {
+    localStorage.removeItem("user");
+    this._user.next(null);
+    this.router.navigate(['/']);
   }
 }
