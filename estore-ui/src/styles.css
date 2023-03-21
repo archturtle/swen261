@@ -7,6 +7,12 @@
   color: rgb(208, 207, 207);
 }
 
+a {
+  text-decoration: none;
+  text-decoration-color: inherit;
+  color: rgb(208, 207, 207);
+}
+
 html, body {
   background-color: rgb(29, 28, 28);
   width: 100%;

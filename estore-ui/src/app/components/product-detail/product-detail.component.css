@@ -1,7 +1,9 @@
 host {
   display: flex;
   flex-direction: column;
+
   height: -webkit-fill-available;
+  height: -moz-available;
 }
 
 .content {
@@ -32,6 +34,7 @@ host {
   display: flex;
   flex-direction: row;
   width: -webkit-fill-available;
+  width: -moz-available;
   align-items: center;
   column-gap: 10px;
 }

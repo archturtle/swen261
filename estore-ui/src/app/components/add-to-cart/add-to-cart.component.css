@@ -8,8 +8,10 @@
   border-radius: 5px;
   cursor: pointer;
   width: -webkit-fill-available;
+  width: -moz-available;
 }
 
 :host {
   width: -webkit-fill-available;
+  width: -moz-available;
 }
