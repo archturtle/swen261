@@ -155,8 +155,8 @@ public class UserController {
   }
 
   @PostMapping("/{userId}/cart")
-  public ResponseEntity<User> addItemToCart(@PathVariable int userId, @RequestParam int productId) {
-    LOG.info("POST /users/" + userId + "/cart?productId=" + productId);
+  public ResponseEntity<User> addItemToCart(@PathVariable int userId, @RequestParam int productId, @RequestParam int quantity) {
+    LOG.info("POST /users/" + userId + "/cart?productId=" + productId + "&quantity=" + quantity);
 
     try {
       User user = this.userDAO.findByID(userId);
@@ -165,8 +165,13 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       if (user.getRole() == 0) 
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+      if (quantity < 1) 
+        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 
-      user.addToCart(keyboard);
+      for (int i = 0; i < quantity; i++) {
+        user.addToCart(keyboard);
+      }
+
       User updatedUser = this.userDAO.update(user); 
       return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     } catch (IOException e) {
@@ -176,8 +181,8 @@ public class UserController {
   }
 
   @DeleteMapping("/{userId}/cart")
-  public ResponseEntity<User> removeItemFromCart(@PathVariable int userId, @RequestParam int productId) {
-    LOG.info("DELETE /users/" + userId + "/cart?productId=" + productId);
+  public ResponseEntity<User> removeItemFromCart(@PathVariable int userId, @RequestParam int productId, @RequestParam int quantity) {
+    LOG.info("DELETE /users/" + userId + "/cart?productId=" + productId + "&quantity=" + quantity);
 
     try {
       User user = this.userDAO.findByID(userId);
@@ -186,8 +191,13 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       if (user.getRole() == 0) 
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+      if (quantity < 1) 
+        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 
-      user.removeFromCart(keyboard);
+      for (int i = 0; i < quantity; i++) {
+        user.removeFromCart(keyboard);
+      }
+
       User updatedUser = this.userDAO.update(user); 
       return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     } catch (IOException e) {

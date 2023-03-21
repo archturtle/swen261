@@ -105,7 +105,7 @@ public class UserControllerTest {
         when(mockUserFileDao.findByID(0)).thenReturn(adminUser);
         when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
 
-        ResponseEntity<User> response = userController.addItemToCart(adminUser.getId(), keyboard.getId());
+        ResponseEntity<User> response = userController.addItemToCart(adminUser.getId(), keyboard.getId(), 1);
         assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
     }
 
@@ -116,8 +116,19 @@ public class UserControllerTest {
         when(mockUserFileDao.findByID(0)).thenReturn(user);
         when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
 
-        ResponseEntity<User> response = userController.addItemToCart(user.getId(), keyboard.getId());
+        ResponseEntity<User> response = userController.addItemToCart(user.getId(), keyboard.getId(), 1);
         assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    public void testAddUserCartFailsToLowQuantity() throws IOException {
+        User user = new User(0, "Issac", 1);
+        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, 10);
+        when(mockUserFileDao.findByID(0)).thenReturn(user);
+        when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
+
+        ResponseEntity<User> response = userController.addItemToCart(user.getId(), keyboard.getId(), 0);
+        assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
     }
 
     @Test
@@ -126,7 +137,7 @@ public class UserControllerTest {
         when(mockUserFileDao.findByID(0)).thenReturn(null);
         when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
 
-        ResponseEntity<User> response = userController.addItemToCart(0, keyboard.getId());
+        ResponseEntity<User> response = userController.addItemToCart(0, keyboard.getId(), 1);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
@@ -136,7 +147,7 @@ public class UserControllerTest {
         when(mockUserFileDao.findByID(0)).thenReturn(user);
         when(mockKeyboardFileDAO.findByID(0)).thenReturn(null);
 
-        ResponseEntity<User> response = userController.addItemToCart(user.getId(), 0);
+        ResponseEntity<User> response = userController.addItemToCart(user.getId(), 0, 1);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
@@ -148,7 +159,7 @@ public class UserControllerTest {
         when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
         doThrow(new IOException()).when(mockUserFileDao).findByID(0);
 
-        ResponseEntity<User> response = userController.addItemToCart(user.getId(), keyboard.getId());
+        ResponseEntity<User> response = userController.addItemToCart(user.getId(), keyboard.getId(), 1);
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 
@@ -159,7 +170,7 @@ public class UserControllerTest {
         when(mockUserFileDao.findByID(0)).thenReturn(adminUser);
         when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
 
-        ResponseEntity<User> response = userController.removeItemFromCart(adminUser.getId(), keyboard.getId());
+        ResponseEntity<User> response = userController.removeItemFromCart(adminUser.getId(), keyboard.getId(), 1);
         assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
     }
 
@@ -171,8 +182,20 @@ public class UserControllerTest {
         when(mockUserFileDao.findByID(0)).thenReturn(user);
         when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
 
-        ResponseEntity<User> response = userController.removeItemFromCart(user.getId(), keyboard.getId());
+        ResponseEntity<User> response = userController.removeItemFromCart(user.getId(), keyboard.getId(), 1);
         assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    public void testRemoveUserCartFailsToLowQuantity() throws IOException {
+        User user = new User(0, "Issac", 1);
+        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, 10);
+        user.addToCart(keyboard);
+        when(mockUserFileDao.findByID(0)).thenReturn(user);
+        when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
+
+        ResponseEntity<User> response = userController.removeItemFromCart(user.getId(), keyboard.getId(), 0);
+        assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
     }
 
     @Test
@@ -181,7 +204,7 @@ public class UserControllerTest {
         when(mockUserFileDao.findByID(0)).thenReturn(null);
         when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
 
-        ResponseEntity<User> response = userController.removeItemFromCart(0, keyboard.getId());
+        ResponseEntity<User> response = userController.removeItemFromCart(0, keyboard.getId(), 1);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
@@ -191,7 +214,7 @@ public class UserControllerTest {
         when(mockUserFileDao.findByID(0)).thenReturn(user);
         when(mockKeyboardFileDAO.findByID(0)).thenReturn(null);
 
-        ResponseEntity<User> response = userController.removeItemFromCart(user.getId(), 0);
+        ResponseEntity<User> response = userController.removeItemFromCart(user.getId(), 0, 1);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
@@ -204,7 +227,7 @@ public class UserControllerTest {
         when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
         doThrow(new IOException()).when(mockUserFileDao).findByID(0);
 
-        ResponseEntity<User> response = userController.removeItemFromCart(user.getId(), keyboard.getId());
+        ResponseEntity<User> response = userController.removeItemFromCart(user.getId(), keyboard.getId(), 1);
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 
