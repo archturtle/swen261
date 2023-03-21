@@ -20,7 +20,10 @@ export class AddToCartComponent {
   async addToCart() {
     const user: User | null = await firstValueFrom(this.loggedInUser$);
     if (!user) {
-      this.router.navigate(['login']);
+      this.router.navigate(
+        ['login'],
+        { queryParams: { returnURL: this.router.url } }
+      );
       return;
     }
     
