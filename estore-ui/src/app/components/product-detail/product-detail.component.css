@@ -1,0 +1,24 @@
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  margin-top: 10%;
+  column-gap: 20px;
+}
+
+.img {
+  width: 40%;
+  border-radius: 10px;
+}
+
+.details {
+  width: 40%;
+}
+
+.description {
+  margin-top: 10px;
+}

@@ -1,1 +1,24 @@
 <app-navbar></app-navbar>
+
+<div class="content">
+  <img class="img" src="../../../assets/kb.webp" />
+  <div class="details">
+    <h1>{{ product.name }}</h1>
+    <h3>Price: ${{ product.price | number: '1.2' }}</h3>
+    <p class="description">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi odio elit, consectetur ut venenatis vel, tincidunt quis ante. Mauris at elit sed dolor porta 
+      rhoncus sed quis magna. Donec pretium interdum tristique. Nulla mattis rutrum commodo. In elementum ligula id velit auctor efficitur. Aliquam nec erat ornare, 
+      vehicula elit nec, vehicula sem. Nam finibus sed enim ac auctor. Maecenas quis erat volutpat, scelerisque nisl ac, ultricies odio. Nulla facilisi. Nulla sed 
+      massa in lacus consectetur suscipit ac in mi. Pellentesque cursus urna eget tincidunt luctus. Phasellus quis placerat erat. Curabitur euismod consequat sapien, 
+      sit amet mattis est. Proin semper mauris in eros finibus, sed imperdiet elit commodo. Mauris dapibus, velit eget porttitor suscipit, quam odio pulvinar orci, 
+      placerat elementum nulla justo et tortor. Curabitur elit nibh, ultrices eu magna a, commodo sodales massa. Etiam sit amet consectetur neque. Nunc ut nulla gravida, 
+      tempor erat ac, facilisis metus. Praesent ac elementum felis. Sed dictum leo erat, vel lobortis diam iaculis a. Praesent sapien justo, ornare maximus leo a, 
+      venenatis pharetra turpis. Donec vel leo in lorem luctus egestas. Donec eros sapien, placerat vel scelerisque eget, aliquam vitae nulla.
+    </p>
+    <div class="add-button">
+      <select name="quantity">
+        <option *ngFor="let item of [].constructor(product.quantity); let i = index">{{ i + 1 }}</option>
+      </select>
+    </div>
+  </div>
+</div>
