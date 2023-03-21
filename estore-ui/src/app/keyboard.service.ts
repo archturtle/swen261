@@ -24,8 +24,7 @@ export class KeyboardService {
 
   /** GET keyboards from the server */
   getKeyboards(): Observable<Keyboard[]> {
-    const heroes = of(KEYBOARDS);
-    return heroes;
+    return this.http.get<Keyboard[]>(this.keyboardsUrl);
   }
 
   /** GET keyboard by id. Return `undefined` when id not found */
