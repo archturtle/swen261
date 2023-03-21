@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { firstValueFrom, lastValueFrom, Observable } from 'rxjs';
 import { Keyboard } from 'src/app/interfaces/keyboard';
 import { User } from 'src/app/interfaces/user';
@@ -15,7 +16,7 @@ export class ProductComponent implements OnInit {
   loggedInUser$: Observable<User | null> = this.usersService.user$;
   @Input() product!: Keyboard
 
-  constructor(private usersService: UsersService, private productsService: ProductsService, private notificationService: NotifcationService) {  }
+  constructor(private usersService: UsersService, private productsService: ProductsService, private notificationService: NotifcationService, private router: Router) {  }
 
   ngOnInit(): void { }
 
@@ -27,16 +28,22 @@ export class ProductComponent implements OnInit {
   }
 
   async productClicked() {
-    console.log(this.loggedInUser$)
     const user: User | null = await firstValueFrom(this.loggedInUser$);
-    if (!user || user.role != 0) {
+    if (!user) return;
+    if (user.id != 0) {
+      this.router.navigate(['product', this.product.id])
       return;
     }
-
+    
     this.notificationService.changeProduct(this.product);
   }
 
-  addToCart(): void {
-    console.log(this.product);
+  async addToCart() {
+    const user: User | null = await firstValueFrom(this.loggedInUser$);
+    if (!user) return;
+    if (!user.id || !this.product.id) return;
+
+    this.usersService.addToCart$(user?.id, this.product.id)
+      .subscribe();
   }
 }

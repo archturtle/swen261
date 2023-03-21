@@ -22,22 +22,16 @@ export class ProductsService {
 
     return this.httpService.get<Keyboard[]>(url)
       .pipe(
-        // map((result: any) => {
-        //   return result.map((r: any) => {
-        //     return {
-        //       id: r["id"],
-        //       name: r["name"],
-        //       price: r["price"],
-        //       quantity: r["quantity"]
-        //     }
-        //   });
-        // }),
         tap({
           next: (value: Keyboard[]) => {
             this._products.next(value);
           }
         })
       )
+  }
+
+  getProductById$(id: number): Observable<Keyboard> {
+    return this.httpService.get<Keyboard>(`http://localhost:8080/keyboards/${id}`);
   }
 
   addProduct$(product: Keyboard): Observable<Keyboard> {
