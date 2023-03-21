@@ -94,7 +94,7 @@ export class UsersService {
   }
 
   addToCart$(userId: number, productId: number, quantity: number): Observable<User> {
-    return this.httpService.post<User>(`http://localhost:8080/users/${userId}/cart/?productId=${productId}&quanity=${quantity}`, null)
+    return this.httpService.post<User>(`http://localhost:8080/users/${userId}/cart/?productId=${productId}&quantity=${quantity}`, null)
       .pipe(
         map((r: User) => {
           return {
@@ -120,7 +120,7 @@ export class UsersService {
   } 
 
   removeFromCart$(userId: number, productId: number, quantity: number): Observable<User> {
-    return this.httpService.delete<User>(`http://localhost:8080/users/${userId}/cart/?productId=${productId}&quanity=${quantity}`)
+    return this.httpService.delete<User>(`http://localhost:8080/users/${userId}/cart/?productId=${productId}&quantity=${quantity}`)
       .pipe(
         map((r: User) => {
           return {

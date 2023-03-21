@@ -1,6 +1,7 @@
 :host {
   display: flex;
   flex-direction: column;
+  height: -webkit-fill-available;
 }
 
 .content {
@@ -17,17 +18,20 @@
 
 .details {
   width: 40%;
+  display: flex;
+  flex-direction: column;
 }
 
 .description {
   margin-top: 10px;
+  margin-bottom: auto;
 }
 
 .quantity-button {
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 7.5px;
+  padding: 6.5px;
   border: 1px solid rgb(208, 207, 207);
   border-radius: 5px;
   font-size: 14px;
@@ -45,4 +49,13 @@
   text-align: end;
   text-align-last: end;
   -moz-text-align-last: end;
+}
+
+.add-to-cart-interaction {
+  margin-top: auto;
+  display: flex;
+  flex-direction: row;
+  width: -webkit-fill-available;
+  align-items: center;
+  column-gap: 10px;
 }

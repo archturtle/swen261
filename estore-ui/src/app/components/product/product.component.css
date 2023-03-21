@@ -46,6 +46,10 @@
   text-align: center;
 }
 
+.prodPrice:not(:last-child) {
+  margin-bottom: 10px;
+}
+
 .add {
   appearance: none;
   border: none;
