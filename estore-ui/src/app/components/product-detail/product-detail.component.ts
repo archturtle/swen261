@@ -9,7 +9,9 @@ import { ProductsService } from 'src/app/services/products.service';
   styleUrls: ['./product-detail.component.css']
 })
 export class ProductDetailComponent implements OnInit {
-  product!: Keyboard;
+  product: Keyboard | null = null;
+  selectedValue!: Event;
+  quantity: number = 1;
 
   constructor(private route: ActivatedRoute, private productService: ProductsService) { }
 
@@ -19,5 +21,9 @@ export class ProductDetailComponent implements OnInit {
 
     this.productService.getProductById$(parseInt(id))
       .subscribe((data: Keyboard) => this.product = data);
+  }
+
+  quantityChanged(e: any): void {
+    this.quantity = parseInt(e.target.value);
   }
 }

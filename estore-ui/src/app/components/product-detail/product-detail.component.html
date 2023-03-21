@@ -3,8 +3,8 @@
 <div class="content">
   <img class="img" src="../../../assets/kb.webp" />
   <div class="details">
-    <h1>{{ product.name }}</h1>
-    <h3>Price: ${{ product.price | number: '1.2' }}</h3>
+    <h1>{{ product?.name }}</h1>
+    <h3>Price: ${{ product?.price | number: '1.2' }}</h3>
     <p class="description">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi odio elit, consectetur ut venenatis vel, tincidunt quis ante. Mauris at elit sed dolor porta 
       rhoncus sed quis magna. Donec pretium interdum tristique. Nulla mattis rutrum commodo. In elementum ligula id velit auctor efficitur. Aliquam nec erat ornare, 
@@ -15,10 +15,15 @@
       tempor erat ac, facilisis metus. Praesent ac elementum felis. Sed dictum leo erat, vel lobortis diam iaculis a. Praesent sapien justo, ornare maximus leo a, 
       venenatis pharetra turpis. Donec vel leo in lorem luctus egestas. Donec eros sapien, placerat vel scelerisque eget, aliquam vitae nulla.
     </p>
-    <div class="add-button">
-      <select name="quantity">
-        <option *ngFor="let item of [].constructor(product.quantity); let i = index">{{ i + 1 }}</option>
-      </select>
+
+    <div class="add-to-cart-interaction">
+      <div class="quantity-button">
+        <p class="label">Quantity:</p>
+        <select class="quantity" name="quantity" (change)="quantityChanged($event)">
+          <option *ngFor="let item of [].constructor(product?.quantity); let i = index" [ngValue]="i">{{ i + 1 }}</option>
+        </select>
+      </div>
+      <app-add-to-cart [product]="product" [quantity]="quantity"></app-add-to-cart>
     </div>
   </div>
 </div>

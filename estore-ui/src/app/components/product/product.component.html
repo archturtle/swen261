@@ -4,5 +4,5 @@
   <p class="prodStock">{{ product.quantity }} in stock</p>
   <h4 class="prodName">{{ product.name }} {{ (loggedInUser$ | async)?.role == 0 ? '- ID: ' + product.id : '' }}</h4> 
   <p class="prodPrice">${{ product.price | number: '1.2' }}</p>
-  <button *ngIf="(loggedInUser$ | async)?.role != 0" class="add" [disabled]="product.quantity == 0" (click)="$event.stopPropagation(); addToCart()">{{ product.price == 0 ? 'Out of Stock' : 'Add to Cart' }}</button>
+  <app-add-to-cart [product]="product" [quantity]="1"></app-add-to-cart>
 </div>

@@ -22,3 +22,27 @@
 .description {
   margin-top: 10px;
 }
+
+.quantity-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 7.5px;
+  border: 1px solid rgb(208, 207, 207);
+  border-radius: 5px;
+  font-size: 14px;
+  width: fit-content;
+}
+
+.quantity {
+  background-color: transparent;
+  appearance: none;
+  outline: none;
+  border: none;
+  
+  margin-left: 5px;
+  font-size: 14px;
+  text-align: end;
+  text-align-last: end;
+  -moz-text-align-last: end;
+}

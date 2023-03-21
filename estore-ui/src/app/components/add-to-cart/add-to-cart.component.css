@@ -1,0 +1,12 @@
+.add {
+  appearance: none;
+  border: none;
+  margin-top: 10px;
+
+  background-color: blueviolet;
+  padding: 7.5px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: -webkit-fill-available;
+}

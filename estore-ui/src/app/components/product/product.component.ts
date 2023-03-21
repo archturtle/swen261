@@ -16,7 +16,10 @@ export class ProductComponent implements OnInit {
   loggedInUser$: Observable<User | null> = this.usersService.user$;
   @Input() product!: Keyboard
 
-  constructor(private usersService: UsersService, private productsService: ProductsService, private notificationService: NotifcationService, private router: Router) {  }
+  constructor(private usersService: UsersService, 
+              private productsService: ProductsService, 
+              private notificationService: NotifcationService, 
+              private router: Router) {  }
 
   ngOnInit(): void { }
 
@@ -35,18 +38,5 @@ export class ProductComponent implements OnInit {
     }
     
     this.notificationService.changeProduct(this.product);
-  }
-
-  async addToCart() {
-    const user: User | null = await firstValueFrom(this.loggedInUser$);
-    if (!user) {
-      this.router.navigate(['login']);
-      return;
-    }
-    
-    if (!user.id || !this.product.id) return;
-
-    this.usersService.addToCart$(user?.id, this.product.id)
-      .subscribe();
   }
 }
