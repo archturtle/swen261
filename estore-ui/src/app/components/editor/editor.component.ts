@@ -22,7 +22,9 @@ export class EditorComponent implements OnInit {
 
   ngOnInit(): void {
     this.notificationService.productSelected
-      .subscribe((data: Keyboard) => {
+      .subscribe((data: Keyboard | null) => {
+        if (!data) return;
+
         this.editGroup.patchValue({
           id: data?.id?.toString(),
           name: data.name,
@@ -36,6 +38,7 @@ export class EditorComponent implements OnInit {
 
   clearForm(): void {
     this.addProduct = true;
+    this.notificationService.changeProduct(null);
   }
 
   submitForm(): void {

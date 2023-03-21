@@ -15,13 +15,19 @@ import { UsersService } from 'src/app/services/users.service';
 export class ProductComponent implements OnInit {
   loggedInUser$: Observable<User | null> = this.usersService.user$;
   @Input() product!: Keyboard
+  isSelected: boolean = false;
 
   constructor(private usersService: UsersService, 
               private productsService: ProductsService, 
               private notificationService: NotifcationService, 
               private router: Router) {  }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.notificationService.productSelected
+      .subscribe((value: Keyboard | null) => {
+        this.isSelected = (!value) ? false : value.id == this.product.id;
+      });
+  }
 
   removeProduct(): void {
     if (!this.product.id) return;

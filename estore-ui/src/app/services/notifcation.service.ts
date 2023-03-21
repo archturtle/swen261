@@ -6,7 +6,7 @@ import { Keyboard } from '../interfaces/keyboard';
 })
 export class NotifcationService {
   @Output() searchStringChanged: EventEmitter<string> = new EventEmitter<string>();
-  @Output() productSelected: EventEmitter<Keyboard> = new EventEmitter<Keyboard>()
+  @Output() productSelected: EventEmitter<Keyboard | null> = new EventEmitter<Keyboard | null>()
 
   constructor() { }
 
@@ -14,7 +14,7 @@ export class NotifcationService {
     this.searchStringChanged.emit(search);
   }
 
-  changeProduct(product: Keyboard): void {
+  changeProduct(product: Keyboard | null): void {
     this.productSelected.emit(product);
   }
 }

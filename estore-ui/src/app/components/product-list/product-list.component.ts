@@ -10,7 +10,7 @@ import { ProductsService } from 'src/app/services/products.service';
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css']
 })
-export class ProductListComponent implements OnChanges {
+export class ProductListComponent {
   private products$: Observable<Keyboard[]> = this.productService.products$;
   filteredProducts$: Observable<Keyboard[]> = this.productService.products$;
 
@@ -24,12 +24,9 @@ export class ProductListComponent implements OnChanges {
       .subscribe((data: string) => {
         this.filteredProducts$ = this.products$.pipe(
           map(result => {
-            return result.filter(item => item.name.toLowerCase().startsWith(data))
+            return result.filter(item => item.name.toLowerCase().startsWith(data.toLowerCase()))
           })
         );
       });
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
   }
 }
