@@ -22,10 +22,10 @@ export class UsersService {
   getUser$(name: string): Observable<User | null> {
     const url = `http://localhost:8080/users/?name=${name}`;
 
-    return this.httpService.get(url)
+    return this.httpService.get<User[]>(url)
       .pipe(
-        map((result: any) => {
-          return result.map((r: any) => {
+        map((result: User[]) => {
+          return result.map((r: User) => {
             return {
               id: r["id"],
               name: r["name"],
@@ -55,9 +55,9 @@ export class UsersService {
   getUserById$(id: number): Observable<User> {
     const url = `http://localhost:8080/users/${id}`;
 
-    return this.httpService.get(url)
+    return this.httpService.get<User>(url)
     .pipe(
-      map((r: any) => {
+      map((r: User) => {
         return {
           id: r["id"],
           name: r["name"],
@@ -93,8 +93,61 @@ export class UsersService {
       );
   }
 
+  addToCart$(userId: number, productId: number): Observable<User> {
+    return this.httpService.post<User>(`http://localhost:8080/users/${userId}/cart/?=productId=${productId}`, null)
+      .pipe(
+        map((r: User) => {
+          return {
+            id: r["id"],
+            name: r["name"],
+            role: r["role"],
+            cart: r["cart"].map((v: any) => {
+              return {
+                id: v["id"],
+                name: v["name"],
+                price: v["price"],
+                quantity: v["quantity"]
+              }
+            })
+          }
+        }),
+        tap({
+          next: (value: User) => {
+            this._user.next(value);
+          }
+        })
+      )
+  } 
+
+  removeFromCart$(userId: number, productId: number): Observable<User> {
+    return this.httpService.delete<User>(`http://localhost:8080/users/${userId}/cart/?=productId=${productId}`)
+      .pipe(
+        map((r: User) => {
+          return {
+            id: r["id"],
+            name: r["name"],
+            role: r["role"],
+            cart: r["cart"].map((v: any) => {
+              return {
+                id: v["id"],
+                name: v["name"],
+                price: v["price"],
+                quantity: v["quantity"]
+              }
+            })
+          }
+        }),
+        tap({
+          next: (value: User) => {
+            this._user.next(value);
+          }
+        })
+      )
+  } 
+
   logOut$(): void {
     localStorage.removeItem("user");
+
     this._user.next(null);
     this.router.navigate(['/']);
   }

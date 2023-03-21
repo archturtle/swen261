@@ -20,18 +20,18 @@ export class ProductsService {
   getProducts$(name: string | null): Observable<Keyboard[]> {
     const url = (name == null) ? "http://localhost:8080/keyboards" : `http://localhost:8080/keyboards/?name=${name}`;
 
-    return this.httpService.get(url)
+    return this.httpService.get<Keyboard[]>(url)
       .pipe(
-        map((result: any) => {
-          return result.map((r: any) => {
-            return {
-              id: r["id"],
-              name: r["name"],
-              price: r["price"],
-              quantity: r["quantity"]
-            }
-          });
-        }),
+        // map((result: any) => {
+        //   return result.map((r: any) => {
+        //     return {
+        //       id: r["id"],
+        //       name: r["name"],
+        //       price: r["price"],
+        //       quantity: r["quantity"]
+        //     }
+        //   });
+        // }),
         tap({
           next: (value: Keyboard[]) => {
             this._products.next(value);

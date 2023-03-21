@@ -4,4 +4,5 @@
   <p class="prodStock">{{ product.quantity }} in stock</p>
   <h4 class="prodName">{{ product.name }}</h4>
   <p class="prodPrice">${{ product.price | number: '1.2' }}</p>
+  <button class="add" (click)="$event.stopPropagation(); addToCart()">Add to Cart</button>
 </div>

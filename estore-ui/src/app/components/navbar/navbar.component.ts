@@ -14,6 +14,7 @@ export class NavbarComponent {
   constructor(private userService: UsersService) { }
 
   processLogout(): void {
+    
     this.userService.logOut$();
   }
 }

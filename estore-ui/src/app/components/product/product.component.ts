@@ -35,4 +35,8 @@ export class ProductComponent implements OnInit {
 
     this.notificationService.changeProduct(this.product);
   }
+
+  addToCart(): void {
+    console.log(this.product);
+  }
 }
