@@ -32,3 +32,18 @@
   width: 200px;
   text-align: center;
 }
+
+.button {
+  appearance: none;
+  border: none;
+  align-self: last baseline;
+  margin-left: 5px;
+
+  background-color: blueviolet;
+  padding: 7.5px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  height: fit-content;
+  width: 85px;
+}
