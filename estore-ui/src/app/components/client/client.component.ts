@@ -10,7 +10,6 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class ClientComponent implements OnInit {
   user$: Observable<User | null> = this.usersService.user$;
-  userBox: string = "";
 
   constructor(private usersService: UsersService) { }
 
@@ -20,9 +19,5 @@ export class ClientComponent implements OnInit {
       this.usersService.getUserById$(parseInt(id))
         .subscribe();
     }
-  }
-
-  userSearching(value: string): void {
-    this.userBox = value;
   }
 }

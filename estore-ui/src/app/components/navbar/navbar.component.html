@@ -1,5 +1,5 @@
 <h2 class="name">Keyboard EStore</h2>
-<app-search (onSearchType)="searchBarChanged($event)"></app-search>
+<app-search></app-search>
 
 <div class="items">
   <a *ngIf="!(loggedInUser$ | async)" class="item" routerLink="/login">Login</a>

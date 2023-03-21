@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 import { Keyboard } from 'src/app/interfaces/keyboard';
 import { User } from 'src/app/interfaces/user';
 import { ProductsService } from 'src/app/services/products.service';
@@ -21,5 +21,13 @@ export class ProductComponent implements OnInit {
   removeProduct(): void {
     this.productsService.deleteProduct$(this.product.id)
       .subscribe();
+  }
+
+  async productClicked() {
+    const user: User | null = await lastValueFrom(this.loggedInUser$);
+    if (!user || user.role != 0) {
+      return;
+    }
+
   }
 }

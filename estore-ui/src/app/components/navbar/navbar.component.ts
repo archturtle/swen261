@@ -10,13 +10,8 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class NavbarComponent { 
   loggedInUser$: Observable<User | null> = this.userService.user$;
-  @Output() onSearchType: EventEmitter<string> = new EventEmitter();
 
   constructor(private userService: UsersService) { }
-
-  searchBarChanged(value: string): void {
-    this.onSearchType.emit(value);
-  }
 
   processLogout(): void {
     this.userService.logOut$();

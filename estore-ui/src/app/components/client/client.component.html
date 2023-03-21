@@ -1,5 +1,5 @@
-<app-navbar (onSearchType)="userSearching($event)"></app-navbar>
+<app-navbar></app-navbar>
 
 <app-editor *ngIf="(user$ | async)?.role == 0"></app-editor>
 
-<app-product-list [searchString]="userBox"></app-product-list>
+<app-product-list></app-product-list>
