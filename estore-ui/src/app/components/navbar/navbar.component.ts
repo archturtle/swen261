@@ -1,4 +1,5 @@
 import { Component, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/interfaces/user';
 import { UsersService } from 'src/app/services/users.service';
@@ -10,8 +11,9 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class NavbarComponent { 
   loggedInUser$: Observable<User | null> = this.userService.user$;
+  currentURL: string = this.router.url;
 
-  constructor(private userService: UsersService) { }
+  constructor(private userService: UsersService, private router: Router) { }
 
   processLogout(): void {
     

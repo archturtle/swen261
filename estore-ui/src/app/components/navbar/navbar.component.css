@@ -40,3 +40,7 @@
 .item:last-child {
   margin-right: 0px
 }
+
+.hidden {
+  visibility: hidden;
+}
