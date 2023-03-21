@@ -12,7 +12,7 @@ import { KEYBOARDS } from './mock-keyboards';
 @Injectable({ providedIn: 'root' })
 export class KeyboardService {
 
-  private keyboardsUrl = 'estore-api/keyboards';  // URL to web api
+  private keyboardsUrl = 'http://localhost:8080/keyboards';  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
