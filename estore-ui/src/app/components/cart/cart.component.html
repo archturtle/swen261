@@ -6,4 +6,5 @@
   <div class="cart-items">
     <app-cart-item *ngFor="let item of cartItems$ | async" [item]="item" (quantityModified)="onQuantityChange($event, item)"></app-cart-item>
   </div>
+  <p *ngIf="(cartItems$ | async)?.length == 0">You have nothing in your cart!</p>
 </div>
