@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { User } from 'src/app/interfaces/user';
 import { UsersService } from 'src/app/services/users.service';
 
 @Component({
@@ -7,6 +9,7 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./client.component.css']
 })
 export class ClientComponent implements OnInit {
+  user$: Observable<User | null> = this.usersService.user$;
   userBox: string = "";
 
   constructor(private usersService: UsersService) { }

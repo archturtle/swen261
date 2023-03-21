@@ -1,3 +1,21 @@
-<form>
-  <input  />
+<form class="edit-form" [formGroup]="editGroup">
+  <div class="form-item">
+    <label for="id-input">Product ID</label>
+    <input class="item-input" name="id-input" [disabled]="true" />
+  </div>
+
+  <div class="form-item">
+    <label for="name-input">Product Name</label>
+    <input class="item-input" name="name-input" />
+  </div>
+
+  <div class="form-item">
+    <label for="price-input">Product Price</label>
+    <input class="item-input" name="price-input" />
+  </div>
+
+  <div class="form-item">
+    <label for="quantity-input">Product Quantity</label>
+    <input class="item-input" name="quantity-input" />
+  </div>
 </form>
