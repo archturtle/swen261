@@ -29,8 +29,7 @@ export class ProductComponent implements OnInit {
 
   async productClicked() {
     const user: User | null = await firstValueFrom(this.loggedInUser$);
-    if (!user) return;
-    if (user.id != 0) {
+    if (!user || user.role != 0) {
       this.router.navigate(['product', this.product.id])
       return;
     }
@@ -40,7 +39,11 @@ export class ProductComponent implements OnInit {
 
   async addToCart() {
     const user: User | null = await firstValueFrom(this.loggedInUser$);
-    if (!user) return;
+    if (!user) {
+      this.router.navigate(['login']);
+      return;
+    }
+    
     if (!user.id || !this.product.id) return;
 
     this.usersService.addToCart$(user?.id, this.product.id)

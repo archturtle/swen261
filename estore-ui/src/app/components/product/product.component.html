@@ -2,7 +2,7 @@
   <img class="img" src="../../../assets/kb.webp">
   <img *ngIf="(loggedInUser$ | async)?.role == 0" class="cancel" src="../../../assets/x-circle.svg" (click)="removeProduct()" />
   <p class="prodStock">{{ product.quantity }} in stock</p>
-  <h4 class="prodName">{{ product.name }}</h4>
+  <h4 class="prodName">{{ product.name }} {{ (loggedInUser$ | async)?.role == 0 ? '- ID: ' + product.id : '' }}</h4> 
   <p class="prodPrice">${{ product.price | number: '1.2' }}</p>
-  <button class="add" (click)="$event.stopPropagation(); addToCart()">Add to Cart</button>
+  <button *ngIf="(loggedInUser$ | async)?.role != 0" class="add" [disabled]="product.quantity == 0" (click)="$event.stopPropagation(); addToCart()">{{ product.price == 0 ? 'Out of Stock' : 'Add to Cart' }}</button>
 </div>
