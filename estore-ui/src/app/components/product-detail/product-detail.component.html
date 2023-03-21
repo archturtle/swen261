@@ -17,12 +17,7 @@
     </p>
 
     <div class="add-to-cart-interaction">
-      <div class="quantity-button">
-        <p class="label">Quantity:</p>
-        <select class="quantity" name="quantity" (change)="quantityChanged($event)">
-          <option *ngFor="let item of [].constructor(product?.quantity); let i = index" [ngValue]="i">{{ i + 1 }}</option>
-        </select>
-      </div>
+      <app-quantity (quantityModified)="quantityChanged($event)" [quantity]="product?.quantity ?? 1"></app-quantity>
       <app-add-to-cart [product]="product" [quantity]="quantity"></app-add-to-cart>
     </div>
   </div>

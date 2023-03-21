@@ -2,7 +2,7 @@
 <app-search></app-search>
 
 <div class="items">
-  <a *ngIf="(loggedInUser$ | async) && ((loggedInUser$ | async)?.role != 0)" class="item">Cart - {{ (loggedInUser$ | async)?.cart?.length }} Items</a>
+  <a *ngIf="(loggedInUser$ | async) && ((loggedInUser$ | async)?.role != 0)" class="item" routerLink="/cart">Cart - {{ (loggedInUser$ | async)?.cart?.length }} Items</a>
   <a *ngIf="!(loggedInUser$ | async)" class="item" routerLink="/login">Login</a>
   <a *ngIf="(loggedInUser$ | async)" class="item" routerLink="/" (click)="processLogout()">Logout: {{ (loggedInUser$ | async)?.name }} </a>
 </div>

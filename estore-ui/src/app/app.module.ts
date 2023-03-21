@@ -14,6 +14,9 @@ import { LoginComponent } from './components/login/login.component';
 import { EditorComponent } from './components/editor/editor.component';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { AddToCartComponent } from './components/add-to-cart/add-to-cart.component';
+import { CartComponent } from './components/cart/cart.component';
+import { CartItemComponent } from './components/cart-item/cart-item.component';
+import { QuantityComponent } from './components/quantity/quantity.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +30,9 @@ import { AddToCartComponent } from './components/add-to-cart/add-to-cart.compone
     EditorComponent,
     ProductDetailComponent,
     AddToCartComponent,
+    CartComponent,
+    CartItemComponent,
+    QuantityComponent,
   ],
   imports: [
     BrowserModule,

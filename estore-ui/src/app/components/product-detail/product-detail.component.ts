@@ -23,7 +23,7 @@ export class ProductDetailComponent implements OnInit {
       .subscribe((data: Keyboard) => this.product = data);
   }
 
-  quantityChanged(e: any): void {
-    this.quantity = parseInt(e.target.value);
+  quantityChanged(value: number): void {
+    this.quantity = value;
   }
 }
