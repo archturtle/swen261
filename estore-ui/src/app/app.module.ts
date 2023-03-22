@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
 import { ClientComponent } from './components/client/client.component';
 import { KeyboardComponent } from './components/keyboard/keyboard.component';
@@ -40,7 +41,6 @@ import { QuantityComponent } from './components/quantity/quantity.component';
     HttpClientModule,
     ReactiveFormsModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }
