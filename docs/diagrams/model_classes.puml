@@ -1,0 +1,34 @@
+@startuml "Model Classes"
+
+class Keyboard {
+  -id: int
+  -name: String
+  -price: double
+  -quantity: int
+  +Keyboard(id: int, name: String, price: double, quantity: int)
+  +getId(): int
+  +setName(name: String): void
+  +getName(): String
+  +setPrice(price: double): void
+  +getRole(): double
+  +setQuantity(quantity: int): void
+  +getQuantity(): int
+}
+
+class User {
+  -id: int
+  -name: String
+  -role: int
+  -cart: List<Keyboard>
+  +User(id: int, name: String, role: int)
+  +getId(): int
+  +setName(name: String): void
+  +getName(): String
+  +setRole(role: int): void
+  +getRole(): int
+  +getCart(): List<Keyboard>
+  +addToCart(item: Keyboard): void
+  +removeFromCart(item: Keyboard): void
+}
+
+User "1" *-- "n" Keyboard
