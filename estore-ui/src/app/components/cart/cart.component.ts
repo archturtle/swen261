@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { firstValueFrom, forkJoin, map, Observable, of, reduce, switchMap, tap } from 'rxjs';
+import { firstValueFrom, forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import { CartItem } from 'src/app/interfaces/cart-item';
 import { Keyboard } from 'src/app/interfaces/keyboard';
 import { User } from 'src/app/interfaces/user';
