@@ -1,65 +1,85 @@
 ---
 geometry: margin=1in
 ---
-# PROJECT Design Documentation
-
-> _The following template provides the headings for your Design
-> Documentation.  As you edit each section make sure you remove these
-> commentary 'blockquotes'; the lines that start with a > character
-> and appear in the generated PDF in italics._
+# Mechanical Keyboard EStore Design Documentation
 
 ## Team Information
-* Team name: TEAMNAME
+* Team name: SICA
 * Team members
-  * MEMBER1
-  * MEMBER2
-  * MEMBER3
-  * MEMBER4
+  * Siddhartha Juluru
+  * Ashlyn King
+  * Cathy Liu
+  * Issac Kim
 
 ## Executive Summary
 
-This is a summary of the project.
+In multiple, recently published studies, it is expected that the global mechanical keyboard market will experience a growth in revenue that can be measured with double-digit percentages. In order to take advantage of this expected growth, SICA has decided create its own Mechanical Keyboard EStore, opening a gateway between potential consumers and manufacturers.
 
 ### Purpose
-> _Provide a very brief statement about the project and the most
-> important user group and user goals._
+
+The Mechanical Keyboard EStore by SICA is designed in a way that it easy to use for both the Customer and the Keyboard Manufacturer. If a Keyboard Manufacturer wishes to list their keyboard on the EStore, all they need to provide us with is the name and the price. Everything else will be handled with SICA. Since this store is intended to help connect new and returning mechanical keyboard fans with products from Mechanical Keyboard Manufacturers, the main user grop is anyone with an interest in keyboards. As such, it was made a priority that the user is able find a product they like and gain enough knowledge about it to see if they want to go ahead with their purchase. Designing the store in a way that is simple to navigate was also made a priority. 
 
 ### Glossary and Acronyms
-> _Provide a table of terms and acronyms._
 
-| Term | Definition |
-|------|------------|
-| SPA | Single Page |
+| Term | Definition             |
+|------|------------------------|
+| SPA  | Single Page            |
+| MVP  | Minimal Viable Product |
 
 
 ## Requirements
 
 This section describes the features of the application.
 
-> _In this section you do not need to be exhaustive and list every
-> story.  Focus on top-level features from the Vision document and
-> maybe Epics and critical Stories._
-
 ### Definition of MVP
-> _Provide a simple description of the Minimum Viable Product._
+
+At this point in time, the MVP is defined as following list of features:
+- Customer:
+  - The customer is able to view all the products available at the store.
+  - The customer is able to use the search to filter the products.
+  - A customer is able to create a user account, which lets them have a cart 
+  associated with them.
+  - The customer is able to add/remove from the cart and update product quantity in
+  the cart.
+  - The customers cart is saved whenever they leave the website and restored when 
+  they come back.
+- Admin:
+  - The admin is able to log into the EStore with a the reserved admin account. 
+  - The admin account is able to modify the inventory in any way: add, remove, 
+  update products.
+  - The admin is unable to have a shopping cart.
 
 ### MVP Features
-> _Provide a list of top-level Epics and/or Stories of the MVP._
+
+The top-level stories that are associated with the MVP are as follows:
+- Add Admin Login (13)
+- Add Product Inventory Manipulation (8)
+- Search for Products (5)
+- Add Shopping Cart (13)
+- Add Customer Login (13)
+
 
 ### Roadmap of Enhancements
-> _Provide a list of top-level features in the order you plan to consider them._
 
+A list of possible enhancements that may be added to the product are as follows:
+- Ability for the Customer To Customize a Keyboard
+- Ability to Have Limited Time (Seasonal) Products.
+- Ability for Customers to Leave Reviewes
+- Ability for the Admin to View All Placed Orders
+- Password Authentication to User Account
+- Ability to View Cart without Navigating Away
+- User Account Customiziation
+- ...
+
+While there are many possible enhancements, they are currently listed in their order of consieration and may or may not be added to the final product.
 
 ## Application Domain
 
 This section describes the application domain.
 
-![Domain Model](domain-model-placeholder.png)
+![Domain Model](Domain_Model_Analysis_Team.png)
 
-> _Provide a high-level overview of the domain for this application. You
-> can discuss the more important domain entities and their relationship
-> to each other._
-
+From the diagram above, it becomes somewhat clear on the exact roles of the admin and the customer are in relation to the entire application. The customer and the admin can log into the EStore, however their roles are vastly different. The Customer is allowed to browser products, add it to their cart, and finally checkout when done. The customer is not allowed to modify the products and the inventory in any way (except by purchasing). On the other hand, the Admin can edit all products and manage the inventory, however they are not allowed to use a shopping cart and checkout.
 
 ## Architecture and Design
 
@@ -82,42 +102,25 @@ Both the ViewModel and Model are built using Java and Spring Framework. Details 
 
 ### Overview of User Interface
 
-This section describes the web interface flow; this is how the user views and interacts
-with the e-store application.
-
-> _Provide a summary of the application's user interface.  Describe, from
-> the user's perspective, the flow of the pages in the web application._
-
+When the website first loads, the screen contains a navigation bar and a list of all the products that are available at the store. The list of products contains multiple product cards. Each product card has an image, the product name, product price, and a button to add to cart. If the card is clicked, it goes to the product detail page which displays more information and allows the item to be added to the cart in bulk (changing the quantity). The navigation bar contains the name of the store (which is also a link back to the home page), the search bar, and a login button. The search bar is linked to the list of all products at the store, and when text is typed in, the products are filtered based on the text. The login button takes the user to a login page which asks them to input their username. If the username doesn't exist, an account is created. Once logged in, the add cart button will now work. If the add cart button is clicked before logging in, we are redirected to the login, then brought back. Once logged in, the login button on the navigation bar changes to 'Logout' and a 'Cart' button appears. When clicked the cart button, we are redirected to a page that shows all the items in the cart and allows them to be deleted and their quantity to be manipulated.
 
 ### View Tier
-> _Provide a summary of the View Tier UI of your architecture.
-> Describe the types of components in the tier and describe their
-> responsibilities.  This should be a narrative description, i.e. it has
-> a flow or "story line" that the reader can follow._
 
-> _You must also provide sequence diagrams as is relevant to a particular aspects 
-> of the design that you are describing.  For example, in e-store you might create a 
-> sequence diagram of a customer searching for an item and adding to their cart. 
-> Be sure to include an relevant HTTP reuqests from the client-side to the server-side 
-> to help illustrate the end-to-end flow._
+The View Tier UI has a lot of components that allows for it to work efficiently. The first component is the client component which hosts to intial UI. The client component uses the navbar component, editor component, and the product-list component. The navbar component contains the search component which is responsible for taking in user input and passing it around and two buttons: cart and login. The login button redirects to the login component which allows the user to either sign in or create an account. Once logged in, the cart button can be clicked which redirects to the cart component which displays the users cart. The cart component uses the cart-item component which shows information about each product in the cart. This component uses the quantity component which displays the product quantity. The editor component only gets displayed when the logged in user is an admin and allows for the editing of inventory items. The product list component contains the product component which displays an image of the product, the product name, product price, and an add-to-cart button which only works when the user is logged in. When the product component is clicked, it navigates to the product detail component which shows extended information about the product. This component also uses the quantity and add-to-cart component.   
 
+An example of how the login works is shown in the following sequence diagram:
+![Login Sequence Diagram](Login_Sequence_Diagram.png)
 
 ### ViewModel Tier
-> _Provide a summary of this tier of your architecture. This
-> section will follow the same instructions that are given for the View
-> Tier above._
 
-> _At appropriate places as part of this narrative provide one or more
-> static models (UML class diagrams) with some details such as critical attributes and methods._
+![View Model Tier Diagram](View_Model_Classes.png)
 
+In the ViewModel Tier, we can see from the diagram that the tier is made up of the DAO and the Controllers. The DAOs server as the interface between the code and the file storage for the Controllers. Since each DAO has similar methods, a GeneralDAO interface is provided so that the DAO classes can extend it. Each controller has its own DAO which it relies on, but may rely on other DAOs if data is needed from them.
 
 ### Model Tier
-> _Provide a summary of this tier of your architecture. This
-> section will follow the same instructions that are given for the View
-> Tier above._
+![Model Tier Diagram](Model_Classes.png)
 
-> _At appropriate places as part of this narrative provide one or more
-> static models (UML class diagrams) with some details such as critical attributes and methods._
+From the Model Tier Diagram, we can see that there is an indirect relationship between the two classes listed. The User classes has an indirect relationship to the Keyboard class by storing the ID of the keyboard inside the User's cart. This is done to reduce the storage footprint of the User class when written to a file.
 
 ### Static Code Analysis/Design Improvements
 > _Discuss design improvements that you would make if the project were

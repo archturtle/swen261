@@ -18,7 +18,7 @@ public class User {
   private int role;
 
   @JsonProperty("cart")
-  private List<Keyboard> cart;
+  private List<Integer> cart;
 
   public User(@JsonProperty("id") int id, 
               @JsonProperty("name") String name,
@@ -26,7 +26,7 @@ public class User {
     this.id = id;
     this.name = name;
     this.role = role;
-    this.cart = new ArrayList<Keyboard>();
+    this.cart = new ArrayList<>();
   }
 
   public int getId() {
@@ -49,15 +49,15 @@ public class User {
     return this.role;
   }
 
-  public List<Keyboard> getCart() {
+  public List<Integer> getCart() {
     return this.cart;
   }
 
-  public boolean addToCart(Keyboard item) {
+  public boolean addToCart(Integer item) {
     return this.cart.add(item);
   }
 
-  public boolean removeFromCart(Keyboard item) {
+  public boolean removeFromCart(Integer item) {
     return this.cart.remove(item);
   }
 

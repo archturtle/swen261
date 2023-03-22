@@ -1,0 +1,116 @@
+@startuml "View_Model_Classes"
+
+class KeyboardController {
+  {static} -LOG: Logger
+  -KeyboardFileDAO keyboardDAO
+  +KeyboardController(keyboardFileDAO: keyboardDAO)
+  +getKeyboard(id: int): ResponseEntity<Keyboard>
+  +getKeyboards(): ResponseEntity<Keyboard[]>
+  +searchKeyboards(name: String): ResponseEntity<Keyboard[]>
+  +createKeyboard(keyboard: Keyboard): ResponseEntity<Keyboard>
+  +updateKeyboard(keyboard: Keyboard): ResponseEntity<Keyboard>
+  +deleteKeyboard(id: int): ResponseEntity<Keyboard>
+}
+
+class UserController {
+  {static} -LOG: Logger
+  -userDAO: UserFileDAO 
+  -keyboardDAO: KeyboardFileDAO 
+  +UserController(userDAO: UserFileDAO, keyboardDAO KeyboardFileDAO)
+  +getUser(id: int): ResponseEntity<User>
+  +getUsers(): ResponseEntity<User[]>
+  +searchUsers(name: String): ResponseEntity<User[]>
+  +createUser(user: User): ResponseEntity<User> 
+  +addItemToCart(userId: int, productId: int, quantity: int): ResponseEntity<User> 
+  +removeItemFromCart(userId: int, productId: int, quantity: int): ResponseEntity<User> 
+  +updateUser(user: User): ResponseEntity<User> 
+  +deleteUser(id: int): ResponseEntity<User> 
+}
+
+interface "GenericDAO<T>" as GenericDAO_t {
+  +getAll(): T[]
+  +findByName(containsText: String): T[]
+  +findByID(id: int): T
+  +create(obj: T): T
+  +update(obj: T): T
+  +delete(id: int): boolean
+}
+
+class KeyboardFileDAO {
+  {static} -nextId: int
+  +keyboards: Map<Integer, Keyboard>
+  -objectMapper: ObjectMapper 
+  -filename: String 
+
+  +KeyboardFileDAO(filename: String, objectMapper: ObjectMapper)
+  {static} -nextId(): int
+  -loadData(): boolean
+  -saveData(): boolean
+  -getKeyboards(String containsText): Keyboard[]
+  +getAll(): Keyboard[]
+  +findByName(String containsText): Keyboard[]
+  +findByID(int id): Keyboard
+  +create(Keyboard obj): Keyboard
+  +update(Keyboard obj): Keyboard
+  +delete(int id): boolean
+}
+
+class UserFileDAO {
+  {static} -nextId: int
+  +users: Map<Integer, User>
+  -objectMapper: ObjectMapper 
+  -filename: String 
+
+  +KeyboardFileDAO(filename: String, objectMapper: ObjectMapper)
+  {static} -nextId(): int
+  -loadData(): boolean
+  -saveData(): boolean
+  -getUsers(String containsText): User[]
+  +getAll(): User[]
+  +findByName(String containsText): User[]
+  +findByID(int id): User
+  +create(Keyboard obj): User
+  +update(Keyboard obj): User
+  +delete(int id): boolean
+}
+
+class Keyboard {
+  -id: int
+  -name: String
+  -price: double
+  -quantity: int
+  +Keyboard(id: int, name: String, price: double, quantity: int)
+  +getId(): int
+  +setName(name: String): void
+  +getName(): String
+  +setPrice(price: double): void
+  +getRole(): double
+  +setQuantity(quantity: int): void
+  +getQuantity(): int
+}
+
+class User {
+  -id: int
+  -name: String
+  -role: int
+  -cart: List<Integer>
+  +User(id: int, name: String, role: int)
+  +getId(): int
+  +setName(name: String): void
+  +getName(): String
+  +setRole(role: int): void
+  +getRole(): int
+  +getCart(): List<Keyboard>
+  +addToCart(item: Keyboard): void
+  +removeFromCart(item: Keyboard): void
+}
+
+
+class KeyboardFileDAO implements GenericDAO_t
+class UserFileDAO implements GenericDAO_t
+UserFileDAO "1" *-- "n" User
+KeyboardFileDAO "1" *-- "n" Keyboard
+KeyboardController --> KeyboardFileDAO
+UserController --> UserFileDAO
+
+@enduml

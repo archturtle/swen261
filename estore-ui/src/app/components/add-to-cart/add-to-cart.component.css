@@ -1,0 +1,21 @@
+.add {
+  appearance: none;
+  border: none;
+
+  background-color: blueviolet;
+  padding: 7.5px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: -webkit-fill-available;
+  width: -moz-available;
+}
+
+.add.disabled {
+  background-color: indigo;
+}
+
+:host {
+  width: -webkit-fill-available;
+  width: -moz-available;
+}

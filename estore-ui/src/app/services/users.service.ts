@@ -1,0 +1,126 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { BehaviorSubject, map, Observable, tap } from 'rxjs';
+import { User } from '../interfaces/user';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UsersService {
+  private _user: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
+  public readonly user$: Observable<User | null> = this._user.asObservable();
+
+  private static HTTP_OPTIONS: object = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
+
+  constructor(private router: Router, private httpService: HttpClient) { }
+
+  getUser$(name: string): Observable<User | null> {
+    const url = `http://localhost:8080/users/?name=${name}`;
+
+    return this.httpService.get<User[]>(url)
+      .pipe(
+        map((result: User[]) => {
+          return result.map((r: User) => {
+            return {
+              id: r["id"],
+              name: r["name"],
+              role: r["role"],
+              cart: r["cart"]
+            }
+          });
+        }),
+        map((result: User[]) => {
+          return (result.length == 0) ? null : result[0]
+        }),
+        tap({
+          next: (value: User | null) => {
+            this._user.next(value);
+          }
+        })
+      );
+  }
+
+  getUserById$(id: number): Observable<User> {
+    const url = `http://localhost:8080/users/${id}`;
+
+    return this.httpService.get<User>(url)
+    .pipe(
+      map((r: User) => {
+        return {
+          id: r["id"],
+          name: r["name"],
+          role: r["role"],
+          cart: r["cart"]
+        }
+      }),
+      tap({
+        next: (value: User) => {
+          this._user.next(value);
+        }
+      })
+    ); 
+  }
+
+  createUser$(user: User): Observable<User> {
+    const url = `http://localhost:8080/users`;
+
+    return this.httpService.post<User>(url, user, UsersService.HTTP_OPTIONS)
+      .pipe(
+        tap({
+          next: (value: User) => { 
+            this._user.next(value) 
+          }
+        })
+      );
+  }
+
+  addToCart$(userId: number, keyboardId: number, quantity: number): Observable<User> {
+    return this.httpService.post<User>(`http://localhost:8080/users/${userId}/cart/?productId=${keyboardId}&quantity=${quantity}`, null)
+      .pipe(
+        map((r: User) => {
+          return {
+            id: r["id"],
+            name: r["name"],
+            role: r["role"],
+            cart: r["cart"]
+          }
+        }),
+        tap({
+          next: (value: User) => {
+            this._user.next(value);
+          }
+        })
+      )
+  } 
+
+  removeFromCart$(userId: number, keyboardId: number, quantity: number): Observable<User> {
+    return this.httpService.delete<User>(`http://localhost:8080/users/${userId}/cart/?productId=${keyboardId}&quantity=${quantity}`)
+      .pipe(
+        map((r: User) => {
+          return {
+            id: r["id"],
+            name: r["name"],
+            role: r["role"],
+            cart: r["cart"]
+          }
+        }),
+        tap({
+          next: (value: User) => {
+            this._user.next(value);
+          }
+        })
+      )
+  } 
+
+  logOut$(): void {
+    localStorage.removeItem("user");
+
+    this._user.next(null);
+    this.router.navigate(['/']);
+  }
+}

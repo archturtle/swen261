@@ -1,0 +1,17 @@
+:host {
+  display: flex;
+  align-content: center;
+}
+
+.search {
+  appearance: none;
+  background-color: transparent;
+  font-size: 14px;
+  border: 1px solid rgb(208, 207, 207);
+  border-radius: 5px;
+  outline: none;
+
+  margin: 2.5px;
+  padding: 5px 7.5px 5px 7.5px;
+  width: 250px;
+}

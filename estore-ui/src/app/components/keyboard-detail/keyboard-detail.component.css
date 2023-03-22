@@ -1,0 +1,44 @@
+host {
+  display: flex;
+  flex-direction: column;
+
+  height: -webkit-fill-available;
+  height: -moz-available;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  margin-top: 10%;
+  column-gap: 20px;
+}
+
+.img {
+  width: 40%;
+  border-radius: 10px;
+}
+
+.disabled {
+  display: none;
+}
+
+.details {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+}
+
+.description {
+  margin-top: 10px;
+  margin-bottom: auto;
+}
+
+.add-to-cart-interaction {
+  margin-top: auto;
+  display: flex;
+  flex-direction: row;
+  width: -webkit-fill-available;
+  width: -moz-available;
+  align-items: center;
+  column-gap: 10px;
+}

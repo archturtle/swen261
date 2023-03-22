@@ -1,0 +1,23 @@
+@startuml "Login_Sequence_Diagram"
+
+actor Actor as User
+User -> "UI" : Clicks Login
+"UI" --> User : Redirect to Login Page
+User -> "UI" : Enters Username
+"UI" --> "Users Service" : Request Users With Name
+"Users Service" -> "API" : Request Users With Name
+
+database Database as Storage
+"API" -> Storage : Find all Users With Name
+Storage --> "API" : Return all Users With Name
+"API" -> "Users Service" : Return all Users With Name
+"Users Service" --> "UI" : Return User or Nothing 
+"UI" -> User : If User, Complete Login & Redirect to Original Page
+"UI" --> "Users Service" : Create User if Doesn't Exist
+"Users Service" -> "API" : Create User if Doesn't Exist
+"API" --> Storage : Store new User
+"API" -> "Users Service" : Return new User
+"Users Service" --> "UI" : Return new User
+"UI" -> User : Complete Login & Redirect to Original Page
+
+@enduml

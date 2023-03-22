@@ -1,0 +1,8 @@
+<div class="container {{ isSelected ? 'selected' : '' }}" (click)="keyboardClicked()">
+  <img class="img" src="../../../assets/{{ keyboard.id! }}.webp" />
+  <img *ngIf="(loggedInUser$ | async)?.role == 0" class="cancel" src="../../../assets/x-circle.svg" (click)="removeKeyboard()" />
+  <p class="prodStock">{{ keyboard.quantity }} in stock</p>
+  <h4 class="prodName">{{ keyboard.name }} {{ (loggedInUser$ | async)?.role == 0 ? '- ID: ' + keyboard.id : '' }}</h4> 
+  <p class="prodPrice">${{ keyboard.price | number: '1.2' }}</p>
+  <app-add-to-cart [keyboard]="keyboard" [quantity]="1"></app-add-to-cart>
+</div>

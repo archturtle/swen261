@@ -1,0 +1,24 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  background-color: rgb(39, 39, 39);
+  border-radius: 5px;
+  align-items: center;
+}
+
+.cancel {
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.name {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.price {
+  margin-left: 10px;
+  font-size: 14px;
+  margin-right: auto;
+}

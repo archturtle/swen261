@@ -178,7 +178,7 @@ public class UserControllerTest {
     public void testRemoveUserCartSucceeds() throws IOException {
         User user = new User(0, "Issac", 1);
         Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, 10);
-        user.addToCart(keyboard);
+        user.addToCart(keyboard.getId());
         when(mockUserFileDao.findByID(0)).thenReturn(user);
         when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
 
@@ -190,7 +190,7 @@ public class UserControllerTest {
     public void testRemoveUserCartFailsToLowQuantity() throws IOException {
         User user = new User(0, "Issac", 1);
         Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, 10);
-        user.addToCart(keyboard);
+        user.addToCart(keyboard.getId());
         when(mockUserFileDao.findByID(0)).thenReturn(user);
         when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
 
@@ -222,7 +222,7 @@ public class UserControllerTest {
     public void testRemoveUserCartThrowsException() throws IOException {
         User user = new User(0, "Issac", 1);
         Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, 10);
-        user.addToCart(keyboard);
+        user.addToCart(keyboard.getId());
         when(mockUserFileDao.findByID(0)).thenReturn(user);
         when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
         doThrow(new IOException()).when(mockUserFileDao).findByID(0);

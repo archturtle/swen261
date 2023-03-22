@@ -1,0 +1,1 @@
+<button *ngIf="(loggedInUser$ | async)?.role != 0" class="add {{ keyboard?.quantity == 0 ? 'disabled' : '' }}" [disabled]="keyboard?.quantity == 0" (click)="$event.stopPropagation(); addToCart()">{{ keyboard?.quantity == 0 ? 'Out of Stock' : 'Add to Cart' }}</button>
