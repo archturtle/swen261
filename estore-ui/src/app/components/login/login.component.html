@@ -1,0 +1,9 @@
+<h2>Welcome to our EStore!</h2>
+<p class="desc">Please enter your username to login. If you don't <br/> have an account, enter a username to register.</p>
+
+<form class="loginForm" [formGroup]="loginForm" (ngSubmit)="loginFormSubmitted()">
+  <input class="username-input" type="text" placeholder="Enter your username" formControlName="username"/>
+  <button class="submitButton" type="submit">Submit</button>
+</form>
+
+<!-- <p class="error {{ hideError ? 'hidden' : '' }}">There already exists a user with that name!</p> -->

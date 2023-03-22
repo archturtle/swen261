@@ -1,0 +1,49 @@
+:host {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+.edit-form {
+  display: flex;
+  column-gap: 10px;
+}
+
+.form-item {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  row-gap: 5px;
+}
+
+.item-input {
+  appearance: none;
+  border: none;
+  background-color: transparent;
+
+  font-size: 14px;
+  border: 1px solid rgb(208, 207, 207);
+  border-radius: 5px;
+  outline: none;
+
+  margin: 2.5px;
+  padding: 5px 7.5px 5px 7.5px;
+  width: 200px;
+  text-align: center;
+}
+
+.button {
+  appearance: none;
+  border: none;
+  align-self: last baseline;
+  margin-left: 5px;
+
+  background-color: blueviolet;
+  padding: 7.5px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  height: fit-content;
+  width: 85px;
+}
