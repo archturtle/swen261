@@ -1,24 +1,24 @@
 <form class="edit-form" [formGroup]="editGroup" (ngSubmit)="submitForm()">
   <div class="form-item">
-    <label for="id-input">Product ID</label>
+    <label for="id-input">Keyboard ID</label>
     <input class="item-input" name="id-input" formControlName="id" />
   </div>
 
   <div class="form-item">
-    <label for="name-input">Product Name</label>
+    <label for="name-input">Keyboard Name</label>
     <input class="item-input" name="name-input" formControlName="name" />
   </div>
 
   <div class="form-item">
-    <label for="price-input">Product Price ($)</label>
+    <label for="price-input">Keyboard Price ($)</label>
     <input class="item-input" type="text" name="price-input" formControlName="price" />
   </div>
 
   <div class="form-item">
-    <label for="quantity-input">Product Quantity</label>
+    <label for="quantity-input">Keyboard Quantity</label>
     <input class="item-input" type="number" name="quantity-input" formControlName="quantity" />
   </div>
 
-  <button class="button" type="submit">{{ addProduct ? 'Add' : 'Edit' }}</button>
+  <button class="button" type="submit">{{ addKeyboard ? 'Add' : 'Edit' }}</button>
   <button class="button" type="reset" (click)="clearForm()">Clear</button>
 </form>

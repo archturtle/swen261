@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { Keyboard } from 'src/app/interfaces/keyboard';
 import { NotifcationService } from 'src/app/services/notifcation.service';
-import { ProductsService } from 'src/app/services/products.service';
+import { KeyboardService } from 'src/app/services/keyboard.service';
 
 @Component({
   selector: 'app-editor',
@@ -16,12 +16,12 @@ export class EditorComponent implements OnInit {
     price: [''],
     quantity: ['']
   });
-  addProduct: boolean = true;
+  addKeyboard: boolean = true;
 
-  constructor(private formBuilder: FormBuilder, private productService: ProductsService, private notificationService: NotifcationService) {  }
+  constructor(private formBuilder: FormBuilder, private keyboardService: KeyboardService, private notificationService: NotifcationService) {  }
 
   ngOnInit(): void {
-    this.notificationService.productSelected
+    this.notificationService.keyboardSelected
       .subscribe((data: Keyboard | null) => {
         if (!data) return;
 
@@ -32,28 +32,28 @@ export class EditorComponent implements OnInit {
           quantity: data.quantity.toString()
         });
 
-        this.addProduct = false;
+        this.addKeyboard = false;
       });
   }
 
   clearForm(): void {
-    this.addProduct = true;
-    this.notificationService.changeProduct(null);
+    this.addKeyboard = true;
+    this.notificationService.changeKeyboard(null);
   }
 
   submitForm(): void {
-    const product: Keyboard = { 
+    const keyboard: Keyboard = { 
       ...(this.editGroup.get<string>('id')?.value?.length > 0 && { id: parseInt(this.editGroup.get('id')?.value) }),
       name: this.editGroup.get('name')?.value,
       price: parseFloat(this.editGroup.get('price')?.value),
       quantity: parseInt(this.editGroup.get('quantity')?.value) > 0 ? parseInt(this.editGroup.get('quantity')?.value) : 0 
     }
 
-    if (this.addProduct) {
-      this.productService.addProduct$(product)
+    if (this.addKeyboard) {
+      this.keyboardService.addKeyboard$(keyboard)
         .subscribe();
     } else {
-      this.productService.updateProduct$(product)
+      this.keyboardService.updateKeyboard$(keyboard)
         .subscribe();
     }
   }

@@ -1,6 +1,6 @@
 import { Keyboard } from "./keyboard";
 
 export interface CartItem {
-  product: Keyboard;
+  keyboard: Keyboard;
   quantity: number;
 }

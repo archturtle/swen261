@@ -4,45 +4,45 @@ import { firstValueFrom, lastValueFrom, Observable } from 'rxjs';
 import { Keyboard } from 'src/app/interfaces/keyboard';
 import { User } from 'src/app/interfaces/user';
 import { NotifcationService } from 'src/app/services/notifcation.service';
-import { ProductsService } from 'src/app/services/products.service';
+import { KeyboardService } from 'src/app/services/keyboard.service';
 import { UsersService } from 'src/app/services/users.service';
 
 @Component({
-  selector: 'app-product',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.css']
+  selector: 'app-keyboard',
+  templateUrl: './keyboard.component.html',
+  styleUrls: ['./keyboard.component.css']
 })
-export class ProductComponent implements OnInit {
+export class KeyboardComponent implements OnInit {
   loggedInUser$: Observable<User | null> = this.usersService.user$;
-  @Input() product!: Keyboard
+  @Input() keyboard!: Keyboard
   isSelected: boolean = false;
 
   constructor(private usersService: UsersService, 
-              private productsService: ProductsService, 
+              private keyboardService: KeyboardService, 
               private notificationService: NotifcationService, 
               private router: Router) {  }
 
   ngOnInit(): void {
-    this.notificationService.productSelected
+    this.notificationService.keyboardSelected
       .subscribe((value: Keyboard | null) => {
-        this.isSelected = (!value) ? false : value.id == this.product.id;
+        this.isSelected = (!value) ? false : value.id == this.keyboard.id;
       });
   }
 
-  removeProduct(): void {
-    if (!this.product.id) return;
+  removeKeyboard(): void {
+    if (!this.keyboard.id) return;
 
-    this.productsService.deleteProduct$(this.product.id)
+    this.keyboardService.deleteKeyboard$(this.keyboard.id)
       .subscribe();
   }
 
-  async productClicked() {
+  async keyboardClicked() {
     const user: User | null = await firstValueFrom(this.loggedInUser$);
     if (!user || user.role != 0) {
-      this.router.navigate(['product', this.product.id])
+      this.router.navigate(['keyboard', this.keyboard.id])
       return;
     }
     
-    this.notificationService.changeProduct(this.product);
+    this.notificationService.changeKeyboard(this.keyboard);
   }
 }

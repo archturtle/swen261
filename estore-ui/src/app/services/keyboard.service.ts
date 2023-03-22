@@ -6,9 +6,9 @@ import { Keyboard } from '../interfaces/keyboard';
 @Injectable({
   providedIn: 'root'
 })
-export class ProductsService {
-  private _products: BehaviorSubject<Keyboard[]> = new BehaviorSubject<Keyboard[]>([]);
-  public readonly products$: Observable<Keyboard[]> = this._products.asObservable();
+export class KeyboardService {
+  private _keyboards: BehaviorSubject<Keyboard[]> = new BehaviorSubject<Keyboard[]>([]);
+  public readonly keyboards$: Observable<Keyboard[]> = this._keyboards.asObservable();
   private static HTTP_OPTIONS: object = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -17,50 +17,50 @@ export class ProductsService {
 
   constructor(private httpService: HttpClient) { }
 
-  getProducts$(name: string | null): Observable<Keyboard[]> {
+  getKeyboards$(name: string | null): Observable<Keyboard[]> {
     const url = (name == null) ? "http://localhost:8080/keyboards" : `http://localhost:8080/keyboards/?name=${name}`;
 
     return this.httpService.get<Keyboard[]>(url)
       .pipe(
         tap({
           next: (value: Keyboard[]) => {
-            this._products.next(value);
+            this._keyboards.next(value);
           }
         })
       )
   }
 
-  getProductById$(id: number): Observable<Keyboard> {
+  getKeyboardById$(id: number): Observable<Keyboard> {
     return this.httpService.get<Keyboard>(`http://localhost:8080/keyboards/${id}`);
   }
 
-  addProduct$(product: Keyboard): Observable<Keyboard> {
-    return this.httpService.post<Keyboard>('http://localhost:8080/keyboards', product, ProductsService.HTTP_OPTIONS)
+  addKeyboard$(keyboard: Keyboard): Observable<Keyboard> {
+    return this.httpService.post<Keyboard>('http://localhost:8080/keyboards', keyboard, KeyboardService.HTTP_OPTIONS)
       .pipe(
         tap({
           next: (value: Keyboard) => {
-            this._products.next([...this._products.value, value]);
+            this._keyboards.next([...this._keyboards.value, value]);
           },
         })
       )
   }
 
-  updateProduct$(product: Keyboard): Observable<Keyboard> {
-    return this.httpService.put<Keyboard>('http://localhost:8080/keyboards/', product, ProductsService.HTTP_OPTIONS)
+  updateKeyboard$(keyboard: Keyboard): Observable<Keyboard> {
+    return this.httpService.put<Keyboard>('http://localhost:8080/keyboards/', keyboard, KeyboardService.HTTP_OPTIONS)
       .pipe(
         tap({
           next: (value: Keyboard) => {
-            const val = this._products.value.map((curr: Keyboard) => curr.id == value.id ? value : curr);
-            this._products.next(val);
+            const val = this._keyboards.value.map((curr: Keyboard) => curr.id == value.id ? value : curr);
+            this._keyboards.next(val);
           }
         })
       )
   }
 
-  deleteProduct$(id: number): Observable<void> {
+  deleteKeyboard$(id: number): Observable<void> {
     const url = `http://localhost:8080/keyboards/${id}`;
 
-    this._products.next(this._products.value.filter(item => item.id != id));
+    this._keyboards.next(this._keyboards.value.filter(item => item.id != id));
     return this.httpService.delete<void>(url);
   }
 }

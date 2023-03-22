@@ -1,4 +1,4 @@
-<p class="name">{{ item.product.name }}</p>
-<p class="price">${{ item.product.price | number: '1.2' }}</p>
-<app-quantity [quantity]="item.product.quantity" [defaultValue]="item.quantity" (quantityModified)="onChange($event)"></app-quantity>
+<p class="name">{{ item.keyboard.name }}</p>
+<p class="price">${{ item.keyboard.price | number: '1.2' }}</p>
+<app-quantity [quantity]="item.keyboard.quantity" [defaultValue]="item.quantity" (quantityModified)="onChange($event)"></app-quantity>
 <img (click)="deleteClicked()" class="cancel" src="../../../assets/x-circle.svg" />

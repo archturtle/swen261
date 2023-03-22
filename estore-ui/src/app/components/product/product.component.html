@@ -1,8 +1,0 @@
-<div class="container {{ isSelected ? 'selected' : '' }}" (click)="productClicked()">
-  <img class="img" src="../../../assets/kb.webp">
-  <img *ngIf="(loggedInUser$ | async)?.role == 0" class="cancel" src="../../../assets/x-circle.svg" (click)="removeProduct()" />
-  <p class="prodStock">{{ product.quantity }} in stock</p>
-  <h4 class="prodName">{{ product.name }} {{ (loggedInUser$ | async)?.role == 0 ? '- ID: ' + product.id : '' }}</h4> 
-  <p class="prodPrice">${{ product.price | number: '1.2' }}</p>
-  <app-add-to-cart [product]="product" [quantity]="1"></app-add-to-cart>
-</div>

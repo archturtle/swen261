@@ -12,7 +12,7 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class AddToCartComponent {
   loggedInUser$: Observable<User | null> = this.usersService.user$;
-  @Input() product: Keyboard | null = null;
+  @Input() keyboard: Keyboard | null = null;
   @Input() quantity: number = 1;
 
   constructor(private usersService: UsersService, private router: Router) { }
@@ -27,9 +27,9 @@ export class AddToCartComponent {
       return;
     }
     
-    if (!user.id || !this.product?.id) return;
+    if (!user.id || !this.keyboard?.id) return;
 
-    this.usersService.addToCart$(user?.id, this.product.id, this.quantity)
+    this.usersService.addToCart$(user?.id, this.keyboard.id, this.quantity)
       .subscribe();
   }
 }
