@@ -28,7 +28,11 @@ export class CartComponent implements OnInit {
           return acc;
         }, new Map());
       }),
-      switchMap((cartIds: Map<number, number>) => forkJoin([of(cartIds), forkJoin([...cartIds.keys()].map(id => this.keyboardService.getKeyboardById$(id)))])),
+      switchMap((cartIds: Map<number, number>) => {
+        if ([...cartIds.keys()].length == 0) return forkJoin([of(new Map()), of([])]);
+
+        return forkJoin([of(cartIds), forkJoin([...cartIds.keys()].map(id => this.keyboardService.getKeyboardById$(id)))])
+      }),
       map(([cartIds, items]: [Map<number, number>, Keyboard[]]) => {
         return items.map((item: Keyboard): CartItem => {
           return { keyboard: item, quantity: cartIds.get(item.id!)! }
@@ -39,7 +43,7 @@ export class CartComponent implements OnInit {
         if (a.keyboard.name < b.keyboard.name) return -1;
 
         return 0;
-      }))
+      })),
     )
   }
 
