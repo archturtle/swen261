@@ -1,3 +1,1 @@
-<ng-container *ngFor="let keyboard of filteredKeyboards$ | async">
-  <app-keyboard [keyboard]="keyboard"></app-keyboard>
-</ng-container>
+<app-keyboard *ngFor="let keyboard of filteredKeyboards$ | async" [keyboard]="keyboard"></app-keyboard>

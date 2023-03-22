@@ -18,6 +18,10 @@ host {
   border-radius: 10px;
 }
 
+.disabled {
+  display: none;
+}
+
 .details {
   width: 40%;
   display: flex;

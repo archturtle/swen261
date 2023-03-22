@@ -29,4 +29,8 @@ export class KeyboardListComponent {
         );
       });
   }
+
+  trackBy(index: number, keyboard: Keyboard): number {
+    return keyboard.id!
+  }
 }
