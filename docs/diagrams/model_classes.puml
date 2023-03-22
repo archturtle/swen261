@@ -1,4 +1,4 @@
-@startuml "Model Classes"
+@startuml "Model_Classes"
 
 class Keyboard {
   -id: int
@@ -19,7 +19,7 @@ class User {
   -id: int
   -name: String
   -role: int
-  -cart: List<Keyboard>
+  -cart: List<Integer>
   +User(id: int, name: String, role: int)
   +getId(): int
   +setName(name: String): void
@@ -30,5 +30,3 @@ class User {
   +addToCart(item: Keyboard): void
   +removeFromCart(item: Keyboard): void
 }
-
-User "1" *-- "n" Keyboard

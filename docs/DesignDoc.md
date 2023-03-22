@@ -120,7 +120,7 @@ In the ViewModel Tier, we can see from the diagram that the tier is made up of t
 ### Model Tier
 ![Model Tier Diagram](Model_Classes.png)
 
-From the Model Tier Diagram, we can see that the only relation between the two classes is the relation that occurs because of the User cart. Both classes take a similar structure, following the POJO standard for java classes. 
+From the Model Tier Diagram, we can see that there is an indirect relationship between the two classes listed. The User classes has an indirect relationship to the Keyboard class by storing the ID of the keyboard inside the User's cart. This is done to reduce the storage footprint of the User class when written to a file.
 
 ### Static Code Analysis/Design Improvements
 > _Discuss design improvements that you would make if the project were

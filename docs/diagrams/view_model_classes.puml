@@ -1,4 +1,4 @@
-@startuml "View Model Classes"
+@startuml "View_Model_Classes"
 
 class KeyboardController {
   {static} -LOG: Logger
@@ -93,7 +93,7 @@ class User {
   -id: int
   -name: String
   -role: int
-  -cart: List<Keyboard>
+  -cart: List<Integer>
   +User(id: int, name: String, role: int)
   +getId(): int
   +setName(name: String): void
@@ -108,7 +108,6 @@ class User {
 
 class KeyboardFileDAO implements GenericDAO_t
 class UserFileDAO implements GenericDAO_t
-User "1" *-- "n" Keyboard
 UserFileDAO "1" *-- "n" User
 KeyboardFileDAO "1" *-- "n" Keyboard
 KeyboardController --> KeyboardFileDAO
