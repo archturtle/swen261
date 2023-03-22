@@ -11,6 +11,7 @@ import { KeyboardDetailComponent } from './keyboard-detail/keyboard-detail.compo
 import { KeyboardsComponent } from './keyboards/keyboards.component';
 import { KeyboardSearchComponent } from './keyboard-search/keyboard-search.component';
 import { MessagesComponent } from './messages/messages.component';
+import { KeyboardCartComponent } from './keyboard-cart/keyboard-cart.component';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { MessagesComponent } from './messages/messages.component';
     KeyboardDetailComponent,
     MessagesComponent,
     KeyboardSearchComponent,
+    KeyboardCartComponent,
   ],
   bootstrap: [ AppComponent ]
 })
