@@ -11,6 +11,10 @@
   width: -moz-available;
 }
 
+.add.disabled {
+  background-color: indigo;
+}
+
 :host {
   width: -webkit-fill-available;
   width: -moz-available;
