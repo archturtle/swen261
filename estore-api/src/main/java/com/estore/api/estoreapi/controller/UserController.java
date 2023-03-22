@@ -169,7 +169,7 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 
       for (int i = 0; i < quantity; i++) {
-        user.addToCart(keyboard);
+        user.addToCart(productId);
       }
 
       User updatedUser = this.userDAO.update(user); 
@@ -195,7 +195,7 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 
       for (int i = 0; i < quantity; i++) {
-        user.removeFromCart(keyboard);
+        user.removeFromCart(productId);
       }
 
       User updatedUser = this.userDAO.update(user); 

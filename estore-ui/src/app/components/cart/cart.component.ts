@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { firstValueFrom, map, Observable, tap } from 'rxjs';
+import { firstValueFrom, forkJoin, map, Observable, of, reduce, switchMap, tap } from 'rxjs';
 import { CartItem } from 'src/app/interfaces/cart-item';
 import { Keyboard } from 'src/app/interfaces/keyboard';
 import { User } from 'src/app/interfaces/user';
+import { KeyboardService } from 'src/app/services/keyboard.service';
 import { UsersService } from 'src/app/services/users.service';
 
 @Component({
@@ -14,25 +15,26 @@ export class CartComponent implements OnInit {
   loggedInUser$: Observable<User | null> = this.usersService.user$;
   cartItems$!: Observable<CartItem[]>;
 
-  constructor(private usersService: UsersService) { }
+  constructor(private usersService: UsersService, private keyboardService: KeyboardService) { }
 
   ngOnInit(): void {
     this.cartItems$ = this.loggedInUser$.pipe(
-      map((value: User | null) => value ? value.cart : []),
-      map((value: Keyboard[]) => {
-        let map = new Map<number, CartItem>();
-        value.forEach((item: Keyboard) => {
-          let res: CartItem | undefined = map.get(item.id!);
-          if (!res) {
-            map.set(item.id!, { keyboard: item, quantity: 1 });
-          } else {
-            map.set(item.id!, { keyboard: item, quantity: res.quantity + 1 });
-          };
-        });
+      map((value: User | null): number[] => value ? value.cart : []),
+      map((values: number[]): Map<number, number> => {
+        return values.reduce((acc: Map<number, number>, item: number) => {
+          let res = acc.get(item);
+          res ? acc.set(item, res + 1) : acc.set(item, 1);
 
-        return [...map.values()];
-      })
-    );
+          return acc;
+        }, new Map());
+      }),
+      switchMap((cartIds: Map<number, number>) => forkJoin([of(cartIds), forkJoin([...cartIds.keys()].map(id => this.keyboardService.getKeyboardById$(id)))])),
+      map(([cartIds, items]: [Map<number, number>, Keyboard[]]) => {
+        return items.map((item: Keyboard): CartItem => {
+          return { keyboard: item, quantity: cartIds.get(item.id!)! }
+        });
+      }),
+    )
   }
 
   async onQuantityChange(value: number, item: CartItem) {

@@ -30,14 +30,7 @@ export class UsersService {
               id: r["id"],
               name: r["name"],
               role: r["role"],
-              cart: r["cart"].map((v: any) => {
-                return {
-                  id: v["id"],
-                  name: v["name"],
-                  price: v["price"],
-                  quantity: v["quantity"]
-                }
-              })
+              cart: r["cart"]
             }
           });
         }),
@@ -62,14 +55,7 @@ export class UsersService {
           id: r["id"],
           name: r["name"],
           role: r["role"],
-          cart: r["cart"].map((v: any) => {
-            return {
-              id: v["id"],
-              name: v["name"],
-              price: v["price"],
-              quantity: v["quantity"]
-            }
-          })
+          cart: r["cart"]
         }
       }),
       tap({
@@ -101,14 +87,7 @@ export class UsersService {
             id: r["id"],
             name: r["name"],
             role: r["role"],
-            cart: r["cart"].map((v: any) => {
-              return {
-                id: v["id"],
-                name: v["name"],
-                price: v["price"],
-                quantity: v["quantity"]
-              }
-            })
+            cart: r["cart"]
           }
         }),
         tap({
@@ -127,14 +106,7 @@ export class UsersService {
             id: r["id"],
             name: r["name"],
             role: r["role"],
-            cart: r["cart"].map((v: any) => {
-              return {
-                id: v["id"],
-                name: v["name"],
-                price: v["price"],
-                quantity: v["quantity"]
-              }
-            })
+            cart: r["cart"]
           }
         }),
         tap({
