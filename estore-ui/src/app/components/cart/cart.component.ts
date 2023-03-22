@@ -34,6 +34,12 @@ export class CartComponent implements OnInit {
           return { keyboard: item, quantity: cartIds.get(item.id!)! }
         });
       }),
+      map((things: CartItem[]) => things.sort((a: CartItem, b: CartItem) => {
+        if (a.keyboard.name > b.keyboard.name) return 1;
+        if (a.keyboard.name < b.keyboard.name) return -1;
+
+        return 0;
+      }))
     )
   }
 
