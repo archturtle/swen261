@@ -10,7 +10,7 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent { 
-  loggedInUser$: Observable<User | null> = this.userService.user$;
+  loggedInUser$: Observable<User> = this.userService.user$;
   currentURL: string = this.router.url;
 
   constructor(private userService: UsersService, private router: Router) { }

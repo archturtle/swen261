@@ -17,7 +17,7 @@ export class KeyboardListComponent {
   constructor(private keyboardService: KeyboardService, private notificationService: NotifcationService) { }
 
   ngOnInit(): void { 
-    this.keyboardService.getKeyboards$(null)
+    this.keyboardService.getKeyboards$()
       .subscribe();
 
     this.notificationService.searchStringChanged

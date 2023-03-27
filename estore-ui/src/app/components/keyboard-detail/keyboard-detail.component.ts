@@ -12,8 +12,8 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./keyboard-detail.component.css']
 })
 export class KeyboardDetailComponent implements OnInit {
-  loggedInUser$: Observable<User | null> = this.usersService.user$;
-  keyboard: Keyboard | null = null;
+  loggedInUser$: Observable<User> = this.usersService.user$;
+  keyboard: Keyboard = <Keyboard>{};
   selectedValue!: Event;
   quantity: number = 1;
 
@@ -26,9 +26,8 @@ export class KeyboardDetailComponent implements OnInit {
     this.keyboardService.getKeyboardById$(parseInt(id))
       .subscribe((data: Keyboard) => this.keyboard = data);
 
-    this.loggedInUser$.subscribe((value: User | null) => {
-      if (!value) return; 
-      if (value.role == 1) return;
+    this.loggedInUser$.subscribe((value: User) => {
+      if (Object.keys(value).length === 0 || value.role == 1) return;
 
       this.router.navigate(['/']);
     })
