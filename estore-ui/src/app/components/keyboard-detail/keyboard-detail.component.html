@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 
 <div class="content" *ngIf="keyboard">
-  <img class="img" src="../../../assets/{{ keyboard.id }}.webp" />
+  <img class="img" src="../../../assets/{{ (keyboard.id! % 9 == 0) ? 9 : keyboard.id! % 9  }}.webp" />
   <div class="details">
     <h1>{{ keyboard.name }}</h1>
     <h3>Price: ${{ keyboard.price | number: '1.2' }}</h3>
