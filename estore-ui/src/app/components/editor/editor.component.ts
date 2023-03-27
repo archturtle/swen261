@@ -22,8 +22,8 @@ export class EditorComponent implements OnInit {
 
   ngOnInit(): void {
     this.notificationService.keyboardSelected
-      .subscribe((data: Keyboard | null) => {
-        if (!data) return;
+      .subscribe((data: Keyboard) => {
+        if (Object.keys(data).length === 0) return;
 
         this.editGroup.patchValue({
           id: data?.id?.toString(),
@@ -38,12 +38,12 @@ export class EditorComponent implements OnInit {
 
   clearForm(): void {
     this.addKeyboard = true;
-    this.notificationService.changeKeyboard(null);
+    this.notificationService.changeKeyboard(<Keyboard>{});
   }
 
   submitForm(): void {
     const keyboard: Keyboard = { 
-      ...(this.editGroup.get<string>('id')?.value?.length > 0 && { id: parseInt(this.editGroup.get('id')?.value) }),
+      id: parseInt(this.editGroup.get('id')?.value) ?? 0,
       name: this.editGroup.get('name')?.value,
       price: parseFloat(this.editGroup.get('price')?.value),
       quantity: parseInt(this.editGroup.get('quantity')?.value) > 0 ? parseInt(this.editGroup.get('quantity')?.value) : 0 

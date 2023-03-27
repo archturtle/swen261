@@ -8,7 +8,7 @@ import { CartItem } from 'src/app/interfaces/cart-item';
 })
 export class CartItemComponent {
   @Output() quantityModified: EventEmitter<number> = new EventEmitter<number>();
-  @Input() item!: CartItem;
+  @Input() item: CartItem = <CartItem>{};
 
   onChange(item: number) {
     this.quantityModified.emit(item);
