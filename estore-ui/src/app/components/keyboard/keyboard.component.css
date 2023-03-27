@@ -20,7 +20,7 @@
 
 .img {
   height: 125px;
-  width: auto;
+  width: 200px;
   border-radius: 10px;
 }
 
@@ -47,6 +47,8 @@
   text-align: center;
   margin-top: 5px;
   margin-bottom: 5px;
+  word-wrap: break-word;
+  width: 200px;
 }
 
 .prodPrice {
