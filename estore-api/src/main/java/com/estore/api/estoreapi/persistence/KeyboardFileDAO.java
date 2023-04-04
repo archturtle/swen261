@@ -178,7 +178,7 @@ public class KeyboardFileDAO implements GenericDAO<Keyboard> {
   @Override
   public Keyboard create(Keyboard obj) throws IOException {
     synchronized (keyboards) {
-      Keyboard newKeyboard = new Keyboard(nextId(), obj.getName(), obj.getPrice(), obj.getQuantity());
+      Keyboard newKeyboard = new Keyboard(nextId(), obj.getName(), obj.getPrice(), obj.getDescription(), obj.getQuantity());
       keyboards.put(newKeyboard.getId(), newKeyboard);
 
       saveData(); // may throw an IOException
