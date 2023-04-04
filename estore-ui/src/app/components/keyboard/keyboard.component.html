@@ -1,6 +1,6 @@
 <div *ngIf="loggedInUser$ | async as loggedInUser" class="container {{ isSelected ? 'selected' : '' }}" (click)="keyboardClicked()">
-  <img class="img" src="../../../assets/{{ (keyboard.id % 9 === 0) ? 9 : keyboard.id % 9 }}.webp" />
-  <img *ngIf="(loggedInUser | notNullOrEmpty) && loggedInUser.role == 0" class="cancel" src="../../../assets/x-circle.svg" (click)="removeKeyboard()" />
+  <img class="img" src="../../../assets/{{ (keyboard.id % 9 === 0) ? 9 : keyboard.id % 9 }}.webp" alt="Keyboard Image"/>
+  <img *ngIf="(loggedInUser | notNullOrEmpty) && loggedInUser.role == 0" class="cancel" src="../../../assets/x-circle.svg" alt="Remove Keyboard From Inventory" (click)="removeKeyboard()" />
   <p class="prodStock">{{ keyboard.quantity }} in stock</p>
   <h4 class="prodName">{{ keyboard.name }} {{ (loggedInUser | notNullOrEmpty) && loggedInUser.role == 0 ? '- ID: ' + keyboard.id : '' }}</h4> 
   <p class="prodPrice">${{ keyboard.price | number: '1.2' }}</p>

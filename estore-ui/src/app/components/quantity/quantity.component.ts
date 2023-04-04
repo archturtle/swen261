@@ -10,8 +10,6 @@ export class QuantityComponent {
   @Input() quantity!: number;
   @Input() defaultValue!: number;
 
-  constructor() { }
-
   onChange(e: any): void {
     this.quantityModified.emit(parseInt(e.target.value))
   }
