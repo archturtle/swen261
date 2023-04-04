@@ -62,14 +62,14 @@ public class UserController {
    */
   @GetMapping("/{id}")
   public ResponseEntity<User> getUser(@PathVariable int id) {
-    LOG.info("GET /users/" + id);
+    LOG.log(Level.INFO,"GET /users/{0}", id);
 
     try {
       User user = this.userDAO.findByID(id);
       if (user == null)
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-      return new ResponseEntity<User>(user, HttpStatus.OK);
+      return new ResponseEntity<>(user, HttpStatus.OK);
     } catch (IOException e) {
       LOG.log(Level.SEVERE, e.getLocalizedMessage());
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -86,11 +86,11 @@ public class UserController {
    */
   @GetMapping("")
   public ResponseEntity<User[]> getUsers() {
-    LOG.info("GET /users");
+    LOG.log(Level.INFO,"GET /users");
 
     try {
       User[] users = this.userDAO.getAll();
-      return new ResponseEntity<User[]>(users, HttpStatus.OK);
+      return new ResponseEntity<>(users, HttpStatus.OK);
     } catch (IOException e) {
       LOG.log(Level.SEVERE, e.getLocalizedMessage());
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -115,11 +115,11 @@ public class UserController {
    */
   @GetMapping("/")
   public ResponseEntity<User[]> searchUsers(@RequestParam String name) {
-    LOG.info("GET /users/?name=" + name);
+    LOG.log(Level.INFO,"GET /users/?name={0}", name);
 
     try {
       User[] users = this.userDAO.findByName(name);
-      return new ResponseEntity<User[]>(users, HttpStatus.OK);
+      return new ResponseEntity<>(users, HttpStatus.OK);
     } catch (IOException e) {
       LOG.log(Level.SEVERE, e.getLocalizedMessage());
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -139,7 +139,7 @@ public class UserController {
    */
   @PostMapping("")
   public ResponseEntity<User> createUser(@RequestBody User user) {
-    LOG.info("POST /users " + user);
+    LOG.log(Level.INFO,"POST /users {0}", user);
 
     try {
       User[] found = this.userDAO.findByName(user.getName());
@@ -156,7 +156,7 @@ public class UserController {
 
   @PostMapping("/{userId}/cart")
   public ResponseEntity<User> addItemToCart(@PathVariable int userId, @RequestParam int productId, @RequestParam int quantity) {
-    LOG.info("POST /users/" + userId + "/cart?productId=" + productId + "&quantity=" + quantity);
+    LOG.log(Level.INFO, "POST {0}", String.format("/users/%d/cart?productId=%d&quantity=%d", userId, productId, quantity));
 
     try {
       User user = this.userDAO.findByID(userId);
@@ -182,7 +182,7 @@ public class UserController {
 
   @DeleteMapping("/{userId}/cart")
   public ResponseEntity<User> removeItemFromCart(@PathVariable int userId, @RequestParam int productId, @RequestParam int quantity) {
-    LOG.info("DELETE /users/" + userId + "/cart?productId=" + productId + "&quantity=" + quantity);
+    LOG.log(Level.INFO, "DELETE {0}", String.format("/users/%d/cart?productId=%d&quantity=%d", userId, productId, quantity));
 
     try {
       User user = this.userDAO.findByID(userId);
@@ -219,7 +219,7 @@ public class UserController {
    */
   @PutMapping("")
   public ResponseEntity<User> updateUser(@RequestBody User user) {
-    LOG.info("PUT /users " + user);
+    LOG.log(Level.INFO, "PUT /users {0}", user);
 
     try {
       User found = this.userDAO.findByID(user.getId());
@@ -245,7 +245,7 @@ public class UserController {
    */
   @DeleteMapping("/{id}")
   public ResponseEntity<User> deleteUser(@PathVariable int id) {
-    LOG.info("DELETE /users/" + id);
+    LOG.log(Level.INFO, "DELETE /users/{0}", id);
 
     try {
       User found = this.userDAO.findByID(id);

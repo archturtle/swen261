@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
  * @author SWEN Faculty
  */
 @Tag("Persistence-tier")
-public class UserFileDAOTest {
+class UserFileDAOTest {
     UserFileDAO userFileDAO;
     User[] testUsers;
     ObjectMapper mockObjectMapper;
@@ -37,7 +37,7 @@ public class UserFileDAOTest {
      * @throws IOException
      */
     @BeforeEach
-    public void setupUSerFileDAO() throws IOException {
+    void setupUSerFileDAO() throws IOException {
         mockObjectMapper = mock(ObjectMapper.class);
         testUsers = new User[4];
         testUsers[0] = new User(0, "Smith", 0);
@@ -55,7 +55,7 @@ public class UserFileDAOTest {
     }
 
     @Test
-    public void testGetUsers() throws IOException {
+    void testGetUsers() throws IOException {
         // Invoke
         User[] users = userFileDAO.getAll();
 
@@ -66,18 +66,18 @@ public class UserFileDAOTest {
     }
 
     @Test
-    public void testFindUsers() throws IOException {
+    void testFindUsers() throws IOException {
         // Invoke
         User[] users = userFileDAO.findByName("t");
 
         // Analyze
-        assertEquals(users.length,2);
+        assertEquals(2, users.length);
         assertEquals(users[0],testUsers[0]);
         assertEquals(users[1],testUsers[3]);
     }
 
     @Test
-    public void testGetUser() throws IOException {
+    void testGetUser() throws IOException {
         // Invoke
         User user = userFileDAO.findByID(0);
 
@@ -86,13 +86,13 @@ public class UserFileDAOTest {
     }
 
     @Test
-    public void testDelete() {
+    void testDelete() {
         // Invoke
         boolean result = assertDoesNotThrow(() -> userFileDAO.delete(3),
                             "Unexpected exception thrown");
 
         // Analzye
-        assertEquals(result,true);
+        assertEquals(true, result);
         // We check the internal tree map size against the length
         // of the test users array - 1 (because of the delete)
         // Because users attribute of UserFileDAO is package private
@@ -101,7 +101,7 @@ public class UserFileDAOTest {
     }
 
     @Test
-    public void testCreate() throws IOException {
+    void testCreate() throws IOException {
         // Setup
         User newuser = new User(4, "Person", 0);
 
@@ -117,7 +117,7 @@ public class UserFileDAOTest {
     }
 
     @Test
-    public void testUpdate() throws IOException {
+    void testUpdate() throws IOException {
         // Setup
         User user = new User(3, "Jill", 0);
 
@@ -132,7 +132,7 @@ public class UserFileDAOTest {
     }
 
     @Test
-    public void testSaveException() throws IOException{
+    void testSaveException() throws IOException{
         doThrow(new IOException())
             .when(mockObjectMapper)
                 .writeValue(any(File.class),any(User[].class));
@@ -145,28 +145,28 @@ public class UserFileDAOTest {
     }
 
     @Test
-    public void testGetUserNotFound() throws IOException {
+    void testGetUserNotFound() throws IOException {
         // Invoke
         User user = userFileDAO.findByID(98);
 
         // Analyze
-        assertEquals(user,null);
+        assertEquals(null, user);
     }
 
     @Test
-    public void testDeleteNotFound() {
+    void testDeleteNotFound() {
         // Invoke
         boolean result = assertDoesNotThrow(() -> userFileDAO.delete(98),
                                                 "Unexpected exception thrown");
 
         // Analyze
-        assertEquals(result,false);
+        assertEquals(false, result);
         assertEquals(userFileDAO.users.size(),testUsers.length);
     }
     
 
     @Test
-    public void testUpdateUserNotFound() {
+    void testUpdateUserNotFound() {
         // Setup
         User user = new User(98, "Thunder", 0);
 
@@ -179,7 +179,7 @@ public class UserFileDAOTest {
     }
 
     @Test
-    public void testConstructorException() throws IOException {
+    void testConstructorException() throws IOException {
         // Setup
         ObjectMapper mockObjectMapper = mock(ObjectMapper.class);
         // We want to simulate with a Mock Object Mapper that an

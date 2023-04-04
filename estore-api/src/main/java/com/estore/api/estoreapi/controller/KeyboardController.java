@@ -67,14 +67,14 @@ public class KeyboardController {
    */
   @GetMapping("/{id}")
   public ResponseEntity<Keyboard> getKeyboard(@PathVariable int id) {
-    LOG.info("GET /keyboards/" + id);
+    LOG.log(Level.INFO, "GET /keyboards/{0}", id);
 
     try {
       Keyboard keyboard = this.keyboardDAO.findByID(id);
       if (keyboard == null)
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-      return new ResponseEntity<Keyboard>(keyboard, HttpStatus.OK);
+      return new ResponseEntity<>(keyboard, HttpStatus.OK);
     } catch (IOException e) {
       LOG.log(Level.SEVERE, e.getLocalizedMessage());
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -91,11 +91,11 @@ public class KeyboardController {
    */
   @GetMapping("")
   public ResponseEntity<Keyboard[]> getKeyboards() {
-    LOG.info("GET /keyboards");
+    LOG.log(Level.INFO, "GET /keyboards");
 
     try {
       Keyboard[] keyboards = this.keyboardDAO.getAll();
-      return new ResponseEntity<Keyboard[]>(keyboards, HttpStatus.OK);
+      return new ResponseEntity<>(keyboards, HttpStatus.OK);
     } catch (IOException e) {
       LOG.log(Level.SEVERE, e.getLocalizedMessage());
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -120,11 +120,11 @@ public class KeyboardController {
    */
   @GetMapping("/")
   public ResponseEntity<Keyboard[]> searchKeyboards(@RequestParam String name) {
-    LOG.info("GET /keyboards/?name=" + name);
+    LOG.log(Level.INFO,"GET /keyboards/?name={0}", name);
 
     try {
       Keyboard[] keyboards = this.keyboardDAO.findByName(name);
-      return new ResponseEntity<Keyboard[]>(keyboards, HttpStatus.OK);
+      return new ResponseEntity<>(keyboards, HttpStatus.OK);
     } catch (IOException e) {
       LOG.log(Level.SEVERE, e.getLocalizedMessage());
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -144,7 +144,7 @@ public class KeyboardController {
    */
   @PostMapping("")
   public ResponseEntity<Keyboard> createKeyboard(@RequestBody Keyboard keyboard) {
-    LOG.info("POST /keyboards " + keyboard);
+    LOG.log(Level.INFO,"POST /keyboards {0}", keyboard);
 
     try {
       Keyboard[] found = this.keyboardDAO.findByName(keyboard.getName());
@@ -172,7 +172,7 @@ public class KeyboardController {
    */
   @PutMapping("")
   public ResponseEntity<Keyboard> updateKeyboard(@RequestBody Keyboard keyboard) {
-    LOG.info("PUT /keyboards " + keyboard);
+    LOG.log(Level.INFO,"PUT /keyboards {0}", keyboard);
 
     try {
       Keyboard found = this.keyboardDAO.findByID(keyboard.getId());
@@ -198,7 +198,7 @@ public class KeyboardController {
    */
   @DeleteMapping("/{id}")
   public ResponseEntity<Keyboard> deleteKeyboard(@PathVariable int id) {
-    LOG.info("DELETE /keyboards/" + id);
+    LOG.log(Level.INFO,"DELETE /keyboards/{0}", id);
 
     try {
       Keyboard found = this.keyboardDAO.findByID(id);
