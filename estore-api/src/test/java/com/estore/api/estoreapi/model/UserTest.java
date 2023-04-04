@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Tag;
 */
 
 @Tag("Model-tier")
-public class UserTest {
+class UserTest {
 
     private final int expectedID = 1; //The ID for the user
 
@@ -36,7 +36,7 @@ public class UserTest {
     private final String expectedCartString = "[1]";
 
     @Test
-    public void testConstruction(){
+    void testConstruction(){
         //Tests if the user object is constructed correctly
         User newUser = new User(expectedID, expectedName, expectedRole);
 
@@ -46,7 +46,7 @@ public class UserTest {
     }
 
     @Test
-    public void testSetName(){
+    void testSetName(){
         //Tests if the user name is set properly
         User newUser = new User(expectedID, expectedName, expectedRole);
 
@@ -57,7 +57,7 @@ public class UserTest {
     }
 
     @Test
-    public void testSetRole(){
+    void testSetRole(){
         //Tests if the user role is set properly
         User newUser = new User(expectedID, expectedName, expectedRole);
 
@@ -67,7 +67,7 @@ public class UserTest {
     }
 
     @Test
-    public void testAddToCart(){
+    void testAddToCart(){
         //Tests if the card was added to properly
         Keyboard newKeyboard = new Keyboard(keyboardID, keyboardName, keyboardPrice, keyboardQuantity);
         User newUser = new User(expectedID, expectedName, expectedRole);
@@ -86,7 +86,7 @@ public class UserTest {
     }
 
     @Test
-    public void testRemoveFromCart(){
+    void testRemoveFromCart(){
         //Tests if the card was removed from properly
         Keyboard newKeyboard = new Keyboard(keyboardID, keyboardName, keyboardPrice, keyboardQuantity);
         User newUser = new User(expectedID, expectedName, expectedRole);

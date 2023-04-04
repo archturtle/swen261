@@ -64,9 +64,7 @@ public class User {
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder("[\n");
-    this.cart.forEach(keyboard -> {
-      stringBuilder.append("\t" + keyboard.toString() + "\n");
-    });
+    this.cart.forEach(keyboard -> stringBuilder.append("\t" + keyboard.toString() + "\n"));
     stringBuilder.append("]");
 
     return String.format(STRING_FORMAT, this.id, this.name, this.role, stringBuilder.toString());

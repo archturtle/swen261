@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
  * @author Siddhartha Juluru (ssj4651@rit.edu)
  */
 @Tag("Model-tier")
-public class KeyboardTest {
+class KeyboardTest {
   /* The expected ID for the keyboard object. */
   private final int expectedID = 1;
   /* The expected name for the keyboard object. */
@@ -27,7 +27,7 @@ public class KeyboardTest {
    * Tests whether the Keyboard object is constructed properly.
    */
   @Test
-  public void testConstruction() {
+  void testConstruction() {
     Keyboard newKeyboard = new Keyboard(expectedID, expectedName, expectedPrice, expectedQuantity);
 
     assertEquals(newKeyboard.getId(), expectedID);
@@ -40,7 +40,7 @@ public class KeyboardTest {
    * Tests whether the keyboard name is set properly.
    */
   @Test
-  public void testSetName() {
+  void testSetName() {
     Keyboard newKeyboard = new Keyboard(expectedID, expectedName, expectedPrice, expectedQuantity);
 
     String newName = "GMMK 2";
@@ -52,7 +52,7 @@ public class KeyboardTest {
    * Tests whether the keyboard price is set properly.
    */
   @Test
-  public void testSetPrice() {
+  void testSetPrice() {
     Keyboard newKeyboard = new Keyboard(expectedID, expectedName, expectedPrice, expectedQuantity);
 
     double newPrice = 300.00;
@@ -64,7 +64,7 @@ public class KeyboardTest {
    * Tests whether the keyboard quantity is set properly.
    */
   @Test
-  public void testQuantity() {
+  void testQuantity() {
     Keyboard newKeyboard = new Keyboard(expectedID, expectedName, expectedPrice, expectedQuantity);
 
     int newQuantity = 150;
@@ -77,7 +77,7 @@ public class KeyboardTest {
    * Tests whether the keyboard to string is displaying properly.
    */
   @Test
-  public void testToString() {
+  void testToString() {
     Keyboard newKeyboard = new Keyboard(expectedID, expectedName, expectedPrice, expectedQuantity);
 
     assertEquals(newKeyboard.toString(), expectedToString);

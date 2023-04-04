@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
  * @author Cathy Liu (cl6606@rit.edu)
  */
 @Tag("Persistence-tier")
-public class KeyboardFileDAOTest {
+class KeyboardFileDAOTest {
   KeyboardFileDAO keyboardFileDAO;
   Keyboard[] testKeyboards;
   ObjectMapper mockObjectMapper;
@@ -37,7 +37,7 @@ public class KeyboardFileDAOTest {
    * @throws IOException
    */
   @BeforeEach
-  public void setupKeyboardFileDAO() throws IOException {
+  void setupKeyboardFileDAO() throws IOException {
     mockObjectMapper = mock(ObjectMapper.class);
     testKeyboards = new Keyboard[3];
     testKeyboards[0] = new Keyboard(0, "Apple", 250, 10);
@@ -53,7 +53,7 @@ public class KeyboardFileDAOTest {
   }
 
   @Test
-  public void testGetKeyboards() throws IOException {
+  void testGetKeyboards() throws IOException {
       // invoke
       Keyboard[] keyboards = keyboardFileDAO.getAll();
 
@@ -64,18 +64,18 @@ public class KeyboardFileDAOTest {
   }
 
   @Test
-  public void testFindKeyboards() throws IOException {
+  void testFindKeyboards() throws IOException {
       // invoke
       Keyboard[] keyboards = keyboardFileDAO.findByName("an");
 
       // analyze
-      assertEquals(keyboards.length, 2);
+      assertEquals(2, keyboards.length);
       assertEquals(keyboards[0], testKeyboards[1]);
       assertEquals(keyboards[1], testKeyboards[2]);
   }
 
   @Test
-  public void testGetKeyboard() throws IOException {
+  void testGetKeyboard() throws IOException {
       // invoke
       Keyboard keyboard = keyboardFileDAO.findByID(0);
 
@@ -84,13 +84,13 @@ public class KeyboardFileDAOTest {
   }
 
   @Test
-  public void testDeleteKeyboard() {
+  void testDeleteKeyboard() {
       // invoke
       boolean result = assertDoesNotThrow(() -> keyboardFileDAO.delete(0),
                           "Unexpected exception thrown");
 
       // analzye
-      assertEquals(result, true);
+      assertEquals(true, result);
 
       // we check the internal tree map size against the length
       // of the test keyboards array - 1 (because of the delete)
@@ -100,7 +100,7 @@ public class KeyboardFileDAOTest {
   }
 
   @Test
-  public void testCreateKeyboard() throws IOException {
+  void testCreateKeyboard() throws IOException {
       // setup
       Keyboard keyboard = new Keyboard(3, "Pear", 300, 20);
 
@@ -116,7 +116,7 @@ public class KeyboardFileDAOTest {
   }
 
   @Test
-  public void testUpdateKeyboard() throws IOException {
+  void testUpdateKeyboard() throws IOException {
       // setup
       Keyboard keyboard = new Keyboard(0, "Apple", 250, 10);
 
@@ -131,7 +131,7 @@ public class KeyboardFileDAOTest {
   }
 
   @Test
-  public void testSaveException() throws IOException{
+  void testSaveException() throws IOException{
       doThrow(new IOException())
           .when(mockObjectMapper)
               .writeValue(any(File.class), any(Keyboard[].class));
@@ -144,27 +144,27 @@ public class KeyboardFileDAOTest {
   }
 
   @Test
-  public void testGetKeyboardNotFound() throws IOException {
+  void testGetKeyboardNotFound() throws IOException {
       // invoke
       Keyboard keyboard = keyboardFileDAO.findByID(4);
 
       // analyze
-      assertEquals(keyboard, null);
+      assertEquals(null, keyboard);
   }
 
   @Test
-  public void testDeleteKeyboardNotFound() {
+  void testDeleteKeyboardNotFound() {
       // invoke
       boolean result = assertDoesNotThrow(() -> keyboardFileDAO.delete(4),
                                                     "Unexpected exception thrown");
 
       // analyze
-      assertEquals(result, false);
+      assertEquals(false, result);
       assertEquals(keyboardFileDAO.keyboards.size(), testKeyboards.length);
   }
 
   @Test
-  public void testUpdateKeyboardNotFound() {
+  void testUpdateKeyboardNotFound() {
       // setup
       Keyboard keyboard = new Keyboard(4, "Shoe", 4.99, 2);
 
@@ -177,7 +177,7 @@ public class KeyboardFileDAOTest {
   }
 
   @Test
-  public void testConstructorException() throws IOException {
+  void testConstructorException() throws IOException {
       // setup
       ObjectMapper mockObjectMapper = mock(ObjectMapper.class);
       
