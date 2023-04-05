@@ -80,5 +80,8 @@ export class EditorComponent implements OnInit {
       this.keyboardService.updateKeyboard$(keyboard)
         .subscribe();
     }
+
+    this.editGroup.reset();
+    this.edited = false;
   }
 }
