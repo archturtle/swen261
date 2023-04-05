@@ -66,6 +66,19 @@ class KeyboardTest {
    * Tests whether the keyboard quantity is set properly.
    */
   @Test
+  void testDescription() {
+    Keyboard newKeyboard = new Keyboard(expectedID, expectedName, expectedPrice, expectedDescription, expectedQuantity);
+
+    String newDescription = "It's not a keyboard!";
+    newKeyboard.setDescription(newDescription);
+    assertEquals(newKeyboard.getDescription(), newDescription);
+
+  }
+
+  /**
+   * Tests whether the keyboard quantity is set properly.
+   */
+  @Test
   void testQuantity() {
     Keyboard newKeyboard = new Keyboard(expectedID, expectedName, expectedPrice, expectedDescription, expectedQuantity);
 
