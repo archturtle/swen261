@@ -20,6 +20,8 @@ export class LoginComponent {
 
   async loginFormSubmitted() {
     const username = this.loginForm.value['username'];
+    if (username.trim().length == 0) return;
+
     let resp = await firstValueFrom(this.usersService.getUser$(username))
     if (Object.keys(resp).length === 0) {
       const user: User = { id: 0, name: username, role: 1, cart: [] }
