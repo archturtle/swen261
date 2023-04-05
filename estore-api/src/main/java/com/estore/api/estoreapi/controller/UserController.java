@@ -169,7 +169,7 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 
       long currProdInCart = user.getCart().stream()
-      .filter(item -> { return item == productId; }).count();
+      .filter(item -> item == productId).count();
   
       if (currProdInCart + quantity > keyboard.getQuantity()) 
         return new ResponseEntity<>(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE);
@@ -201,7 +201,7 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
  
       long currProdInCart = user.getCart().stream()
-      .filter(item -> { return item == productId; }).count();
+      .filter(item -> item == productId).count();
       if (quantity > currProdInCart) quantity = (int) currProdInCart;
 
       for (int i = 0; i < quantity; i++) {
