@@ -1,26 +1,35 @@
 <form class="edit-form" [formGroup]="editGroup" (ngSubmit)="submitForm()">
-  <div class="form-item">
-    <label for="id-input">Keyboard ID</label>
-    <input class="item-input" name="id-input" formControlName="id" />
+  <div class="upper">
+    <div class="form-item">
+      <label for="id-input">Keyboard ID</label>
+      <input class="item-input" name="id-input" formControlName="id" />
+    </div>
+
+    <div class="form-item">
+      <label for="name-input">Keyboard Name</label>
+      <input class="item-input" name="name-input" formControlName="name" />
+    </div>
+
+    <div class="form-item">
+      <label for="price-input">Keyboard Price ($)</label>
+      <input class="item-input" type="text" name="price-input" formControlName="price" />
+    </div>
+
+    <div class="form-item">
+      <label for="quantity-input">Keyboard Quantity</label>
+      <input class="item-input" type="number" name="quantity-input" formControlName="quantity" />
+    </div>
   </div>
 
-  <div class="form-item">
-    <label for="name-input">Keyboard Name</label>
-    <input class="item-input" name="name-input" formControlName="name" />
+  <div class="form-item description">
+    <label for="description-input">Keyboard Description</label>
+      <textarea class="description-input" type="text" name="description-input" formControlName="description"></textarea>
   </div>
 
-  <div class="form-item">
-    <label for="price-input">Keyboard Price ($)</label>
-    <input class="item-input" type="text" name="price-input" formControlName="price" />
+  <div class="button-div">
+    <button class="button" type="submit">{{ addKeyboard ? 'Add' : 'Edit' }}</button>
+    <button class="button" type="reset" (click)="clearForm()">Clear</button>
   </div>
-
-  <div class="form-item">
-    <label for="quantity-input">Keyboard Quantity</label>
-    <input class="item-input" type="number" name="quantity-input" formControlName="quantity" />
-  </div>
-
-  <button class="button" type="submit">{{ addKeyboard ? 'Add' : 'Edit' }}</button>
-  <button class="button" type="reset" (click)="clearForm()">Clear</button>
 </form>
 
 <div class="error-div" *ngIf="!editGroup.valid && this.edited">
@@ -49,5 +58,14 @@
 
   <p *ngIf="quantity.getError('min')">
     Quantity must be at least {{ quantity.getError('min')['min'] }}!
+  </p>
+
+  <!-- Description Errors -->
+  <p *ngIf="description.getError('required')">
+    Description is required!
+  </p>
+  
+  <p *ngIf="description.getError('minlength')">
+    Description must be at least {{ description.getError('minlength')['requiredLength'] }} characters!
   </p>
 </div>

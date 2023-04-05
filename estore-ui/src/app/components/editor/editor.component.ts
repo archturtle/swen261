@@ -14,7 +14,8 @@ export class EditorComponent implements OnInit {
     id: { value: '', disabled: true },
     name: ['', [Validators.required, Validators.minLength(5)]],
     price: [0, [Validators.required, Validators.min(1)]],
-    quantity: [0, [Validators.required, Validators.min(1)]]
+    quantity: [0, [Validators.required, Validators.min(1)]],
+    description: ['', [Validators.required, Validators.minLength(100)]]
   });
   addKeyboard: boolean = true;
   edited: boolean = false;
@@ -30,6 +31,7 @@ export class EditorComponent implements OnInit {
           id: data?.id?.toString(),
           name: data.name,
           price: data.price.toString(),
+          description: data.description,
           quantity: data.quantity.toString()
         });
 
@@ -57,6 +59,10 @@ export class EditorComponent implements OnInit {
     return this.editGroup.controls['quantity'];
   }
 
+  get description() {
+    return this.editGroup.controls['description'];
+  }
+
   clearForm(): void {
     this.addKeyboard = true;
     this.notificationService.changeKeyboard(<Keyboard>{});
@@ -69,19 +75,20 @@ export class EditorComponent implements OnInit {
       id: parseInt(this.id?.value) ?? 0,
       name: this.name?.value,
       price: parseFloat(this.price?.value),
-      description: '',
+      description: this.description?.value ?? '',
       quantity: parseInt(this.quantity?.value) > 0 ? parseInt(this.quantity?.value) : 0 
     }
 
     if (this.addKeyboard) {
       this.keyboardService.addKeyboard$(keyboard)
         .subscribe();
+      this.notificationService.emitError("Keyboard Successfully Added!") 
     } else {
       this.keyboardService.updateKeyboard$(keyboard)
         .subscribe();
+      this.notificationService.emitError("Keyboard Successfully Changed!") 
     }
 
-    this.editGroup.reset();
     this.edited = false;
   }
 }

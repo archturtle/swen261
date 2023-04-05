@@ -9,6 +9,11 @@
 
 .edit-form {
   display: flex;
+  flex-direction: column;
+}
+
+.upper {
+  display: flex;
   column-gap: 10px;
 }
 
@@ -34,6 +39,25 @@
   text-align: center;
 }
 
+.description {
+  margin-top: 10px;
+}
+
+.description-input {
+  appearance: none;
+  background-color: transparent;
+
+  font-size: 14px;
+  border: 1px solid rgb(208, 207, 207);
+  border-radius: 5px;
+  outline: none;
+
+  margin: 2.5px;
+  padding: 5px 7.5px 5px 7.5px;
+  max-width: 900px;
+  resize: vertical;
+}
+
 .button {
   appearance: none;
   border: none;
@@ -47,6 +71,12 @@
   cursor: pointer;
   height: fit-content;
   width: 85px;
+}
+
+.button-div {
+  display: flex;
+  margin-top: 10px;
+  justify-content: center;
 }
 
 .error-div {
