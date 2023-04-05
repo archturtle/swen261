@@ -168,6 +168,12 @@ public class UserController {
       if (quantity < 1) 
         return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 
+      long currProdInCart = user.getCart().stream()
+      .filter(item -> { return item == productId; }).count();
+  
+      if (currProdInCart + quantity > keyboard.getQuantity()) 
+        return new ResponseEntity<>(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE);
+        
       for (int i = 0; i < quantity; i++) {
         user.addToCart(productId);
       }
@@ -193,6 +199,10 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
       if (quantity < 1) 
         return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+ 
+      long currProdInCart = user.getCart().stream()
+      .filter(item -> { return item == productId; }).count();
+      if (quantity > currProdInCart) quantity = (int) currProdInCart;
 
       for (int i = 0; i < quantity; i++) {
         user.removeFromCart(productId);

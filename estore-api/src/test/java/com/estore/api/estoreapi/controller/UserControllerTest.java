@@ -152,6 +152,21 @@ class UserControllerTest {
     }
 
     @Test
+    void testAddUserCartKeyboardExccedsAvailable() throws IOException {
+        User user = new User(0, "Issac", 1);
+        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, "It's a keyboard", 10);
+        Keyboard keyboardNew = new Keyboard(1, "GMMK PRO", 599.99, "It's a keyboard", 10);
+        user.addToCart(keyboard.getId());
+        user.addToCart(keyboardNew.getId());
+        when(mockUserFileDao.findByID(0)).thenReturn(user);
+        when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
+        when(mockKeyboardFileDAO.findByID(1)).thenReturn(keyboardNew);
+
+        ResponseEntity<User> response = userController.addItemToCart(user.getId(), keyboard.getId(), 20);
+        assertEquals(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE, response.getStatusCode());
+    }
+
+    @Test
     void testAddUserCartThrowsException() throws IOException {
         User user = new User(0, "Issac", 1);
         Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, "It's a keyboard", 10);
@@ -183,6 +198,21 @@ class UserControllerTest {
         when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
 
         ResponseEntity<User> response = userController.removeItemFromCart(user.getId(), keyboard.getId(), 1);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    void testRemoveUserCartWithMoreThanAvailableSucceeds() throws IOException {
+        User user = new User(0, "Issac", 1);
+        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, "It's a keyboard", 10);
+        Keyboard keyboardNew = new Keyboard(1, "GMMK PRO", 599.99, "It's a keyboard", 10);
+        user.addToCart(keyboard.getId());
+        user.addToCart(keyboardNew.getId());
+        when(mockUserFileDao.findByID(0)).thenReturn(user);
+        when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
+        when(mockKeyboardFileDAO.findByID(1)).thenReturn(keyboardNew);
+
+        ResponseEntity<User> response = userController.removeItemFromCart(user.getId(), keyboard.getId(), 3);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 

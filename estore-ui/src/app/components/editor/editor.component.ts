@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Keyboard } from 'src/app/interfaces/keyboard';
 import { NotifcationService } from 'src/app/services/notifcation.service';
 import { KeyboardService } from 'src/app/services/keyboard.service';
@@ -12,11 +12,12 @@ import { KeyboardService } from 'src/app/services/keyboard.service';
 export class EditorComponent implements OnInit {
   editGroup: FormGroup = this.formBuilder.group({
     id: { value: '', disabled: true },
-    name: [''],
-    price: [''],
-    quantity: ['']
+    name: ['', [Validators.required, Validators.minLength(5)]],
+    price: [0, [Validators.required, Validators.min(1)]],
+    quantity: [0, [Validators.required, Validators.min(1)]]
   });
   addKeyboard: boolean = true;
+  edited: boolean = false;
 
   constructor(private formBuilder: FormBuilder, private keyboardService: KeyboardService, private notificationService: NotifcationService) {  }
 
@@ -34,6 +35,26 @@ export class EditorComponent implements OnInit {
 
         this.addKeyboard = false;
       });
+    
+    this.editGroup.valueChanges.subscribe(() => {
+      this.edited = true;
+    });
+  }
+
+  get id() {
+    return this.editGroup.controls['id'];
+  }
+
+  get name() {
+    return this.editGroup.controls['name'];
+  }
+
+  get price() {
+    return this.editGroup.controls['price'];
+  }
+
+  get quantity() {
+    return this.editGroup.controls['quantity'];
   }
 
   clearForm(): void {
@@ -42,12 +63,14 @@ export class EditorComponent implements OnInit {
   }
 
   submitForm(): void {
+    if (!this.editGroup.valid) return;
+
     const keyboard: Keyboard = { 
-      id: parseInt(this.editGroup.get('id')?.value) ?? 0,
-      name: this.editGroup.get('name')?.value,
-      price: parseFloat(this.editGroup.get('price')?.value),
+      id: parseInt(this.id?.value) ?? 0,
+      name: this.name?.value,
+      price: parseFloat(this.price?.value),
       description: '',
-      quantity: parseInt(this.editGroup.get('quantity')?.value) > 0 ? parseInt(this.editGroup.get('quantity')?.value) : 0 
+      quantity: parseInt(this.quantity?.value) > 0 ? parseInt(this.quantity?.value) : 0 
     }
 
     if (this.addKeyboard) {
@@ -57,5 +80,8 @@ export class EditorComponent implements OnInit {
       this.keyboardService.updateKeyboard$(keyboard)
         .subscribe();
     }
+
+    this.editGroup.reset();
+    this.edited = false;
   }
 }

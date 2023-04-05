@@ -19,6 +19,7 @@ import { CartComponent } from './components/cart/cart.component';
 import { CartItemComponent } from './components/cart-item/cart-item.component';
 import { QuantityComponent } from './components/quantity/quantity.component';
 import { NotNullOrEmptyPipe } from './pipes/not-null-or-empty.pipe';
+import { ErrorPopupComponent } from './components/error-popup/error-popup.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { NotNullOrEmptyPipe } from './pipes/not-null-or-empty.pipe';
     CartItemComponent,
     QuantityComponent,
     NotNullOrEmptyPipe,
+    ErrorPopupComponent,
   ],
   imports: [
     BrowserModule,
