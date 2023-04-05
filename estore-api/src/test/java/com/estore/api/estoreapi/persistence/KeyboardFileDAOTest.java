@@ -40,9 +40,9 @@ class KeyboardFileDAOTest {
   void setupKeyboardFileDAO() throws IOException {
     mockObjectMapper = mock(ObjectMapper.class);
     testKeyboards = new Keyboard[3];
-    testKeyboards[0] = new Keyboard(0, "Apple", 250, 10);
-    testKeyboards[1] = new Keyboard(1,"Banana", 100, 1);
-    testKeyboards[2] = new Keyboard(2,"Orange", 150, 15);
+    testKeyboards[0] = new Keyboard(0, "Apple", 250, "It's an apple", 10);
+    testKeyboards[1] = new Keyboard(1,"Banana", 100, "It's a banana", 1);
+    testKeyboards[2] = new Keyboard(2,"Orange", 150, "It's an orange", 15);
 
     // when the object mapper is supposed to read from the file
     // the mock object mapper will return the keyboard array above
@@ -102,7 +102,7 @@ class KeyboardFileDAOTest {
   @Test
   void testCreateKeyboard() throws IOException {
       // setup
-      Keyboard keyboard = new Keyboard(3, "Pear", 300, 20);
+      Keyboard keyboard = new Keyboard(3, "Pear", 300, "It's an pear", 20);
 
       // invoke
       Keyboard result = assertDoesNotThrow(() -> keyboardFileDAO.create(keyboard),
@@ -118,7 +118,7 @@ class KeyboardFileDAOTest {
   @Test
   void testUpdateKeyboard() throws IOException {
       // setup
-      Keyboard keyboard = new Keyboard(0, "Apple", 250, 10);
+      Keyboard keyboard = new Keyboard(0, "Apple", 250, "It's an apple", 10);
 
       // invoke
       Keyboard result = assertDoesNotThrow(() -> keyboardFileDAO.update(keyboard),
@@ -136,7 +136,7 @@ class KeyboardFileDAOTest {
           .when(mockObjectMapper)
               .writeValue(any(File.class), any(Keyboard[].class));
 
-      Keyboard keyboard = new Keyboard(4, "Sock", 1, 1);
+      Keyboard keyboard = new Keyboard(4, "Sock", 1, "It's a sock", 1);
 
       assertThrows(IOException.class,
                       () -> keyboardFileDAO.create(keyboard),
@@ -166,7 +166,7 @@ class KeyboardFileDAOTest {
   @Test
   void testUpdateKeyboardNotFound() {
       // setup
-      Keyboard keyboard = new Keyboard(4, "Shoe", 4.99, 2);
+      Keyboard keyboard = new Keyboard(4, "Shoe", 4.99, "It's a shoe", 2);
 
       // invoke
       Keyboard result = assertDoesNotThrow(() -> keyboardFileDAO.update(keyboard),

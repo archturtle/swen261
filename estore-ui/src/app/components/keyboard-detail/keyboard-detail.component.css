@@ -31,6 +31,8 @@
 .description {
   margin-top: 10px;
   margin-bottom: auto;
+  white-space: pre-wrap;
+  line-height: 24px;
 }
 
 .add-to-cart-interaction {

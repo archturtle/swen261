@@ -101,7 +101,7 @@ class UserControllerTest {
     @Test
     void testAddAdminCartFails() throws IOException {
         User adminUser = new User(0, "Issac", 0);
-        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, 10);
+        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, "It's a keyboard", 10);
         when(mockUserFileDao.findByID(0)).thenReturn(adminUser);
         when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
 
@@ -112,7 +112,7 @@ class UserControllerTest {
     @Test
     void testAddUserCartSucceeds() throws IOException {
         User user = new User(0, "Issac", 1);
-        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, 10);
+        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, "It's a keyboard", 10);
         when(mockUserFileDao.findByID(0)).thenReturn(user);
         when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
 
@@ -123,7 +123,7 @@ class UserControllerTest {
     @Test
     void testAddUserCartFailsToLowQuantity() throws IOException {
         User user = new User(0, "Issac", 1);
-        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, 10);
+        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, "It's a keyboard", 10);
         when(mockUserFileDao.findByID(0)).thenReturn(user);
         when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
 
@@ -133,7 +133,7 @@ class UserControllerTest {
 
     @Test
     void testAddUserCartUserNotFound() throws IOException {
-        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, 10);
+        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, "It's a keyboard", 10);
         when(mockUserFileDao.findByID(0)).thenReturn(null);
         when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
 
@@ -154,7 +154,7 @@ class UserControllerTest {
     @Test
     void testAddUserCartThrowsException() throws IOException {
         User user = new User(0, "Issac", 1);
-        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, 10);
+        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, "It's a keyboard", 10);
         when(mockUserFileDao.findByID(0)).thenReturn(user);
         when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
         doThrow(new IOException()).when(mockUserFileDao).findByID(0);
@@ -166,7 +166,7 @@ class UserControllerTest {
     @Test
     void testRemoveAdminCartFails() throws IOException {
         User adminUser = new User(0, "Issac", 0);
-        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, 10);
+        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, "It's a keyboard", 10);
         when(mockUserFileDao.findByID(0)).thenReturn(adminUser);
         when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
 
@@ -177,7 +177,7 @@ class UserControllerTest {
     @Test
     void testRemoveUserCartSucceeds() throws IOException {
         User user = new User(0, "Issac", 1);
-        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, 10);
+        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, "It's a keyboard", 10);
         user.addToCart(keyboard.getId());
         when(mockUserFileDao.findByID(0)).thenReturn(user);
         when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
@@ -189,7 +189,7 @@ class UserControllerTest {
     @Test
     void testRemoveUserCartFailsToLowQuantity() throws IOException {
         User user = new User(0, "Issac", 1);
-        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, 10);
+        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, "It's a keyboard", 10);
         user.addToCart(keyboard.getId());
         when(mockUserFileDao.findByID(0)).thenReturn(user);
         when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
@@ -200,7 +200,7 @@ class UserControllerTest {
 
     @Test
     void testRemoveUserCartUserNotFound() throws IOException {
-        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, 10);
+        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, "It's a keyboard", 10);
         when(mockUserFileDao.findByID(0)).thenReturn(null);
         when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
 
@@ -221,7 +221,7 @@ class UserControllerTest {
     @Test
     void testRemoveUserCartThrowsException() throws IOException {
         User user = new User(0, "Issac", 1);
-        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, 10);
+        Keyboard keyboard = new Keyboard(0, "GMMK 2", 159.99, "It's a keyboard", 10);
         user.addToCart(keyboard.getId());
         when(mockUserFileDao.findByID(0)).thenReturn(user);
         when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
