@@ -1,0 +1,15 @@
+.popup.hidden {
+  display: none;
+}
+
+.popup {
+  position: absolute;
+  padding: 10px;
+  background-color: rgb(114, 114, 114);
+  border-radius: 10px;
+  bottom: 50px;
+  left: 30%;
+  right: 30%;
+  width: fit-content;
+  margin: 0 auto;
+}
