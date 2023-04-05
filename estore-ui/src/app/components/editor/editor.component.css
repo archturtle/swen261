@@ -1,8 +1,10 @@
 :host {
   display: flex;
   justify-content: center;
+  align-items: center;
   margin-top: 15px;
   margin-bottom: 5px;
+  flex-direction: column;
 }
 
 .edit-form {
@@ -45,4 +47,18 @@
   cursor: pointer;
   height: fit-content;
   width: 85px;
+}
+
+.error-div {
+  margin-top: 10px;
+  margin-bottom: -10px;
+  font-size: 16px;
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+}
+
+.error-div p {
+  color: rgb(235, 94, 94);
+  font-weight: bold;
 }

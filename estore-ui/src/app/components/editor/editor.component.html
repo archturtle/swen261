@@ -22,3 +22,32 @@
   <button class="button" type="submit">{{ addKeyboard ? 'Add' : 'Edit' }}</button>
   <button class="button" type="reset" (click)="clearForm()">Clear</button>
 </form>
+
+<div class="error-div" *ngIf="!editGroup.valid && this.edited">
+  <!-- Name Errors -->
+  <p *ngIf="name.getError('required')">
+    Name is required!
+  </p>
+
+  <p *ngIf="name.getError('minlength')">
+    Name must be at least {{ name.getError('minlength')['requiredLength'] }} characters!
+  </p>
+
+  <!-- Price Errors -->
+  <p *ngIf="price.getError('required')">
+    Price is required!
+  </p>
+  
+  <p *ngIf="price.getError('min')">
+    Price must be at least ${{ price.getError('min')['min'] }}!
+  </p>
+
+  <!-- Quantity Errors -->
+  <p *ngIf="quantity.getError('required')">
+    Quantity is required!
+  </p>
+
+  <p *ngIf="quantity.getError('min')">
+    Quantity must be at least {{ quantity.getError('min')['min'] }}!
+  </p>
+</div>
