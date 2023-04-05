@@ -62,7 +62,7 @@ public class UserFileDAO implements GenericDAO<User> {
    *
    * @return The next id
    */
-  private synchronized static int nextId() {
+  private static synchronized int nextId() {
     int id = nextId;
     ++nextId;
 
@@ -78,7 +78,7 @@ public class UserFileDAO implements GenericDAO<User> {
    *
    * @throws IOException when file cannot be accessed or read from
    */
-  private boolean loadData() throws IOException {
+  private synchronized boolean loadData() throws IOException {
     this.users = new TreeMap<>();
     nextId = 0;
 
@@ -192,7 +192,7 @@ public class UserFileDAO implements GenericDAO<User> {
   @Override
   public User update(User obj) throws IOException {
     synchronized (this.users) {
-      if (this.users.containsKey(obj.getId()) == false)
+      if (!this.users.containsKey(obj.getId()))
         return null;
 
       this.users.put(obj.getId(), obj);

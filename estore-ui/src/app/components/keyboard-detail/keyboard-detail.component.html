@@ -1,22 +1,16 @@
 <app-navbar></app-navbar>
 
-<div class="content" *ngIf="keyboard">
-  <img class="img" src="../../../assets/{{ keyboard.id }}.webp" />
+<div class="content" *ngIf="keyboard | notNullOrEmpty">
+  <img class="img" src="../../../assets/{{ keyboard.id % 9 == 0 ? 9 : keyboard.id % 9 }}.webp" alt="Keyboard Image" />
   <div class="details">
     <h1>{{ keyboard.name }}</h1>
     <h3>Price: ${{ keyboard.price | number: '1.2' }}</h3>
     <p class="description">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi odio elit, consectetur ut venenatis vel, tincidunt quis ante. Mauris at elit sed dolor porta 
-      rhoncus sed quis magna. Donec pretium interdum tristique. Nulla mattis rutrum commodo. In elementum ligula id velit auctor efficitur. Aliquam nec erat ornare, 
-      vehicula elit nec, vehicula sem. Nam finibus sed enim ac auctor. Maecenas quis erat volutpat, scelerisque nisl ac, ultricies odio. Nulla facilisi. Nulla sed 
-      massa in lacus consectetur suscipit ac in mi. Pellentesque cursus urna eget tincidunt luctus. Phasellus quis placerat erat. Curabitur euismod consequat sapien, 
-      sit amet mattis est. Proin semper mauris in eros finibus, sed imperdiet elit commodo. Mauris dapibus, velit eget porttitor suscipit, quam odio pulvinar orci, 
-      placerat elementum nulla justo et tortor. Curabitur elit nibh, ultrices eu magna a, commodo sodales massa. Etiam sit amet consectetur neque. Nunc ut nulla gravida, 
-      tempor erat ac, facilisis metus. Praesent ac elementum felis. Sed dictum leo erat, vel lobortis diam iaculis a. 
+     {{ keyboard.description }} 
     </p>
 
     <div class="add-to-cart-interaction">
-      <app-quantity class="{{ keyboard.quantity == 0 ? 'disabled' : '' }}" (quantityModified)="quantityChanged($event)" [quantity]="keyboard.quantity"></app-quantity>
+      <app-quantity class="{{ keyboard.quantity === 0 ? 'disabled' : '' }}" (quantityModified)="quantityChanged($event)" [quantity]="keyboard.quantity"></app-quantity>
       <app-add-to-cart [keyboard]="keyboard" [quantity]="quantity"></app-add-to-cart>
     </div>
   </div>

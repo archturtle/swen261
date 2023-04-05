@@ -13,8 +13,8 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./keyboard.component.css']
 })
 export class KeyboardComponent implements OnInit {
-  loggedInUser$: Observable<User | null> = this.usersService.user$;
-  @Input() keyboard!: Keyboard
+  loggedInUser$: Observable<User> = this.usersService.user$;
+  @Input() keyboard: Keyboard = <Keyboard>{};
   isSelected: boolean = false;
 
   constructor(private usersService: UsersService, 
@@ -24,21 +24,21 @@ export class KeyboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.notificationService.keyboardSelected
-      .subscribe((value: Keyboard | null) => {
-        this.isSelected = (!value) ? false : value.id == this.keyboard.id;
+      .subscribe((value: Keyboard) => {
+        this.isSelected = (Object.keys(value).length === 0) ? false : value.id == this.keyboard.id;
       });
   }
 
   removeKeyboard(): void {
-    if (!this.keyboard.id) return;
+    if (Object.keys(this.keyboard).length === 0) return;
 
     this.keyboardService.deleteKeyboard$(this.keyboard.id)
       .subscribe();
   }
 
   async keyboardClicked() {
-    const user: User | null = await firstValueFrom(this.loggedInUser$);
-    if (!user || user.role != 0) {
+    const user: User = await firstValueFrom(this.loggedInUser$);
+    if (Object.keys(user).length === 0 || user.role != 0) {
       this.router.navigate(['keyboard', this.keyboard.id])
       return;
     }

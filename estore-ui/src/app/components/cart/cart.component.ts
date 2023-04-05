@@ -12,14 +12,14 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
-  loggedInUser$: Observable<User | null> = this.usersService.user$;
+  loggedInUser$: Observable<User> = this.usersService.user$;
   cartItems$!: Observable<CartItem[]>;
 
   constructor(private usersService: UsersService, private keyboardService: KeyboardService) { }
 
   ngOnInit(): void {
     this.cartItems$ = this.loggedInUser$.pipe(
-      map((value: User | null): number[] => value ? value.cart : []),
+      map((value: User): number[] => (Object.keys(value).length > 0) ? value.cart : []),
       map((values: number[]): Map<number, number> => {
         return values.reduce((acc: Map<number, number>, item: number) => {
           let res = acc.get(item);
@@ -35,10 +35,10 @@ export class CartComponent implements OnInit {
       }),
       map(([cartIds, items]: [Map<number, number>, Keyboard[]]) => {
         return items.map((item: Keyboard): CartItem => {
-          return { keyboard: item, quantity: cartIds.get(item.id!)! }
+          return { keyboard: item, quantity: cartIds.get(item.id)! }
         });
       }),
-      map((things: CartItem[]) => things.sort((a: CartItem, b: CartItem) => {
+      map((things: CartItem[]) => [...things].sort((a: CartItem, b: CartItem) => {
         if (a.keyboard.name > b.keyboard.name) return 1;
         if (a.keyboard.name < b.keyboard.name) return -1;
 
@@ -49,15 +49,15 @@ export class CartComponent implements OnInit {
 
   async onQuantityChange(value: number, item: CartItem) {
     const currentUser = await firstValueFrom(this.loggedInUser$);
-    if (!currentUser) return;
+    if (Object.keys(currentUser).length === 0) return;
 
     let difference = item.quantity - value;
     if (difference == 0) return;
     if (difference < 0) {
-      this.usersService.addToCart$(currentUser.id!, item.keyboard.id!, difference * -1)
+      this.usersService.addToCart$(currentUser.id, item.keyboard.id, difference * -1)
         .subscribe();
     } else {
-      this.usersService.removeFromCart$(currentUser.id!, item.keyboard.id!, difference)
+      this.usersService.removeFromCart$(currentUser.id, item.keyboard.id, difference)
         .subscribe();
     }
   }

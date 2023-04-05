@@ -1,11 +1,18 @@
 :host {
   display: flex;
   justify-content: center;
+  align-items: center;
   margin-top: 15px;
   margin-bottom: 5px;
+  flex-direction: column;
 }
 
 .edit-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.upper {
   display: flex;
   column-gap: 10px;
 }
@@ -19,7 +26,6 @@
 
 .item-input {
   appearance: none;
-  border: none;
   background-color: transparent;
 
   font-size: 14px;
@@ -31,6 +37,25 @@
   padding: 5px 7.5px 5px 7.5px;
   width: 200px;
   text-align: center;
+}
+
+.description {
+  margin-top: 10px;
+}
+
+.description-input {
+  appearance: none;
+  background-color: transparent;
+
+  font-size: 14px;
+  border: 1px solid rgb(208, 207, 207);
+  border-radius: 5px;
+  outline: none;
+
+  margin: 2.5px;
+  padding: 5px 7.5px 5px 7.5px;
+  max-width: 900px;
+  resize: vertical;
 }
 
 .button {
@@ -46,4 +71,24 @@
   cursor: pointer;
   height: fit-content;
   width: 85px;
+}
+
+.button-div {
+  display: flex;
+  margin-top: 10px;
+  justify-content: center;
+}
+
+.error-div {
+  margin-top: 10px;
+  margin-bottom: -10px;
+  font-size: 16px;
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+}
+
+.error-div p {
+  color: rgb(235, 94, 94);
+  font-weight: bold;
 }

@@ -12,7 +12,7 @@ public class Keyboard {
    * The format that should be used when printing a {@linkplain Keyboard keyboard}
    * object.
    */
-  private static final String STRING_FORMAT = "Keyboard [id=%d, name=%s, price=%f, quantity=%d]";
+  private static final String STRING_FORMAT = "Keyboard [id=%d, name=%s, price=%f, description=%s, quantity=%d]";
 
   /**
    * The ID associated with this {@linkplain Keyboard keyboard}.
@@ -33,18 +33,25 @@ public class Keyboard {
   private double price;
 
   /**
+   * The description associated with this {@linkplain Keyboard keyboard}.
+   */
+  @JsonProperty("description")
+  private String description;
+
+  /**
    * The quantity associated with this {@linkplain Keyboard keyboard}.
    */
   @JsonProperty("quantity")
   private int quantity;
 
   /**
-   * Create a keyboard with the given id, name, price and quantity
+   * Create a keyboard with the given id, name, price, description and quantity
    * 
-   * @param id       The id of the keyboard
-   * @param name     The name of the keyboard
-   * @param price    The price of the keyboard
-   * @param quantity The quantity of the keyboard
+   * @param id            The id of the keyboard
+   * @param name          The name of the keyboard
+   * @param price         The price of the keyboard
+   * @param description   The description of the keyboard
+   * @param quantity      The quantity of the keyboard
    *
    *                 {@literal @}JsonProperty is used in serialization and
    *                 deserialization
@@ -54,11 +61,12 @@ public class Keyboard {
    *                 default Java
    *                 value, i.e. 0 for int
    */
-  public Keyboard(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price,
+  public Keyboard(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("price") double price, @JsonProperty("description") String description,
       @JsonProperty("quantity") int quantity) {
     this.id = id;
     this.name = name;
     this.price = price;
+    this.description = description;
     this.quantity = quantity;
   }
 
@@ -110,10 +118,29 @@ public class Keyboard {
   }
 
   /**
+   * Sets the description of the keyboard - necessary for JSON object to Java object
+   * deserialization
+   * 
+   * @param description The description of the keyboard
+   */
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  /**
+   * Retrieves the description of the keyboard
+   * 
+   * @return The description of the keyboard
+   */
+  public String getDescription() {
+    return this.description;
+  }
+
+  /**
    * Sets the quantity of the keyboard - necessary for JSON object to Java object
    * deserialization
    * 
-   * @param name The quantity of the keyboard
+   * @param quantity The quantity of the keyboard
    */
   public void setQuantity(int quantity) {
     this.quantity = quantity;
@@ -133,6 +160,6 @@ public class Keyboard {
    */
   @Override
   public String toString() {
-    return String.format(STRING_FORMAT, this.id, this.name, this.price, this.quantity);
+    return String.format(STRING_FORMAT, this.id, this.name, this.price, this.description, this.quantity);
   }
 }

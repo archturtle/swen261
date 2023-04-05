@@ -1,15 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, map, Observable, tap } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, tap } from 'rxjs';
 import { User } from '../interfaces/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
-  private _user: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
-  public readonly user$: Observable<User | null> = this._user.asObservable();
+  private _user: BehaviorSubject<User> = new BehaviorSubject<User>(<User>{});
+  public readonly user$: Observable<User> = this._user.asObservable();
 
   private static HTTP_OPTIONS: object = {
     headers: new HttpHeaders({
@@ -19,7 +19,7 @@ export class UsersService {
 
   constructor(private router: Router, private httpService: HttpClient) { }
 
-  getUser$(name: string): Observable<User | null> {
+  getUser$(name: string): Observable<User> {
     const url = `http://localhost:8080/users/?name=${name}`;
 
     return this.httpService.get<User[]>(url)
@@ -35,10 +35,10 @@ export class UsersService {
           });
         }),
         map((result: User[]) => {
-          return (result.length == 0) ? null : result[0]
+          return (result.length == 0) ? <User>{} : result[0]
         }),
         tap({
-          next: (value: User | null) => {
+          next: (value: User) => {
             this._user.next(value);
           }
         })
@@ -80,7 +80,7 @@ export class UsersService {
   }
 
   addToCart$(userId: number, keyboardId: number, quantity: number): Observable<User> {
-    return this.httpService.post<User>(`http://localhost:8080/users/${userId}/cart/?productId=${keyboardId}&quantity=${quantity}`, null)
+    return this.httpService.post<User>(`http://localhost:8080/users/${userId}/cart/?productId=${keyboardId}&quantity=${quantity}`, <User>{})
       .pipe(
         map((r: User) => {
           return {
@@ -120,7 +120,7 @@ export class UsersService {
   logOut$(): void {
     localStorage.removeItem("user");
 
-    this._user.next(null);
+    this._user.next(<User>{});
     this.router.navigate(['/']);
   }
 }

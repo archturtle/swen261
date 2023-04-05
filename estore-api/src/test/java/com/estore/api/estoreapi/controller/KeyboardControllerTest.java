@@ -22,20 +22,20 @@ import org.springframework.http.ResponseEntity;
  * @author Cathy Liu (cl6606@rit.edu)
  */
 @Tag("Controller-tier")
-public class KeyboardControllerTest {
+class KeyboardControllerTest {
   private KeyboardController keyboardController;
   private KeyboardFileDAO mockKeyboardFileDAO;
 
   @BeforeEach
-  public void setupKeyboardController() {
+  void setupKeyboardController() {
       mockKeyboardFileDAO = mock(KeyboardFileDAO.class);
       keyboardController = new KeyboardController(mockKeyboardFileDAO);
   }
 
   @Test
-  public void testGetKeyboard() throws IOException {
+  void testGetKeyboard() throws IOException {
     // setup
-    Keyboard keyboard = new Keyboard(1, "GMMK PRO", 349.99, 300);
+    Keyboard keyboard = new Keyboard(1, "GMMK PRO", 349.99, "It's a keyboard", 300);
 
     // when the same id is passed in, our mock Generic DAO will return the Keyboard object
     when(mockKeyboardFileDAO.findByID(keyboard.getId())).thenReturn(keyboard);
@@ -49,7 +49,7 @@ public class KeyboardControllerTest {
   }
 
   @Test
-  public void testGetKeyboardNotFound() throws IOException {
+  void testGetKeyboardNotFound() throws IOException {
     // setup
     int keyboardId = 1;
 
@@ -65,7 +65,7 @@ public class KeyboardControllerTest {
   }
 
   @Test
-  public void testGetKeyboardHandleException() throws Exception {
+  void testGetKeyboardHandleException() throws Exception {
     // setup
     int keyboardId = 1;
 
@@ -80,9 +80,9 @@ public class KeyboardControllerTest {
   }
 
   @Test
-  public void testCreateKeyboard() throws IOException {
+  void testCreateKeyboard() throws IOException {
     // setup
-    Keyboard keyboard = new Keyboard(99, "Pear", 250, 10);
+    Keyboard keyboard = new Keyboard(99, "Pear", 250, "It's a pear", 10);
 
     // when createKeyboard is called, return true simulating successful creation and save
     when(mockKeyboardFileDAO.findByName("Pear")).thenReturn(new Keyboard[0]);
@@ -97,9 +97,9 @@ public class KeyboardControllerTest {
   }
 
   @Test
-  public void testCreateKeyboardFailed() throws IOException {
+  void testCreateKeyboardFailed() throws IOException {
     // setup
-    Keyboard keyboard = new Keyboard(99, "Apple", 250, 10);
+    Keyboard keyboard = new Keyboard(99, "Apple", 250, "It's an apple", 10);
 
     // when createKeyboard is called, return false simulating failed creation and save
     when(mockKeyboardFileDAO.findByName("Apple")).thenReturn(new Keyboard[] { keyboard });
@@ -113,9 +113,9 @@ public class KeyboardControllerTest {
   }
 
   @Test
-  public void testCreateKeyboardHandleException() throws IOException {
+  void testCreateKeyboardHandleException() throws IOException {
     // setup
-    Keyboard keyboard = new Keyboard(99, "Banana", 100, 15);
+    Keyboard keyboard = new Keyboard(99, "Banana", 100, "It's a banana", 15);
 
     // when createKeyboard is called on the Mock Generic DAO, throw an IOException
     when(mockKeyboardFileDAO.findByName("Banana")).thenReturn(new Keyboard[0]);
@@ -129,9 +129,9 @@ public class KeyboardControllerTest {
   }
 
   @Test
-  public void testUpdateKeyboard() throws IOException {
+  void testUpdateKeyboard() throws IOException {
     // setup
-    Keyboard keyboard = new Keyboard(99, "Pear", 250, 10);
+    Keyboard keyboard = new Keyboard(99, "Pear", 250, "It's a pear", 10);
     
     // when updateKeyboard is called, return true simulating successful update and save
     when(mockKeyboardFileDAO.findByID(99)).thenReturn(keyboard);
@@ -148,9 +148,9 @@ public class KeyboardControllerTest {
   }
 
   @Test
-  public void testUpdateKeyboardFailed() throws IOException {
+  void testUpdateKeyboardFailed() throws IOException {
     // setup
-    Keyboard keyboard = new Keyboard(99, "Berry", 250, 15);
+    Keyboard keyboard = new Keyboard(99, "Berry", 250, "It's a berry", 15);
 
     // when updateKeyboard is called, return true simulating successful update and save
     when(mockKeyboardFileDAO.update(keyboard)).thenReturn(null);
@@ -163,9 +163,9 @@ public class KeyboardControllerTest {
   }
 
   @Test
-  public void testUpdateKeyboardHandleException() throws IOException {
+  void testUpdateKeyboardHandleException() throws IOException {
     // setup
-    Keyboard keyboard = new Keyboard(99, "Berry", 250, 15);
+    Keyboard keyboard = new Keyboard(99, "Berry", 250, "It's a berry", 15);
 
     // when updateKeyboard is called on the Mock Keyboard DAO, throw an IOException
     when(mockKeyboardFileDAO.findByID(99)).thenReturn(keyboard);
@@ -179,11 +179,11 @@ public class KeyboardControllerTest {
   }
 
   @Test
-  public void testGetKeyboards() throws IOException {
+  void testGetKeyboards() throws IOException {
     // setup
     Keyboard[] keyboards = new Keyboard[2];
-    keyboards[0] = new Keyboard(99, "Banana", 100, 15);
-    keyboards[1] = new Keyboard(100, "Orange", 175, 10);
+    keyboards[0] = new Keyboard(99, "Banana", 100, "It's a banana", 15);
+    keyboards[1] = new Keyboard(100, "Orange", 175, "It's an orange", 10);
 
     // when getAll is called return the keyboards created above
     when(mockKeyboardFileDAO.getAll()).thenReturn(keyboards);
@@ -197,7 +197,7 @@ public class KeyboardControllerTest {
   }
 
   @Test
-  public void testGetKeyboardsHandleException() throws IOException {
+  void testGetKeyboardsHandleException() throws IOException {
     // setup
     // when getAll is called on the Mock Generic DAO, throw an IOException
     doThrow(new IOException()).when(mockKeyboardFileDAO).getAll();
@@ -210,12 +210,12 @@ public class KeyboardControllerTest {
   }
 
   @Test
-  public void testSearchKeyboards() throws IOException {
+  void testSearchKeyboards() throws IOException {
     // setup
     String searchString = "an";
     Keyboard[] keyboards = new Keyboard[2];
-    keyboards[0] = new Keyboard(99, "Banana", 100, 15);
-    keyboards[1] = new Keyboard(100, "Orange", 175, 10);
+    keyboards[0] = new Keyboard(99, "Banana", 100, "It's a banana", 15);
+    keyboards[1] = new Keyboard(100, "Orange", 175, "It's an orange", 10);
 
     // when findKeyboards is called with the search string, return the two keyboards above
     when(mockKeyboardFileDAO.findByName(searchString)).thenReturn(keyboards);
@@ -229,7 +229,7 @@ public class KeyboardControllerTest {
   }
 
   @Test
-  public void testSearchKeyboardsHandleException() throws IOException {
+  void testSearchKeyboardsHandleException() throws IOException {
     // setup
     String searchString = "la";
 
@@ -244,10 +244,10 @@ public class KeyboardControllerTest {
   }
 
   @Test
-  public void testDeleteKeyboard() throws IOException {
+  void testDeleteKeyboard() throws IOException {
     // setup
     int keyboardId = 99;
-    Keyboard keyboard = new Keyboard(99, "Pear", 250, 10);
+    Keyboard keyboard = new Keyboard(99, "Pear", 250, "It's a pear", 10);
     
     // when delete is called return true, simulating successful deletion
     when(mockKeyboardFileDAO.findByID(99)).thenReturn(keyboard);
@@ -261,7 +261,7 @@ public class KeyboardControllerTest {
   }
 
   @Test
-  public void testDeleteKeyboardNotFound() throws IOException {
+  void testDeleteKeyboardNotFound() throws IOException {
     // setup
     int keyboardId = 99;
 
@@ -276,10 +276,10 @@ public class KeyboardControllerTest {
   }
 
   @Test
-  public void testDeleteKeyboardHandleException() throws IOException {
+  void testDeleteKeyboardHandleException() throws IOException {
     // setup
     int keyboardId = 99;
-    Keyboard keyboard = new Keyboard(99, "Pear", 250, 10);
+    Keyboard keyboard = new Keyboard(99, "Pear", 250, "It's a pear", 10);
     
     // when deleteKeyboard is called on the Mock Generic DAO, throw an IOException
     when(mockKeyboardFileDAO.findByID(99)).thenReturn(keyboard);

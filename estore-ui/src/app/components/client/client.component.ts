@@ -9,7 +9,7 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./client.component.css']
 })
 export class ClientComponent {
-  loggedInUser$: Observable<User | null> = this.usersService.user$;
+  loggedInUser$: Observable<User> = this.usersService.user$;
 
   constructor(private usersService: UsersService) { }
 }

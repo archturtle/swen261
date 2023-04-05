@@ -62,7 +62,7 @@ public class KeyboardFileDAO implements GenericDAO<Keyboard> {
    *
    * @return The next id
    */
-  private synchronized static int nextId() {
+  private static synchronized int nextId() {
     int id = nextId;
     ++nextId;
 
@@ -78,7 +78,7 @@ public class KeyboardFileDAO implements GenericDAO<Keyboard> {
    *
    * @throws IOException when file cannot be accessed or read from
    */
-  private boolean loadData() throws IOException {
+  private synchronized boolean loadData() throws IOException {
     keyboards = new TreeMap<>();
     nextId = 0;
 
@@ -178,7 +178,7 @@ public class KeyboardFileDAO implements GenericDAO<Keyboard> {
   @Override
   public Keyboard create(Keyboard obj) throws IOException {
     synchronized (keyboards) {
-      Keyboard newKeyboard = new Keyboard(nextId(), obj.getName(), obj.getPrice(), obj.getQuantity());
+      Keyboard newKeyboard = new Keyboard(nextId(), obj.getName(), obj.getPrice(), obj.getDescription(), obj.getQuantity());
       keyboards.put(newKeyboard.getId(), newKeyboard);
 
       saveData(); // may throw an IOException
@@ -192,7 +192,7 @@ public class KeyboardFileDAO implements GenericDAO<Keyboard> {
   @Override
   public Keyboard update(Keyboard obj) throws IOException {
     synchronized (keyboards) {
-      if (keyboards.containsKey(obj.getId()) == false)
+      if (!keyboards.containsKey(obj.getId()))
         return null;
 
       keyboards.put(obj.getId(), obj);

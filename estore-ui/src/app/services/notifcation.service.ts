@@ -6,15 +6,18 @@ import { Keyboard } from '../interfaces/keyboard';
 })
 export class NotifcationService {
   @Output() searchStringChanged: EventEmitter<string> = new EventEmitter<string>();
-  @Output() keyboardSelected: EventEmitter<Keyboard | null> = new EventEmitter<Keyboard | null>()
-
-  constructor() { }
+  @Output() keyboardSelected: EventEmitter<Keyboard> = new EventEmitter<Keyboard>()
+  @Output() errorOccurred: EventEmitter<string> = new EventEmitter<string>();
 
   changeSearch(search: string): void {
     this.searchStringChanged.emit(search);
   }
 
-  changeKeyboard(keyboard: Keyboard | null): void {
+  changeKeyboard(keyboard: Keyboard): void {
     this.keyboardSelected.emit(keyboard);
+  }
+
+  emitError(message: string): void {
+    this.errorOccurred.emit(message);
   }
 }

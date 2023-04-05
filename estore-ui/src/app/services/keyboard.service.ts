@@ -17,8 +17,8 @@ export class KeyboardService {
 
   constructor(private httpService: HttpClient) { }
 
-  getKeyboards$(name: string | null): Observable<Keyboard[]> {
-    const url = (name == null) ? "http://localhost:8080/keyboards" : `http://localhost:8080/keyboards/?name=${name}`;
+  getKeyboards$(name?: string): Observable<Keyboard[]> {
+    const url = !name ? "http://localhost:8080/keyboards" : `http://localhost:8080/keyboards/?name=${name}`;
 
     return this.httpService.get<Keyboard[]>(url)
       .pipe(
