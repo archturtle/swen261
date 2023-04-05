@@ -46,6 +46,7 @@ export class EditorComponent implements OnInit {
       id: parseInt(this.editGroup.get('id')?.value) ?? 0,
       name: this.editGroup.get('name')?.value,
       price: parseFloat(this.editGroup.get('price')?.value),
+      description: '',
       quantity: parseInt(this.editGroup.get('quantity')?.value) > 0 ? parseInt(this.editGroup.get('quantity')?.value) : 0 
     }
 
