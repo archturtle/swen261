@@ -28,6 +28,8 @@ class UserTest {
 
     private final double keyboardPrice = 349.99; //The expected price for the keyboard
 
+    private final String keyboardDescription = "It's a keyboard"; //The expected description for the keyboard
+
     private final int keyboardQuantity = 300; //The expected quantity for the keyboard
 
     //The expected toString for the user after adding to cart
@@ -69,7 +71,7 @@ class UserTest {
     @Test
     void testAddToCart(){
         //Tests if the card was added to properly
-        Keyboard newKeyboard = new Keyboard(keyboardID, keyboardName, keyboardPrice, keyboardQuantity);
+        Keyboard newKeyboard = new Keyboard(keyboardID, keyboardName, keyboardPrice, keyboardDescription, keyboardQuantity);
         User newUser = new User(expectedID, expectedName, expectedRole);
 
         newUser.addToCart(newKeyboard.getId());
@@ -78,7 +80,7 @@ class UserTest {
 
     @Test void testGetCart() {
         // Checks if getting the cart works
-        Keyboard newKeyboard = new Keyboard(keyboardID, keyboardName, keyboardPrice, keyboardQuantity);
+        Keyboard newKeyboard = new Keyboard(keyboardID, keyboardName, keyboardPrice, keyboardDescription, keyboardQuantity);
         User newUser = new User(expectedID, expectedName, expectedRole);
 
         newUser.addToCart(newKeyboard.getId());
@@ -88,7 +90,7 @@ class UserTest {
     @Test
     void testRemoveFromCart(){
         //Tests if the card was removed from properly
-        Keyboard newKeyboard = new Keyboard(keyboardID, keyboardName, keyboardPrice, keyboardQuantity);
+        Keyboard newKeyboard = new Keyboard(keyboardID, keyboardName, keyboardPrice, keyboardDescription, keyboardQuantity);
         User newUser = new User(expectedID, expectedName, expectedRole);
 
         newUser.addToCart(newKeyboard.getId());

@@ -18,17 +18,19 @@ class KeyboardTest {
   private final String expectedName = "GMMK PRO";
   /* The expected price for the keyboard object. */
   private final double expectedPrice = 349.99;
+  /* The expected description for the keyboard object. */
+  private final String expectedDescription = "It's a keyboard";
   /* The expected quantity for the keyboard object. */
   private final int expectedQuantity = 300;
   /* The expected string for the keyboard object. */
-  private final String expectedToString = "Keyboard [id=1, name=GMMK PRO, price=349.990000, quantity=300]";
+  private final String expectedToString = "Keyboard [id=1, name=GMMK PRO, price=349.990000, description=It's a keyboard, quantity=300]";
 
   /**
    * Tests whether the Keyboard object is constructed properly.
    */
   @Test
   void testConstruction() {
-    Keyboard newKeyboard = new Keyboard(expectedID, expectedName, expectedPrice, expectedQuantity);
+    Keyboard newKeyboard = new Keyboard(expectedID, expectedName, expectedPrice, expectedDescription, expectedQuantity);
 
     assertEquals(newKeyboard.getId(), expectedID);
     assertEquals(newKeyboard.getName(), expectedName);
@@ -41,7 +43,7 @@ class KeyboardTest {
    */
   @Test
   void testSetName() {
-    Keyboard newKeyboard = new Keyboard(expectedID, expectedName, expectedPrice, expectedQuantity);
+    Keyboard newKeyboard = new Keyboard(expectedID, expectedName, expectedPrice, expectedDescription, expectedQuantity);
 
     String newName = "GMMK 2";
     newKeyboard.setName(newName);
@@ -53,7 +55,7 @@ class KeyboardTest {
    */
   @Test
   void testSetPrice() {
-    Keyboard newKeyboard = new Keyboard(expectedID, expectedName, expectedPrice, expectedQuantity);
+    Keyboard newKeyboard = new Keyboard(expectedID, expectedName, expectedPrice, expectedDescription, expectedQuantity);
 
     double newPrice = 300.00;
     newKeyboard.setPrice(newPrice);
@@ -65,7 +67,7 @@ class KeyboardTest {
    */
   @Test
   void testQuantity() {
-    Keyboard newKeyboard = new Keyboard(expectedID, expectedName, expectedPrice, expectedQuantity);
+    Keyboard newKeyboard = new Keyboard(expectedID, expectedName, expectedPrice, expectedDescription, expectedQuantity);
 
     int newQuantity = 150;
     newKeyboard.setQuantity(newQuantity);
@@ -78,7 +80,7 @@ class KeyboardTest {
    */
   @Test
   void testToString() {
-    Keyboard newKeyboard = new Keyboard(expectedID, expectedName, expectedPrice, expectedQuantity);
+    Keyboard newKeyboard = new Keyboard(expectedID, expectedName, expectedPrice, expectedDescription, expectedQuantity);
 
     assertEquals(newKeyboard.toString(), expectedToString);
   }
