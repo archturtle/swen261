@@ -21,6 +21,7 @@ import { ErrorPopupComponent } from './components/error-popup/error-popup.compon
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { QuantitySelectorComponent } from './components/quantity-selector/quantity-selector.component';
 import { CartItemComponent } from './components/cart-item/cart-item.component';
+import { CheckoutItemComponent } from './components/checkout-item/checkout-item.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { CartItemComponent } from './components/cart-item/cart-item.component';
     CheckoutComponent,
     QuantitySelectorComponent,
     CartItemComponent,
+    CheckoutItemComponent,
   ],
   imports: [
     BrowserModule,

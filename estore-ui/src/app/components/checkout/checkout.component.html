@@ -1,1 +1,52 @@
-<p>checkout works!</p>
+<app-navbar></app-navbar>
+
+<div class="container">
+  <div class="information">
+    <form class="form" [formGroup]="informationForm">
+      <div class="shipping" formGroupName="shipping">
+        <h3 class="form-names">Shipping Information</h3>
+        <p class="blurb">Entering a shipping address. This is where your items will be delivered to.</p>
+        <div class="two">
+          <input class="item-input" name="id-first-name" formControlName="firstName" placeholder="First Name" />
+          <input class="item-input" name="id-last-name" formControlName="lastName" placeholder="Last Name" />
+        </div>
+
+        <input class="item-input" name="id-address" formControlName="address" placeholder="Address" />
+        <input class="item-input" name="id-city" formControlName="city" placeholder="City" />
+
+        <div class="three">
+          <input class="item-input" name="id-country" formControlName="country" placeholder="Country" />
+          <input class="item-input" name="id-state" formControlName="state" placeholder="State" />
+          <input class="item-input" name="id-zip-code" formControlName="zipCode" placeholder="Zip Code"/>
+        </div>
+
+        <div class="two">
+          <input class="item-input" name="id-email" formControlName="email" placeholder="Email"/>
+          <input class="item-input" name="id-phone-number" formControlName="phoneNumber" placeholder="Phone Number"/>
+        </div>
+      </div>
+
+      <div class="payment" formGroupName="payment">
+        <h3 class="form-names">Payment Information</h3>
+        <p class="blurb">Enter a payment method. This is the card that will be charged for the order.</p>
+        <input class="item-input" name="id-holder" formControlName="creditCardHolder" placeholder="Card Holder" />
+        <input class="item-input" name="id-number" formControlName="creditCardNumber" placeholder="Card Number" />
+
+        <div class="three">
+          <input class="item-input" name="id-expiration" formControlName="creditCardExpiration" placeholder="MM/YY"/>
+          <input class="item-input" name="id-cvc" formControlName="creditCardCVC" placeholder="CVC" />
+          <input class="item-input" name="id-card-zip-code" formControlName="creditCardZipCode" placeholder="Zip Code"/>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="preview">
+    <h3>Purchase Preview - Total: ${{ getTotalPrice(cartItems) | number: '1.2' }}</h3>
+    <div class="items">
+      <app-checkout-item *ngFor="let item of cartItems" [item]="item"></app-checkout-item>
+    </div>
+  </div>
+</div>
+
+<button class="complete">Complete Checkout</button>

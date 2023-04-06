@@ -1,0 +1,96 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: -webkit-fill-available;
+  height: -moz-available;
+}
+
+.container {
+  display: flex;
+  width: 65%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 7.5%;
+  max-height: 700px;
+}
+
+.item-input {
+  appearance: none;
+  background-color: transparent;
+
+  font-size: 14px;
+  border: 1px solid rgb(208, 207, 207);
+  border-radius: 5px;
+  outline: none;
+
+  margin: 2.5px;
+  padding: 10px 7.5px;
+  width: -webkit-fill-available;
+  width: -moz-available;
+}
+
+.shipping .item-input {
+  margin-top: 10px;
+}
+
+.shipping {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-names {
+  margin-bottom: 10px;
+}
+
+.payment {
+  margin-top: 50px;
+}
+
+.payment .item-input {
+  margin-top: 10px;
+}
+
+.blurb {
+  margin-bottom: 15px;
+}
+
+.two {
+  display: flex;
+  flex-direction: row;
+  column-gap: 10px;
+}
+
+.three {
+  display: flex;
+  flex-direction: row;
+  column-gap: 10px;
+}
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  margin-left: 30px;
+  width: -webkit-fill-available;
+  width: -moz-available;
+}
+
+.items {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  overflow-y: scroll;
+}
+
+.complete {
+  appearance: none;
+  border: none;
+
+  width: 65%;
+  margin: 30px auto 0 auto;
+  background-color: blueviolet;
+  padding: 10px;
+  font-size: 18px;
+  border-radius: 5px;
+  cursor: pointer;
+}
