@@ -61,6 +61,10 @@ public class User {
     return this.cart.remove(item);
   }
 
+  public void clearCart() {
+    this.cart.clear();
+  }
+
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder("[\n");

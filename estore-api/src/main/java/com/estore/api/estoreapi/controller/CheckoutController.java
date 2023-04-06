@@ -1,17 +1,23 @@
 package com.estore.api.estoreapi.controller;
 
+import java.io.IOException;
+import java.util.Date;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.estore.api.estoreapi.model.CheckoutData;
+import com.estore.api.estoreapi.model.Keyboard;
+import com.estore.api.estoreapi.model.User;
 import com.estore.api.estoreapi.persistence.KeyboardFileDAO;
 import com.estore.api.estoreapi.persistence.UserFileDAO;
 
@@ -54,21 +60,38 @@ public class CheckoutController {
   }
 
   @PostMapping("")
-  public ResponseEntity<Void> checkout(@RequestBody CheckoutData checkoutData) {
+  public ResponseEntity<User> checkout(@RequestBody CheckoutData checkoutData) {
     LOG.log(Level.INFO,"POST /checkout {0}", checkoutData);
 
-    // try {
-    //   Keyboard[] found = this.keyboardDAO.findByName(keyboard.getName());
-    //   if (found.length != 0)
-    //     return new ResponseEntity<>(HttpStatus.CONFLICT);
+    try {
+      if (checkoutData.getCreditCardExpiration().before(new Date()) || 
+          checkoutData.getCreditCardNumber().length() != 16 || 
+          checkoutData.getCreditCardCVC() < 100 || checkoutData.getCreditCardCVC() > 999 ||
+          checkoutData.getCreditCardZipCode() < 10000 || checkoutData.getCreditCardZipCode() > 99999 || 
+          checkoutData.getCreditCardHolder().length() == 0)
+        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+      
+      User user = this.userDAO.findByID(checkoutData.getUserID());
+      if (user == null) 
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+     
+      Map<Integer, Integer> cartItems = user.getCart().stream()
+        .collect(Collectors.toMap(Function.identity(), item -> 1, Math::addExact));
+      
+      for (Map.Entry<Integer, Integer> entry : cartItems.entrySet()) {
+        Keyboard keyboard = this.keyboardDAO.findByID(entry.getKey());
+        if (keyboard == null) continue;
 
-    //   Keyboard newKeyboard = this.keyboardDAO.create(keyboard);
-    //   return new ResponseEntity<>(newKeyboard, HttpStatus.CREATED);
-    // } catch (IOException e) {
-    //   LOG.log(Level.SEVERE, e.getLocalizedMessage());
-    //   return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    // }
+        keyboard.setQuantity(keyboard.getQuantity() - entry.getValue());
+        this.keyboardDAO.update(keyboard);
+      }
 
-    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+      user.clearCart();
+      User newUser = this.userDAO.update(user);
+      return new ResponseEntity<>(newUser, HttpStatus.OK);
+    } catch (IOException e) {
+      LOG.log(Level.SEVERE, e.getLocalizedMessage());
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }
