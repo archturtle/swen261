@@ -1,4 +1,18 @@
-<p class="name">{{ item.keyboard.name }}</p>
-<p class="price">${{ item.keyboard.price | number: '1.2' }}</p>
-<app-quantity [quantity]="item.keyboard.quantity" [defaultValue]="item.quantity" (quantityModified)="onChange($event)"></app-quantity>
-<img (click)="deleteClicked()" class="cancel" src="../../../assets/x-circle.svg" alt="Delete Item" />
+<tr class="item-row">
+  <td class="item-image">
+    <img class="product-image" src="../../../assets/{{ cartItem.keyboard.id % 9 }}.webp">
+    <p>{{ cartItem.keyboard.name }}</p>
+  </td>
+  <td class="item-data">
+    <div>
+      <app-quantity-selector [maxQuantity]="cartItem.keyboard.quantity" [currentlySelectedIndex]="cartItem.quantity - 1" (quantityChanged)="quantityChanged($event)"></app-quantity-selector>
+    </div>
+  </td>
+  <td class="item-data">${{ cartItem.keyboard.price | number: '1.2' }}</td>
+  <td class="item-data">${{ (cartItem.quantity * cartItem.keyboard.price) | number: '1.2' }}</td>
+  <td class="item-data">
+    <div>
+      <img class="cancel" src="../../../assets/x-circle.svg" alt="Delete Item" (click)="quantityChanged(0)" /> 
+    </div>
+  </td>
+</tr>

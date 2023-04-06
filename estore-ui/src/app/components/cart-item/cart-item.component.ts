@@ -7,14 +7,10 @@ import { CartItem } from 'src/app/interfaces/cart-item';
   styleUrls: ['./cart-item.component.css']
 })
 export class CartItemComponent {
-  @Output() quantityModified: EventEmitter<number> = new EventEmitter<number>();
-  @Input() item: CartItem = <CartItem>{};
+  @Input() cartItem!: CartItem;
+  @Output() onQuantityChanged: EventEmitter<number> = new EventEmitter<number>();
 
-  onChange(item: number) {
-    this.quantityModified.emit(item);
-  }
-
-  deleteClicked() {
-    this.quantityModified.emit(0);
+  quantityChanged(value: number) {
+    this.onQuantityChanged.emit(value);
   }
 }

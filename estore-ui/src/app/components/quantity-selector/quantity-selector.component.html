@@ -1,0 +1,5 @@
+<img class="adjust-button" src="../../../assets/minus.svg" alt="Decrement Quantity" (click)="decrementQuantity()"/>
+<select class="quantity" name="quantity" (change)="quantitySelected()" #quantitySelector>
+  <option *ngFor="let item of [].constructor(maxQuantity); let i = index" [ngValue]="i" [attr.selected]="i == currentlySelectedIndex ? true : null">{{ i + 1 }}</option>
+</select>
+<img class="adjust-button" src="../../../assets/plus.svg" alt="Increment Quantity" (click)="incrementQuantity()"/>

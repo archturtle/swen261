@@ -16,10 +16,11 @@ import { EditorComponent } from './components/editor/editor.component';
 import { KeyboardDetailComponent } from './components/keyboard-detail/keyboard-detail.component';
 import { AddToCartComponent } from './components/add-to-cart/add-to-cart.component';
 import { CartComponent } from './components/cart/cart.component';
-import { CartItemComponent } from './components/cart-item/cart-item.component';
-import { QuantityComponent } from './components/quantity/quantity.component';
 import { NotNullOrEmptyPipe } from './pipes/not-null-or-empty.pipe';
 import { ErrorPopupComponent } from './components/error-popup/error-popup.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
+import { QuantitySelectorComponent } from './components/quantity-selector/quantity-selector.component';
+import { CartItemComponent } from './components/cart-item/cart-item.component';
 
 @NgModule({
   declarations: [
@@ -34,10 +35,11 @@ import { ErrorPopupComponent } from './components/error-popup/error-popup.compon
     KeyboardDetailComponent,
     AddToCartComponent,
     CartComponent,
-    CartItemComponent,
-    QuantityComponent,
     NotNullOrEmptyPipe,
     ErrorPopupComponent,
+    CheckoutComponent,
+    QuantitySelectorComponent,
+    CartItemComponent,
   ],
   imports: [
     BrowserModule,

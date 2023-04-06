@@ -47,6 +47,16 @@ export class CartComponent implements OnInit {
     )
   }
 
+  getTotalQuantity(values: CartItem[] | null): number {
+    if (!values) return 0;
+    return values.reduce((acc, val) => acc + val.quantity , 0)
+  }
+
+  getTotalPrice(values: CartItem[] | null): number {
+    if (!values) return 0;
+    return values.reduce((acc, val) => acc + (val.keyboard.price * val.quantity) , 0)
+  }
+
   async onQuantityChange(value: number, item: CartItem) {
     const currentUser = await firstValueFrom(this.loggedInUser$);
     if (Object.keys(currentUser).length === 0) return;
@@ -60,5 +70,9 @@ export class CartComponent implements OnInit {
       this.usersService.removeFromCart$(currentUser.id, item.keyboard.id, difference)
         .subscribe();
     }
+  }
+
+  identifyCartItem(index: any, item: CartItem) {
+    return item.quantity;
   }
 }

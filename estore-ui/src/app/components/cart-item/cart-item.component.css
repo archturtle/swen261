@@ -1,24 +1,40 @@
 :host {
-  display: flex;
-  flex-direction: row;
-  padding: 10px;
-  background-color: rgb(39, 39, 39);
+  display: contents;
+}
+
+.item-row td:first-child {
+  padding-left: 5px;
+}
+
+.item-row td:last-child {
+  padding-right: 5px;
+}
+
+.product-image {
+  width: 100px;
   border-radius: 5px;
+}
+
+.item-image {
+  display: flex;
   align-items: center;
+  column-gap: 10px;
+}
+
+.item-data {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.item-data div {
+  display: flex;
+  justify-content: center;
+}
+
+.item-row td { 
+  padding: 5px 0px; 
 }
 
 .cancel {
   cursor: pointer;
-  margin-left: 10px;
-}
-
-.name {
-  font-weight: bold;
-  font-size: 14px;
-}
-
-.price {
-  margin-left: 10px;
-  font-size: 14px;
-  margin-right: auto;
 }
