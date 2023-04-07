@@ -6,8 +6,8 @@ import { CartItem } from 'src/app/interfaces/cart-item';
 import { CheckoutData } from 'src/app/interfaces/checkout-data';
 import { User } from 'src/app/interfaces/user';
 import { CheckoutService } from 'src/app/services/checkout.service';
-import { NotifcationService } from 'src/app/services/notifcation.service';
-import { UsersService } from 'src/app/services/users.service';
+import { NotificationService } from 'src/app/services/notification.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-checkout',
@@ -33,7 +33,7 @@ export class CheckoutComponent implements OnInit {
     creditCardZipCode: 'Card zip code is required and must be 5 numbers.',
   }
 
-  loggedInUser$: Observable<User> = this.usersService.user$;
+  loggedInUser$: Observable<User> = this.UserService.user$;
   cartItems: CartItem[] = [];
   informationForm: FormGroup = this.formBuilder.group({
     firstName: ['', [Validators.required, Validators.minLength(1)]],
@@ -53,7 +53,7 @@ export class CheckoutComponent implements OnInit {
   });
   validationErrors: string[] = [];
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private usersService: UsersService, private checkoutService: CheckoutService, private notificationService: NotifcationService) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private UserService: UserService, private checkoutService: CheckoutService, private notificationService: NotificationService) {
     const state = this.router.getCurrentNavigation()?.extras.state;
     if (state == null) return;
 
@@ -61,7 +61,11 @@ export class CheckoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loggedInUser$.subscribe(value => this.currentUserID = value.id);
+    this.loggedInUser$.subscribe((user: User) => {
+      if (Object.keys(user).length == 0 || user.role == 0) this.router.navigate(['/']);
+
+      this.currentUserID = user.id;
+    });
   }
 
   get firstName() { return this.informationForm.get('firstName') }
@@ -114,9 +118,9 @@ export class CheckoutComponent implements OnInit {
     }
 
     let user = await firstValueFrom(this.checkoutService.checkout$(checkoutData));
-    user = await firstValueFrom(this.usersService.getUserById$(user.id)); 
+    user = await firstValueFrom(this.UserService.getUserById$(user.id)); 
 
-    this.notificationService.emitError("Checkout Successful!")
+    this.notificationService.postMessage("Checkout Successful!")
     this.router.navigate(['/']);
   }
 }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { Keyboard } from 'src/app/interfaces/keyboard';
-import { NotifcationService } from 'src/app/services/notifcation.service';
+import { NotificationService } from 'src/app/services/notification.service';
 import { KeyboardService } from 'src/app/services/keyboard.service';
 
 
@@ -14,7 +14,7 @@ export class KeyboardListComponent {
   private keyboards$: Observable<Keyboard[]> = this.keyboardService.keyboards$;
   filteredKeyboards$: Observable<Keyboard[]> = this.keyboardService.keyboards$;
 
-  constructor(private keyboardService: KeyboardService, private notificationService: NotifcationService) { }
+  constructor(private keyboardService: KeyboardService, private notificationService: NotificationService) { }
 
   ngOnInit(): void { 
     this.keyboardService.getKeyboards$()

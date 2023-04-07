@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { firstValueFrom, forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import { CartItem } from 'src/app/interfaces/cart-item';
 import { Keyboard } from 'src/app/interfaces/keyboard';
 import { User } from 'src/app/interfaces/user';
 import { KeyboardService } from 'src/app/services/keyboard.service';
-import { UsersService } from 'src/app/services/users.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-cart',
@@ -12,10 +13,10 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
-  loggedInUser$: Observable<User> = this.usersService.user$;
+  loggedInUser$: Observable<User> = this.UserService.user$;
   cartItems$!: Observable<CartItem[]>;
 
-  constructor(private usersService: UsersService, private keyboardService: KeyboardService) { }
+  constructor(private UserService: UserService, private keyboardService: KeyboardService, private router: Router) { }
 
   ngOnInit(): void {
     this.cartItems$ = this.loggedInUser$.pipe(
@@ -45,6 +46,10 @@ export class CartComponent implements OnInit {
         return 0;
       })),
     )
+
+    this.loggedInUser$.subscribe((user: User) => {
+      if (Object.keys(user).length == 0 || user.role == 0) this.router.navigate(['/'])
+    });
   }
 
   getTotalQuantity(values: CartItem[] | null): number {
@@ -64,10 +69,10 @@ export class CartComponent implements OnInit {
     let difference = item.quantity - value;
     if (difference == 0) return;
     if (difference < 0) {
-      this.usersService.addToCart$(currentUser.id, item.keyboard.id, difference * -1)
+      this.UserService.addToCart$(currentUser.id, item.keyboard.id, difference * -1)
         .subscribe();
     } else {
-      this.usersService.removeFromCart$(currentUser.id, item.keyboard.id, difference)
+      this.UserService.removeFromCart$(currentUser.id, item.keyboard.id, difference)
         .subscribe();
     }
   }

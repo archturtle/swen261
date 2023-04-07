@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UsersService } from './services/users.service';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -9,12 +9,12 @@ import { UsersService } from './services/users.service';
 export class AppComponent implements OnInit {
   title = 'estore-ui';
 
-  constructor(private usersService: UsersService) { }
+  constructor(private UserService: UserService) { }
 
   ngOnInit(): void {
     const id: string | null = localStorage.getItem("user")
     if (id != null) {
-      this.usersService.getUserById$(parseInt(id))
+      this.UserService.getUserById$(parseInt(id))
         .subscribe();
     }
   }

@@ -7,7 +7,7 @@ import { User } from '../interfaces/user';
 @Injectable({
   providedIn: 'root'
 })
-export class UsersService {
+export class UserService {
   private _user: BehaviorSubject<User> = new BehaviorSubject<User>(<User>{});
   public readonly user$: Observable<User> = this._user.asObservable();
 
@@ -69,7 +69,7 @@ export class UsersService {
   createUser$(user: User): Observable<User> {
     const url = `http://localhost:8080/users`;
 
-    return this.httpService.post<User>(url, user, UsersService.HTTP_OPTIONS)
+    return this.httpService.post<User>(url, user, UserService.HTTP_OPTIONS)
       .pipe(
         tap({
           next: (value: User) => { 

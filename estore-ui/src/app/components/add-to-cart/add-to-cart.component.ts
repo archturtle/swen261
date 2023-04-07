@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { firstValueFrom, Observable } from 'rxjs';
 import { Keyboard } from 'src/app/interfaces/keyboard';
 import { User } from 'src/app/interfaces/user';
-import { NotifcationService } from 'src/app/services/notifcation.service';
-import { UsersService } from 'src/app/services/users.service';
+import { NotificationService } from 'src/app/services/notification.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-add-to-cart',
@@ -13,11 +13,11 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./add-to-cart.component.css']
 })
 export class AddToCartComponent {
-  loggedInUser$: Observable<User> = this.usersService.user$;
+  loggedInUser$: Observable<User> = this.UserService.user$;
   @Input() keyboard: Keyboard = <Keyboard>{};
   @Input() quantity: number = 1;
 
-  constructor(private usersService: UsersService, private notificationService: NotifcationService, private router: Router) { }
+  constructor(private UserService: UserService, private notificationService: NotificationService, private router: Router) { }
 
   async addToCart() {
     const user: User = await firstValueFrom(this.loggedInUser$);
@@ -29,13 +29,13 @@ export class AddToCartComponent {
       return;
     }
     
-    this.usersService.addToCart$(user.id, this.keyboard.id, this.quantity)
+    this.UserService.addToCart$(user.id, this.keyboard.id, this.quantity)
       .subscribe(
         result => { },
         error => { 
           if ((error as HttpErrorResponse).status != HttpStatusCode.RangeNotSatisfiable) return;
 
-          this.notificationService.emitError("Purchase quantity exceeds amount in stock!");
+          this.notificationService.postMessage("Purchase quantity exceeds amount in stock!");
         }
       );
   }

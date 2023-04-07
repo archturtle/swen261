@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/interfaces/user';
-import { UsersService } from 'src/app/services/users.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-client',
@@ -9,7 +9,7 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./client.component.css']
 })
 export class ClientComponent {
-  loggedInUser$: Observable<User> = this.usersService.user$;
+  loggedInUser$: Observable<User> = this.UserService.user$;
 
-  constructor(private usersService: UsersService) { }
+  constructor(private UserService: UserService) { }
 }

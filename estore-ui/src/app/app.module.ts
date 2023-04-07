@@ -17,7 +17,7 @@ import { KeyboardDetailComponent } from './components/keyboard-detail/keyboard-d
 import { AddToCartComponent } from './components/add-to-cart/add-to-cart.component';
 import { CartComponent } from './components/cart/cart.component';
 import { NotNullOrEmptyPipe } from './pipes/not-null-or-empty.pipe';
-import { ErrorPopupComponent } from './components/error-popup/error-popup.component';
+import { MessagePopupComponent } from './components/message-popup/message-popup.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { QuantitySelectorComponent } from './components/quantity-selector/quantity-selector.component';
 import { CartItemComponent } from './components/cart-item/cart-item.component';
@@ -37,7 +37,7 @@ import { CheckoutItemComponent } from './components/checkout-item/checkout-item.
     AddToCartComponent,
     CartComponent,
     NotNullOrEmptyPipe,
-    ErrorPopupComponent,
+    MessagePopupComponent,
     CheckoutComponent,
     QuantitySelectorComponent,
     CartItemComponent,

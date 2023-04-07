@@ -10,7 +10,7 @@
   width: 65%;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 7.5%;
+  margin-top: 5%;
   max-height: 700px;
 }
 
@@ -96,14 +96,12 @@
 }
 
 .error-div {
-  margin-top: 10px;
-  margin-bottom: -10px;
-  font-size: 16px;
   display: flex;
   flex-direction: row;
-  column-gap: 20px;
-  justify-content: center;
-  align-items: center;
+  flex-wrap: wrap;
+  row-gap: 5px;
+  margin-top: 10px;
+  margin-bottom: -2%;
 
   width: 65%;
   margin-left: auto;
@@ -113,4 +111,6 @@
 .error-div p {
   color: rgb(235, 94, 94);
   font-weight: bold;
+  flex: 50%;
+  text-align: center;
 }

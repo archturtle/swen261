@@ -4,10 +4,10 @@ import { Keyboard } from '../interfaces/keyboard';
 @Injectable({
   providedIn: 'root'
 })
-export class NotifcationService {
+export class NotificationService {
   @Output() searchStringChanged: EventEmitter<string> = new EventEmitter<string>();
   @Output() keyboardSelected: EventEmitter<Keyboard> = new EventEmitter<Keyboard>()
-  @Output() errorOccurred: EventEmitter<string> = new EventEmitter<string>();
+  @Output() messagePosted: EventEmitter<string> = new EventEmitter<string>();
 
   changeSearch(search: string): void {
     this.searchStringChanged.emit(search);
@@ -17,7 +17,7 @@ export class NotifcationService {
     this.keyboardSelected.emit(keyboard);
   }
 
-  emitError(message: string): void {
-    this.errorOccurred.emit(message);
+  postMessage(message: string): void {
+    this.messagePosted.emit(message);
   }
 }

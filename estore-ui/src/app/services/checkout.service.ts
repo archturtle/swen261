@@ -3,7 +3,7 @@ import { CheckoutData } from '../interfaces/checkout-data';
 import { Observable, tap } from 'rxjs';
 import { User } from '../interfaces/user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { UsersService } from './users.service';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class CheckoutService {
     })
   };
 
-  constructor(private httpService: HttpClient, private usersService: UsersService) { }
+  constructor(private httpService: HttpClient, private UserService: UserService) { }
 
   checkout$(checkoutData: CheckoutData): Observable<User> {
     return this.httpService.post<User>('http://localhost:8080/checkout', checkoutData, CheckoutService.HTTP_OPTIONS)
