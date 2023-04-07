@@ -22,6 +22,7 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
 import { QuantitySelectorComponent } from './components/quantity-selector/quantity-selector.component';
 import { CartItemComponent } from './components/cart-item/cart-item.component';
 import { CheckoutItemComponent } from './components/checkout-item/checkout-item.component';
+import { CheckoutSuccessComponent } from './components/checkout-success/checkout-success.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { CheckoutItemComponent } from './components/checkout-item/checkout-item.
     QuantitySelectorComponent,
     CartItemComponent,
     CheckoutItemComponent,
+    CheckoutSuccessComponent,
   ],
   imports: [
     BrowserModule,

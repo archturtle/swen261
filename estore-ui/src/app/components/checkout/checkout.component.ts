@@ -120,7 +120,6 @@ export class CheckoutComponent implements OnInit {
     let user = await firstValueFrom(this.checkoutService.checkout$(checkoutData));
     user = await firstValueFrom(this.UserService.getUserById$(user.id)); 
 
-    this.notificationService.postMessage("Checkout Successful!")
-    this.router.navigate(['/']);
+    this.router.navigate(['/checkout/success']);
   }
 }
