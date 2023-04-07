@@ -1,12 +1,10 @@
 :host {
   display: flex;
   flex-direction: column;
+  width: 70%;
   height: -webkit-fill-available;
   height: -moz-available;
-}
 
-.container {
-  width: 70%;
   margin-top: 5%;
   margin-left: auto;
   margin-right: auto;
@@ -21,4 +19,50 @@
   display: flex;
   flex-direction: column;
   row-gap: 15px;
+}
+
+.cart-table {
+  width: -webkit-fill-available;
+  width: -moz-available;
+}
+
+.cart-table tr th:first-child {
+  text-align: justify;
+}
+
+.cart-empty {
+  padding: 0px 5px;
+}
+
+.hr {
+  padding: 5px 0px 5px 0px;
+}
+
+.checkout {
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.proceed-to-checkout {
+  appearance: none;
+  border: none;
+
+  background-color: blueviolet;
+  padding: 5px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.oos-notification {
+  margin-bottom: 10px;
 }

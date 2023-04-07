@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import { firstValueFrom, Observable } from 'rxjs';
 import { Keyboard } from 'src/app/interfaces/keyboard';
 import { User } from 'src/app/interfaces/user';
-import { NotifcationService } from 'src/app/services/notifcation.service';
+import { NotificationService } from 'src/app/services/notification.service';
 import { KeyboardService } from 'src/app/services/keyboard.service';
-import { UsersService } from 'src/app/services/users.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-keyboard',
@@ -13,13 +13,13 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./keyboard.component.css']
 })
 export class KeyboardComponent implements OnInit {
-  loggedInUser$: Observable<User> = this.usersService.user$;
-  @Input() keyboard: Keyboard = <Keyboard>{};
+  loggedInUser$: Observable<User> = this.userService.user$;
   isSelected: boolean = false;
+  @Input() keyboard: Keyboard = <Keyboard>{};
 
-  constructor(private usersService: UsersService, 
+  constructor(private userService: UserService, 
               private keyboardService: KeyboardService, 
-              private notificationService: NotifcationService, 
+              private notificationService: NotificationService, 
               private router: Router) {  }
 
   ngOnInit(): void {

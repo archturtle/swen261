@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UsersService } from './services/users.service';
+import { UserService } from './services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,14 +8,14 @@ import { UsersService } from './services/users.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'estore-ui';
+  currentURL: string = this.router.url;
 
-  constructor(private usersService: UsersService) { }
+  constructor(private userService: UserService, public router: Router) { }
 
   ngOnInit(): void {
     const id: string | null = localStorage.getItem("user")
     if (id != null) {
-      this.usersService.getUserById$(parseInt(id))
+      this.userService.getUserById$(parseInt(id))
         .subscribe();
     }
   }

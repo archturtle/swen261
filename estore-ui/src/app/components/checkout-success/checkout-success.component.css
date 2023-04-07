@@ -1,0 +1,19 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 10px;
+
+  width: 100%;
+  width: -webkit-fill-available;
+  width: -moz-fill-available;
+
+  height: 100%;
+  height: -webkit-fill-available;
+  height: -moz-fill-available;
+}
+
+.thumbs-up {
+  width: 20%;
+}

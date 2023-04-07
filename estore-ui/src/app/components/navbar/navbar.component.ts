@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/interfaces/user';
-import { UsersService } from 'src/app/services/users.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -11,9 +11,8 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class NavbarComponent { 
   loggedInUser$: Observable<User> = this.userService.user$;
-  currentURL: string = this.router.url;
 
-  constructor(private userService: UsersService, private router: Router) { }
+  constructor(private userService: UserService, public router: Router) { }
 
   processLogout(): void {
     this.userService.logOut$();

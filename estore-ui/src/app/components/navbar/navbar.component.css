@@ -6,6 +6,7 @@
   background-color: rgb(102, 22, 181);
   padding: 5px 10px 5px 10px;
   align-items: center;
+  height: 40px;
 }
 
 .name {
@@ -39,8 +40,4 @@
 
 .item:last-child {
   margin-right: 0px
-}
-
-.hidden {
-  visibility: hidden;
 }

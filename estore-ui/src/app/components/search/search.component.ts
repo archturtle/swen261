@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { NotifcationService } from 'src/app/services/notifcation.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-search',
@@ -9,12 +9,10 @@ import { NotifcationService } from 'src/app/services/notifcation.service';
 })
 export class SearchComponent {
   searchBox: FormControl = new FormControl('');
-  @Output() onSearchType: EventEmitter<string> = new EventEmitter();
 
-  constructor(private notifcationService: NotifcationService) { }
+  constructor(private notificationService: NotificationService) { }
 
   onType(): void {
-    this.onSearchType.emit(this.searchBox.value);
-    this.notifcationService.changeSearch(this.searchBox.value);
+    this.notificationService.searchChanged(this.searchBox.value);
   }
 }

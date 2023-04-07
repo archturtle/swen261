@@ -1,0 +1,7 @@
+<div class="container" [formGroup]="quantityForm">
+  <img class="adjust-button" src="../../../assets/minus.svg" alt="Decrement Quantity" (click)="decrementQuantity()"/>
+  <select class="quantity" name="quantity" formControlName="selectedQuantity" (change)="quantitySelected()">
+    <option *ngFor="let item of [].constructor(maxQuantity); let i = index" [value]="i + 1">{{ i + 1 }}</option>
+  </select>
+  <img class="adjust-button" src="../../../assets/plus.svg" alt="Increment Quantity" (click)="incrementQuantity()"/>
+</div>

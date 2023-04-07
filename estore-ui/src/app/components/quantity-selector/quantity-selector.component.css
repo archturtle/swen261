@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+}
+
+select {
+  background-color: transparent;
+  appearance: none;
+  outline: none;
+  border: 1px solid rgb(208, 207, 207);
+  font-size: 14px;
+  padding: 5px 10px;
+
+  text-align: center;
+  text-align-last: center;
+}
+
+option {
+  text-align: left;
+}
+
+.adjust-button {
+  width: 18px;
+  border-radius: 5px;
+  transition: background-color 0.1s ease-in;
+  padding: 5px;
+}
+
+.adjust-button:hover {
+  background-color: rgb(39, 39, 39);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}

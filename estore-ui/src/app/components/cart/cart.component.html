@@ -1,10 +1,27 @@
-<app-navbar></app-navbar>
-<div class="container">
-  <h2 class="title">Current Cart Items:</h2>
-  <hr />
+<p *ngIf="anyOutOfStock" class="oos-notification"><b>Important:</b> The highlighted items in your cart are currently out of stock or there is insufficient inventory to satisfy your purchase. They will be avaialable for purchase when they are restocked. In the meantime, you can still purchase the remaining items.</p>
 
-  <div class="cart-items">
-    <app-cart-item *ngFor="let item of cartItems$ | async" [item]="item" (quantityModified)="onQuantityChange($event, item)"></app-cart-item>
+<table class="cart-table">
+  <tr>
+    <th>Product Details</th>
+    <th>Quantity</th>
+    <th>Price</th>
+    <th>Total</th>
+    <th></th>
+  </tr> 
+
+  <tr> 
+    <td colspan="5" class="hr"> <hr /> </td>      
+  </tr>
+
+  <app-cart-item *ngFor="let cartItem of cartItems$ | async; trackBy: identifyCartItem" [cartItem]="cartItem"></app-cart-item>
+</table>
+
+<div *ngIf="shouldHideCheckout(cartItems$ | async)" class="checkout">
+  <div class="preview">
+    <p>{{ getTotalQuantity(cartItems$ | async) }} Purchasable Items</p>
+    <p>Total: ${{ getTotalPrice(cartItems$ | async) | number: '1.2' }}</p>
   </div>
-  <p *ngIf="(cartItems$ | async)?.length == 0">You have nothing in your cart!</p>
+  <button class="proceed-to-checkout" [routerLink]="['/checkout']" [state]="{ cart: getInStockItems(cartItems$ | async) }">Proceed to Checkout</button>
 </div>
+
+<p class="cart-empty" *ngIf="(cartItems$ | async)?.length == 0">You have nothing in your cart!</p>

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { firstValueFrom, forkJoin, map, Observable, of, switchMap } from 'rxjs';
+import { Router } from '@angular/router';
+import { filter, firstValueFrom, forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import { CartItem } from 'src/app/interfaces/cart-item';
 import { Keyboard } from 'src/app/interfaces/keyboard';
 import { User } from 'src/app/interfaces/user';
 import { KeyboardService } from 'src/app/services/keyboard.service';
-import { UsersService } from 'src/app/services/users.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-cart',
@@ -12,10 +13,11 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
-  loggedInUser$: Observable<User> = this.usersService.user$;
+  loggedInUser$: Observable<User> = this.userService.user$;
   cartItems$!: Observable<CartItem[]>;
+  anyOutOfStock: boolean = false;
 
-  constructor(private usersService: UsersService, private keyboardService: KeyboardService) { }
+  constructor(private userService: UserService, private keyboardService: KeyboardService, private router: Router) { }
 
   ngOnInit(): void {
     this.cartItems$ = this.loggedInUser$.pipe(
@@ -35,7 +37,12 @@ export class CartComponent implements OnInit {
       }),
       map(([cartIds, items]: [Map<number, number>, Keyboard[]]) => {
         return items.map((item: Keyboard): CartItem => {
-          return { keyboard: item, quantity: cartIds.get(item.id)! }
+          if (item.quantity === 0 || cartIds.get(item.id)! > item.quantity) this.anyOutOfStock = true;
+          return { 
+            keyboard: item, 
+            quantity: cartIds.get(item.id)!, 
+            outOfStock: (item.quantity === 0 || cartIds.get(item.id)! > item.quantity) 
+          };
         });
       }),
       map((things: CartItem[]) => [...things].sort((a: CartItem, b: CartItem) => {
@@ -45,20 +52,34 @@ export class CartComponent implements OnInit {
         return 0;
       })),
     )
+
+    this.loggedInUser$.subscribe((user: User) => {
+      if (Object.keys(user).length == 0 || user.role == 0) this.router.navigate(['/'])
+    });
   }
 
-  async onQuantityChange(value: number, item: CartItem) {
-    const currentUser = await firstValueFrom(this.loggedInUser$);
-    if (Object.keys(currentUser).length === 0) return;
+  getTotalQuantity(values: CartItem[] | null): number {
+    if (!values) return 0;
+    return values.reduce((acc, val) => acc + (!val.outOfStock ? val.quantity : 0), 0)
+  }
 
-    let difference = item.quantity - value;
-    if (difference == 0) return;
-    if (difference < 0) {
-      this.usersService.addToCart$(currentUser.id, item.keyboard.id, difference * -1)
-        .subscribe();
-    } else {
-      this.usersService.removeFromCart$(currentUser.id, item.keyboard.id, difference)
-        .subscribe();
-    }
+  getTotalPrice(values: CartItem[] | null): number {
+    if (!values) return 0;
+    return values.reduce((acc, val) => acc + (!val.outOfStock ? val.keyboard.price * val.quantity : 0) , 0)
+  }
+
+  shouldHideCheckout(values: CartItem[] | null): boolean {
+    if (!values || values.length == 0) return true;
+
+    return values.filter(item => !item.outOfStock).length !== 0;
+  }
+
+  getInStockItems(values: CartItem[] | null): CartItem[] {
+    if (!values) return [];
+    return values.filter(item => !item.outOfStock);
+  }
+
+  identifyCartItem(index: any, item: CartItem) {
+    return item.quantity;
   }
 }

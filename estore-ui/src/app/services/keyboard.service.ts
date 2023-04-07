@@ -23,9 +23,7 @@ export class KeyboardService {
     return this.httpService.get<Keyboard[]>(url)
       .pipe(
         tap({
-          next: (value: Keyboard[]) => {
-            this._keyboards.next(value);
-          }
+          next: (value: Keyboard[]) => { this._keyboards.next(value); }
         })
       )
   }
@@ -38,9 +36,7 @@ export class KeyboardService {
     return this.httpService.post<Keyboard>('http://localhost:8080/keyboards', keyboard, KeyboardService.HTTP_OPTIONS)
       .pipe(
         tap({
-          next: (value: Keyboard) => {
-            this._keyboards.next([...this._keyboards.value, value]);
-          },
+          next: (value: Keyboard) => { this._keyboards.next([...this._keyboards.value, value]); },
         })
       )
   }

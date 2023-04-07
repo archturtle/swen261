@@ -1,6 +1,0 @@
-<div class="quantity-button">
-  <select class="quantity" name="quantity" (change)="onChange($event)">
-    <option *ngFor="let item of [].constructor(quantity); let i = index" [ngValue]="i" [attr.selected]="(i + 1) == defaultValue ? true : null">{{ i + 1 }}</option>
-  </select>
-  <p class="label">Selected</p>
-</div>

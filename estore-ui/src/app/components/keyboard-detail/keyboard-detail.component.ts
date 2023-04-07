@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Keyboard } from 'src/app/interfaces/keyboard';
 import { User } from 'src/app/interfaces/user';
 import { KeyboardService } from 'src/app/services/keyboard.service';
-import { UsersService } from 'src/app/services/users.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-keyboard-detail',
@@ -12,12 +12,12 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./keyboard-detail.component.css']
 })
 export class KeyboardDetailComponent implements OnInit {
-  loggedInUser$: Observable<User> = this.usersService.user$;
+  loggedInUser$: Observable<User> = this.userService.user$;
   keyboard: Keyboard = <Keyboard>{};
   selectedValue!: Event;
   quantity: number = 1;
 
-  constructor(private router: Router, private route: ActivatedRoute, private keyboardService: KeyboardService, private usersService: UsersService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private keyboardService: KeyboardService, private userService: UserService) { }
 
   ngOnInit(): void {
     const id: string | null = this.route.snapshot.paramMap.get('id');
@@ -33,7 +33,7 @@ export class KeyboardDetailComponent implements OnInit {
     })
   }
 
-  quantityChanged(value: number): void {
+  handleQuantityChange(value: number): void {
     this.quantity = value;
   }
 }

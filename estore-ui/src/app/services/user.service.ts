@@ -7,10 +7,9 @@ import { User } from '../interfaces/user';
 @Injectable({
   providedIn: 'root'
 })
-export class UsersService {
+export class UserService {
   private _user: BehaviorSubject<User> = new BehaviorSubject<User>(<User>{});
   public readonly user$: Observable<User> = this._user.asObservable();
-
   private static HTTP_OPTIONS: object = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -24,24 +23,8 @@ export class UsersService {
 
     return this.httpService.get<User[]>(url)
       .pipe(
-        map((result: User[]) => {
-          return result.map((r: User) => {
-            return {
-              id: r["id"],
-              name: r["name"],
-              role: r["role"],
-              cart: r["cart"]
-            }
-          });
-        }),
-        map((result: User[]) => {
-          return (result.length == 0) ? <User>{} : result[0]
-        }),
-        tap({
-          next: (value: User) => {
-            this._user.next(value);
-          }
-        })
+        map((result: User[]) => { return (result.length == 0) ? <User>{} : result[0] }),
+        tap({ next: (value: User) => { this._user.next(value); } })
       );
   }
 
@@ -50,70 +33,30 @@ export class UsersService {
 
     return this.httpService.get<User>(url)
     .pipe(
-      map((r: User) => {
-        return {
-          id: r["id"],
-          name: r["name"],
-          role: r["role"],
-          cart: r["cart"]
-        }
-      }),
-      tap({
-        next: (value: User) => {
-          this._user.next(value);
-        }
-      })
+      tap({ next: (value: User) => { this._user.next(value); } })
     ); 
   }
 
   createUser$(user: User): Observable<User> {
     const url = `http://localhost:8080/users`;
 
-    return this.httpService.post<User>(url, user, UsersService.HTTP_OPTIONS)
+    return this.httpService.post<User>(url, user, UserService.HTTP_OPTIONS)
       .pipe(
-        tap({
-          next: (value: User) => { 
-            this._user.next(value) 
-          }
-        })
+        tap({ next: (value: User) => { this._user.next(value) } })
       );
   }
 
   addToCart$(userId: number, keyboardId: number, quantity: number): Observable<User> {
     return this.httpService.post<User>(`http://localhost:8080/users/${userId}/cart/?productId=${keyboardId}&quantity=${quantity}`, <User>{})
       .pipe(
-        map((r: User) => {
-          return {
-            id: r["id"],
-            name: r["name"],
-            role: r["role"],
-            cart: r["cart"]
-          }
-        }),
-        tap({
-          next: (value: User) => {
-            this._user.next(value);
-          }
-        })
+        tap({ next: (value: User) => { this._user.next(value); } })
       )
   } 
 
   removeFromCart$(userId: number, keyboardId: number, quantity: number): Observable<User> {
     return this.httpService.delete<User>(`http://localhost:8080/users/${userId}/cart/?productId=${keyboardId}&quantity=${quantity}`)
       .pipe(
-        map((r: User) => {
-          return {
-            id: r["id"],
-            name: r["name"],
-            role: r["role"],
-            cart: r["cart"]
-          }
-        }),
-        tap({
-          next: (value: User) => {
-            this._user.next(value);
-          }
-        })
+        tap({ next: (value: User) => { this._user.next(value); } })
       )
   } 
 

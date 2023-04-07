@@ -1,1 +1,1 @@
-[{"id":1,"name":"admin","role":0,"cart":[]},{"id":2,"name":"siddhartha","role":1,"cart":[]},{"id":3,"name":"siddharthajuluru","role":1,"cart":[]},{"id":4,"name":"Sid is a homo","role":1,"cart":[]}]
+[{"id":1,"name":"admin","role":0,"cart":[]},{"id":2,"name":"siddhartha","role":1,"cart":[5,5,5,5]},{"id":3,"name":"siddharthajuluru","role":1,"cart":[3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,5,5,5,8]},{"id":4,"name":"Sid is a homo","role":1,"cart":[]}]
