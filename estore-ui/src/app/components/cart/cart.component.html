@@ -16,12 +16,12 @@
   <app-cart-item *ngFor="let cartItem of cartItems$ | async; trackBy: identifyCartItem" [cartItem]="cartItem"></app-cart-item>
 </table>
 
-<div *ngIf="(cartItems$ | async)?.length != 0" class="checkout">
+<div *ngIf="shouldHideCheckout(cartItems$ | async)" class="checkout">
   <div class="preview">
-    <p>{{ getTotalQuantity(cartItems$ | async) }} Items In Cart</p>
+    <p>{{ getTotalQuantity(cartItems$ | async) }} Purchasable Items</p>
     <p>Total: ${{ getTotalPrice(cartItems$ | async) | number: '1.2' }}</p>
   </div>
-  <button class="proceed-to-checkout" [routerLink]="['/checkout']" [state]="{ cart: (cartItems$ | async) }">Proceed to Checkout</button>
+  <button class="proceed-to-checkout" [routerLink]="['/checkout']" [state]="{ cart: getInStockItems(cartItems$ | async) }">Proceed to Checkout</button>
 </div>
 
 <p class="cart-empty" *ngIf="(cartItems$ | async)?.length == 0">You have nothing in your cart!</p>

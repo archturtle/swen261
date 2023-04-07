@@ -60,12 +60,23 @@ export class CartComponent implements OnInit {
 
   getTotalQuantity(values: CartItem[] | null): number {
     if (!values) return 0;
-    return values.reduce((acc, val) => acc + val.quantity , 0)
+    return values.reduce((acc, val) => acc + (!val.outOfStock ? val.quantity : 0), 0)
   }
 
   getTotalPrice(values: CartItem[] | null): number {
     if (!values) return 0;
-    return values.reduce((acc, val) => acc + (val.keyboard.price * val.quantity) , 0)
+    return values.reduce((acc, val) => acc + (!val.outOfStock ? val.keyboard.price * val.quantity : 0) , 0)
+  }
+
+  shouldHideCheckout(values: CartItem[] | null): boolean {
+    if (!values || values.length == 0) return true;
+
+    return values.filter(item => !item.outOfStock).length !== 0;
+  }
+
+  getInStockItems(values: CartItem[] | null): CartItem[] {
+    if (!values) return [];
+    return values.filter(item => !item.outOfStock);
   }
 
   identifyCartItem(index: any, item: CartItem) {
