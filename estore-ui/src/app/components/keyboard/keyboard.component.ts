@@ -14,8 +14,8 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class KeyboardComponent implements OnInit {
   loggedInUser$: Observable<User> = this.UserService.user$;
-  @Input() keyboard: Keyboard = <Keyboard>{};
   isSelected: boolean = false;
+  @Input() keyboard: Keyboard = <Keyboard>{};
 
   constructor(private UserService: UserService, 
               private keyboardService: KeyboardService, 

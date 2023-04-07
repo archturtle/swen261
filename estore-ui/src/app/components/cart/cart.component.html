@@ -1,28 +1,25 @@
-<app-navbar></app-navbar>
-<div class="container">
-  <table class="cart-table">
-    <tr>
-      <th>Product Details</th>
-      <th>Quantity</th>
-      <th>Price</th>
-      <th>Total</th>
-      <th></th>
-    </tr> 
+<table class="cart-table">
+  <tr>
+    <th>Product Details</th>
+    <th>Quantity</th>
+    <th>Price</th>
+    <th>Total</th>
+    <th></th>
+  </tr> 
 
-    <tr> 
-      <td colspan="5" class="hr"> <hr /> </td>      
-    </tr>
+  <tr> 
+    <td colspan="5" class="hr"> <hr /> </td>      
+  </tr>
 
-    <app-cart-item *ngFor="let cartItem of cartItems$ | async; trackBy: identifyCartItem" [cartItem]="cartItem" (onQuantityChanged)="onQuantityChange($event, cartItem)"></app-cart-item>
-  </table>
+  <app-cart-item *ngFor="let cartItem of cartItems$ | async; trackBy: identifyCartItem" [cartItem]="cartItem" (onQuantityChanged)="onQuantityChange($event, cartItem)"></app-cart-item>
+</table>
 
-  <div *ngIf="(cartItems$ | async)?.length != 0" class="checkout">
-    <div class="preview">
-      <p>{{ getTotalQuantity(cartItems$ | async) }} Items In Cart</p>
-      <p>Total: ${{ getTotalPrice(cartItems$ | async) | number: '1.2' }}</p>
-    </div>
-    <button class="proceed-to-checkout" [routerLink]="['/checkout']" [state]="{ cart: (cartItems$ | async) }">Proceed to Checkout</button>
+<div *ngIf="(cartItems$ | async)?.length != 0" class="checkout">
+  <div class="preview">
+    <p>{{ getTotalQuantity(cartItems$ | async) }} Items In Cart</p>
+    <p>Total: ${{ getTotalPrice(cartItems$ | async) | number: '1.2' }}</p>
   </div>
-
-  <p class="cart-empty" *ngIf="(cartItems$ | async)?.length == 0">You have nothing in your cart!</p>
+  <button class="proceed-to-checkout" [routerLink]="['/checkout']" [state]="{ cart: (cartItems$ | async) }">Proceed to Checkout</button>
 </div>
+
+<p class="cart-empty" *ngIf="(cartItems$ | async)?.length == 0">You have nothing in your cart!</p>

@@ -25,16 +25,6 @@ export class UserService {
     return this.httpService.get<User[]>(url)
       .pipe(
         map((result: User[]) => {
-          return result.map((r: User) => {
-            return {
-              id: r["id"],
-              name: r["name"],
-              role: r["role"],
-              cart: r["cart"]
-            }
-          });
-        }),
-        map((result: User[]) => {
           return (result.length == 0) ? <User>{} : result[0]
         }),
         tap({
@@ -50,14 +40,6 @@ export class UserService {
 
     return this.httpService.get<User>(url)
     .pipe(
-      map((r: User) => {
-        return {
-          id: r["id"],
-          name: r["name"],
-          role: r["role"],
-          cart: r["cart"]
-        }
-      }),
       tap({
         next: (value: User) => {
           this._user.next(value);
@@ -82,14 +64,6 @@ export class UserService {
   addToCart$(userId: number, keyboardId: number, quantity: number): Observable<User> {
     return this.httpService.post<User>(`http://localhost:8080/users/${userId}/cart/?productId=${keyboardId}&quantity=${quantity}`, <User>{})
       .pipe(
-        map((r: User) => {
-          return {
-            id: r["id"],
-            name: r["name"],
-            role: r["role"],
-            cart: r["cart"]
-          }
-        }),
         tap({
           next: (value: User) => {
             this._user.next(value);
@@ -101,14 +75,6 @@ export class UserService {
   removeFromCart$(userId: number, keyboardId: number, quantity: number): Observable<User> {
     return this.httpService.delete<User>(`http://localhost:8080/users/${userId}/cart/?productId=${keyboardId}&quantity=${quantity}`)
       .pipe(
-        map((r: User) => {
-          return {
-            id: r["id"],
-            name: r["name"],
-            role: r["role"],
-            cart: r["cart"]
-          }
-        }),
         tap({
           next: (value: User) => {
             this._user.next(value);

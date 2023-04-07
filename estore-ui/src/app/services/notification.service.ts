@@ -9,7 +9,7 @@ export class NotificationService {
   @Output() keyboardSelected: EventEmitter<Keyboard> = new EventEmitter<Keyboard>()
   @Output() messagePosted: EventEmitter<string> = new EventEmitter<string>();
 
-  changeSearch(search: string): void {
+  searchChanged(search: string): void {
     this.searchStringChanged.emit(search);
   }
 
