@@ -15,7 +15,7 @@ export class CheckoutService {
     })
   };
 
-  constructor(private httpService: HttpClient, private UserService: UserService) { }
+  constructor(private httpService: HttpClient) { }
 
   checkout$(checkoutData: CheckoutData): Observable<User> {
     return this.httpService.post<User>('http://localhost:8080/checkout', checkoutData, CheckoutService.HTTP_OPTIONS)

@@ -33,7 +33,7 @@ export class CheckoutComponent implements OnInit {
     creditCardZipCode: 'Card zip code is required and must be 5 numbers.',
   }
 
-  loggedInUser$: Observable<User> = this.UserService.user$;
+  loggedInUser$: Observable<User> = this.userService.user$;
   cartItems: CartItem[] = [];
   informationForm: FormGroup = this.formBuilder.group({
     firstName: ['', [Validators.required, Validators.minLength(1)]],
@@ -53,7 +53,7 @@ export class CheckoutComponent implements OnInit {
   });
   validationErrors: string[] = [];
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private UserService: UserService, private checkoutService: CheckoutService, private notificationService: NotificationService) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService, private checkoutService: CheckoutService, private notificationService: NotificationService) {
     const state = this.router.getCurrentNavigation()?.extras.state;
     if (state == null) return;
 
@@ -118,7 +118,7 @@ export class CheckoutComponent implements OnInit {
     }
 
     let user = await firstValueFrom(this.checkoutService.checkout$(checkoutData));
-    user = await firstValueFrom(this.UserService.getUserById$(user.id)); 
+    user = await firstValueFrom(this.userService.getUserById$(user.id)); 
 
     this.router.navigate(['/checkout/success']);
   }

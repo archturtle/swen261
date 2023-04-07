@@ -8,7 +8,7 @@
     </p>
 
     <div class="add-to-cart-interaction">
-      <app-quantity-selector class="{{ keyboard.quantity === 0 ? 'disabled' : '' }}" [maxQuantity]="keyboard.quantity" (quantityChanged)="quantityChanged($event)"></app-quantity-selector>
+      <app-quantity-selector *ngIf="keyboard.quantity !== 0" [maxQuantity]="keyboard.quantity" (quantityChanged)="handleQuantityChange($event)"></app-quantity-selector>
       <app-add-to-cart [keyboard]="keyboard" [quantity]="quantity"></app-add-to-cart>
     </div>
   </div>

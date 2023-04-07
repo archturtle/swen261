@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { firstValueFrom, forkJoin, map, Observable, of, switchMap } from 'rxjs';
+import { filter, firstValueFrom, forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import { CartItem } from 'src/app/interfaces/cart-item';
 import { Keyboard } from 'src/app/interfaces/keyboard';
 import { User } from 'src/app/interfaces/user';
@@ -13,10 +13,11 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
-  loggedInUser$: Observable<User> = this.UserService.user$;
+  loggedInUser$: Observable<User> = this.userService.user$;
   cartItems$!: Observable<CartItem[]>;
+  anyOutOfStock: boolean = false;
 
-  constructor(private UserService: UserService, private keyboardService: KeyboardService, private router: Router) { }
+  constructor(private userService: UserService, private keyboardService: KeyboardService, private router: Router) { }
 
   ngOnInit(): void {
     this.cartItems$ = this.loggedInUser$.pipe(
@@ -36,7 +37,12 @@ export class CartComponent implements OnInit {
       }),
       map(([cartIds, items]: [Map<number, number>, Keyboard[]]) => {
         return items.map((item: Keyboard): CartItem => {
-          return { keyboard: item, quantity: cartIds.get(item.id)! }
+          if (item.quantity === 0 || cartIds.get(item.id)! > item.quantity) this.anyOutOfStock = true;
+          return { 
+            keyboard: item, 
+            quantity: cartIds.get(item.id)!, 
+            outOfStock: (item.quantity === 0 || cartIds.get(item.id)! > item.quantity) 
+          };
         });
       }),
       map((things: CartItem[]) => [...things].sort((a: CartItem, b: CartItem) => {
@@ -60,21 +66,6 @@ export class CartComponent implements OnInit {
   getTotalPrice(values: CartItem[] | null): number {
     if (!values) return 0;
     return values.reduce((acc, val) => acc + (val.keyboard.price * val.quantity) , 0)
-  }
-
-  async onQuantityChange(value: number, item: CartItem) {
-    const currentUser = await firstValueFrom(this.loggedInUser$);
-    if (Object.keys(currentUser).length === 0) return;
-
-    let difference = item.quantity - value;
-    if (difference == 0) return;
-    if (difference < 0) {
-      this.UserService.addToCart$(currentUser.id, item.keyboard.id, difference * -1)
-        .subscribe();
-    } else {
-      this.UserService.removeFromCart$(currentUser.id, item.keyboard.id, difference)
-        .subscribe();
-    }
   }
 
   identifyCartItem(index: any, item: CartItem) {

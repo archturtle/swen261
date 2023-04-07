@@ -10,12 +10,12 @@ import { Router } from '@angular/router';
 export class AppComponent implements OnInit {
   currentURL: string = this.router.url;
 
-  constructor(private UserService: UserService, public router: Router) { }
+  constructor(private userService: UserService, public router: Router) { }
 
   ngOnInit(): void {
     const id: string | null = localStorage.getItem("user")
     if (id != null) {
-      this.UserService.getUserById$(parseInt(id))
+      this.userService.getUserById$(parseInt(id))
         .subscribe();
     }
   }

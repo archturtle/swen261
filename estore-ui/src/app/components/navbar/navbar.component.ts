@@ -11,9 +11,8 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class NavbarComponent { 
   loggedInUser$: Observable<User> = this.userService.user$;
-  currentURL: string = this.router.url;
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(private userService: UserService, public router: Router) { }
 
   processLogout(): void {
     this.userService.logOut$();

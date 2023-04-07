@@ -13,11 +13,11 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./keyboard.component.css']
 })
 export class KeyboardComponent implements OnInit {
-  loggedInUser$: Observable<User> = this.UserService.user$;
+  loggedInUser$: Observable<User> = this.userService.user$;
   isSelected: boolean = false;
   @Input() keyboard: Keyboard = <Keyboard>{};
 
-  constructor(private UserService: UserService, 
+  constructor(private userService: UserService, 
               private keyboardService: KeyboardService, 
               private notificationService: NotificationService, 
               private router: Router) {  }

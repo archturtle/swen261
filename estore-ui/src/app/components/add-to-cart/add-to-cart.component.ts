@@ -13,11 +13,11 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./add-to-cart.component.css']
 })
 export class AddToCartComponent {
-  loggedInUser$: Observable<User> = this.UserService.user$;
+  loggedInUser$: Observable<User> = this.userService.user$;
   @Input() keyboard: Keyboard = <Keyboard>{};
   @Input() quantity: number = 1;
 
-  constructor(private UserService: UserService, private notificationService: NotificationService, private router: Router) { }
+  constructor(private userService: UserService, private notificationService: NotificationService, private router: Router) { }
 
   async addToCart() {
     const user: User = await firstValueFrom(this.loggedInUser$);
@@ -29,14 +29,12 @@ export class AddToCartComponent {
       return;
     }
     
-    this.UserService.addToCart$(user.id, this.keyboard.id, this.quantity)
-      .subscribe(
-        result => { },
-        error => { 
-          if ((error as HttpErrorResponse).status != HttpStatusCode.RangeNotSatisfiable) return;
-
+    this.userService.addToCart$(user.id, this.keyboard.id, this.quantity)
+      .subscribe({
+        error: (err) => { 
+          if ((err as HttpErrorResponse).status != HttpStatusCode.RangeNotSatisfiable) return;
           this.notificationService.postMessage("Purchase quantity exceeds amount in stock!");
         }
-      );
+      });
   }
 }

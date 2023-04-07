@@ -1,3 +1,5 @@
+<p *ngIf="anyOutOfStock" class="oos-notification"><b>Important:</b> The highlighted items in your cart are currently out of stock or there is insufficient inventory to satisfy your purchase. They will be avaialable for purchase when they are restocked. In the meantime, you can still purchase the remaining items.</p>
+
 <table class="cart-table">
   <tr>
     <th>Product Details</th>
@@ -11,7 +13,7 @@
     <td colspan="5" class="hr"> <hr /> </td>      
   </tr>
 
-  <app-cart-item *ngFor="let cartItem of cartItems$ | async; trackBy: identifyCartItem" [cartItem]="cartItem" (onQuantityChanged)="onQuantityChange($event, cartItem)"></app-cart-item>
+  <app-cart-item *ngFor="let cartItem of cartItems$ | async; trackBy: identifyCartItem" [cartItem]="cartItem"></app-cart-item>
 </table>
 
 <div *ngIf="(cartItems$ | async)?.length != 0" class="checkout">

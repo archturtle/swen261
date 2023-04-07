@@ -9,6 +9,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 })
 export class SearchComponent {
   searchBox: FormControl = new FormControl('');
+
   constructor(private notificationService: NotificationService) { }
 
   onType(): void {

@@ -10,7 +10,6 @@ import { User } from '../interfaces/user';
 export class UserService {
   private _user: BehaviorSubject<User> = new BehaviorSubject<User>(<User>{});
   public readonly user$: Observable<User> = this._user.asObservable();
-
   private static HTTP_OPTIONS: object = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -24,14 +23,8 @@ export class UserService {
 
     return this.httpService.get<User[]>(url)
       .pipe(
-        map((result: User[]) => {
-          return (result.length == 0) ? <User>{} : result[0]
-        }),
-        tap({
-          next: (value: User) => {
-            this._user.next(value);
-          }
-        })
+        map((result: User[]) => { return (result.length == 0) ? <User>{} : result[0] }),
+        tap({ next: (value: User) => { this._user.next(value); } })
       );
   }
 
@@ -40,11 +33,7 @@ export class UserService {
 
     return this.httpService.get<User>(url)
     .pipe(
-      tap({
-        next: (value: User) => {
-          this._user.next(value);
-        }
-      })
+      tap({ next: (value: User) => { this._user.next(value); } })
     ); 
   }
 
@@ -53,33 +42,21 @@ export class UserService {
 
     return this.httpService.post<User>(url, user, UserService.HTTP_OPTIONS)
       .pipe(
-        tap({
-          next: (value: User) => { 
-            this._user.next(value) 
-          }
-        })
+        tap({ next: (value: User) => { this._user.next(value) } })
       );
   }
 
   addToCart$(userId: number, keyboardId: number, quantity: number): Observable<User> {
     return this.httpService.post<User>(`http://localhost:8080/users/${userId}/cart/?productId=${keyboardId}&quantity=${quantity}`, <User>{})
       .pipe(
-        tap({
-          next: (value: User) => {
-            this._user.next(value);
-          }
-        })
+        tap({ next: (value: User) => { this._user.next(value); } })
       )
   } 
 
   removeFromCart$(userId: number, keyboardId: number, quantity: number): Observable<User> {
     return this.httpService.delete<User>(`http://localhost:8080/users/${userId}/cart/?productId=${keyboardId}&quantity=${quantity}`)
       .pipe(
-        tap({
-          next: (value: User) => {
-            this._user.next(value);
-          }
-        })
+        tap({ next: (value: User) => { this._user.next(value); } })
       )
   } 
 

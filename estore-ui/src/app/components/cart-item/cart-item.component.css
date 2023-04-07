@@ -26,9 +26,14 @@
   vertical-align: middle;
 }
 
-.item-data div {
+.centering {
   display: flex;
   justify-content: center;
+}
+
+.out-of-stock {
+  background-color: rgb(39, 39, 39);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
 .item-row td { 
