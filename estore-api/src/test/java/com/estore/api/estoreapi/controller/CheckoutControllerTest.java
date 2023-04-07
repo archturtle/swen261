@@ -5,6 +5,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -228,17 +229,24 @@ public class CheckoutControllerTest {
     user.addToCart(1);
     user.addToCart(1);
     user.addToCart(1);
+    user.addToCart(2);
+    user.addToCart(2);
+    user.addToCart(3);
 
     Keyboard keyboard = new Keyboard(0, "GMMK PRO", 119.99, "It's a keyboard", 200);
+    Keyboard keyboard2 = new Keyboard(1, "GMMK 2", 100.00, "It's the new keyboard", 0);
+    Keyboard keyboard3 = new Keyboard(2, "GMMK 3", 100.00, "It's the new keyboard", 1);
     when(mockUserFileDAO.findByID(0)).thenReturn(user);
     when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
-    when(mockKeyboardFileDAO.findByID(1)).thenReturn(null);
+    when(mockKeyboardFileDAO.findByID(1)).thenReturn(keyboard2);
+    when(mockKeyboardFileDAO.findByID(2)).thenReturn(keyboard3);
+    when(mockKeyboardFileDAO.findByID(3)).thenReturn(null);
 
     Keyboard newKeyboard = new Keyboard(keyboard.getId(), keyboard.getName(), keyboard.getPrice(), keyboard.getDescription(), keyboard.getQuantity() - 4);
     when(mockKeyboardFileDAO.update(keyboard)).thenReturn(newKeyboard);
 
     User newUser = new User(user.getId(), user.getName(), user.getRole());
-    newUser.clearCart();
+    newUser.setCart(List.of(1, 1, 1, 1, 2));
     when(mockUserFileDAO.update(user)).thenReturn(newUser);
     
     ResponseEntity<User> response = checkoutController.checkout(checkoutData);

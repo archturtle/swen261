@@ -53,6 +53,10 @@ public class User {
     return this.cart;
   }
 
+  public void setCart(List<Integer> cart) {
+    this.cart = cart;
+  }
+
   public boolean addToCart(Integer item) {
     return this.cart.add(item);
   }

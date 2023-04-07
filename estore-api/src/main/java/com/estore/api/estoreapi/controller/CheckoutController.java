@@ -3,6 +3,7 @@ package com.estore.api.estoreapi.controller;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.logging.Level;
@@ -84,20 +85,21 @@ public class CheckoutController {
       if (user == null) 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
      
-      Map<Integer, Integer> cartItems = user.getCart().stream()
+      List<Integer> userCart = user.getCart();
+      Map<Integer, Integer> cartItems = userCart.stream()
         .collect(Collectors.toMap(Function.identity(), item -> 1, Math::addExact));
       
       for (Map.Entry<Integer, Integer> entry : cartItems.entrySet()) {
         Keyboard keyboard = this.keyboardDAO.findByID(entry.getKey());
         if (keyboard == null) continue;
+        if (keyboard.getQuantity() == 0) continue;
+        if (keyboard.getQuantity() < entry.getValue()) continue;
 
+        userCart.removeIf(x -> x == entry.getKey());
         keyboard.setQuantity(keyboard.getQuantity() - entry.getValue());
         this.keyboardDAO.update(keyboard);
       }
 
-      System.out.println(user);
-      user.clearCart();
-      System.out.println(user);
       User newUser = this.userDAO.update(user);
       return new ResponseEntity<>(newUser, HttpStatus.OK);
     } catch (Exception e) {
