@@ -3,7 +3,7 @@
 <div class="container">
   <div class="information">
     <form class="form" [formGroup]="informationForm">
-      <div class="shipping" formGroupName="shipping">
+      <div class="shipping">
         <h3 class="form-names">Shipping Information</h3>
         <p class="blurb">Entering a shipping address. This is where your items will be delivered to.</p>
         <div class="two">
@@ -26,7 +26,7 @@
         </div>
       </div>
 
-      <div class="payment" formGroupName="payment">
+      <div class="payment">
         <h3 class="form-names">Payment Information</h3>
         <p class="blurb">Enter a payment method. This is the card that will be charged for the order.</p>
         <input class="item-input" name="id-holder" formControlName="creditCardHolder" placeholder="Card Holder" />
@@ -49,4 +49,8 @@
   </div>
 </div>
 
-<button class="complete">Complete Checkout</button>
+<button class="complete" (click)="proceedWithCheckout()">Complete Checkout</button>
+
+<div *ngIf="validationErrors.length != 0" class="error-div">
+  <p *ngFor="let string of validationErrors">{{ string }}</p>
+</div>
