@@ -1,34 +1,54 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-quantity-selector',
   templateUrl: './quantity-selector.component.html',
   styleUrls: ['./quantity-selector.component.css']
 })
-export class QuantitySelectorComponent {
-  @ViewChild('quantitySelector') quantitySelector!: ElementRef<HTMLSelectElement>;
+export class QuantitySelectorComponent implements OnInit {
+  // Input/Output
   @Input() maxQuantity: number = 1;
-  @Input() currentlySelectedIndex: number = 0;
+  @Input() initialQuantity: number = 1;
   @Output() quantityChanged: EventEmitter<number> = new EventEmitter<number>();
 
-  decrementQuantity(): void {
-    if ((this.currentlySelectedIndex - 1) < 0) return;
+  // Forms
+  quantityForm = this.formBuilder.group({
+    selectedQuantity: ['1']
+  });
 
-    this.currentlySelectedIndex--;
-    this.quantitySelector.nativeElement.selectedIndex = this.currentlySelectedIndex;
-    this.quantityChanged.emit(parseInt(this.quantitySelector.nativeElement.value));
+  constructor(private formBuilder: FormBuilder) { }
+
+  ngOnInit(): void {
+    this.quantityForm.patchValue({
+      selectedQuantity: this.initialQuantity.toString()
+    })
+  }
+
+  get selectedQuantity() { return this.quantityForm.get('selectedQuantity'); }
+
+  decrementQuantity(): void {
+    let value = this.selectedQuantity?.value;
+    if (!value || parseInt(value) == 1) return;
+
+    this.quantityForm.patchValue({
+      selectedQuantity: (parseInt(value) - 1).toString()
+    });
   }
 
   quantitySelected(): void {
-    this.currentlySelectedIndex = this.quantitySelector.nativeElement.selectedIndex;
-    this.quantityChanged.emit(parseInt(this.quantitySelector.nativeElement.value));
+    let value = this.selectedQuantity?.value;
+    if (!value) return;
+
+    this.quantityChanged.emit(parseInt(value));
   }
 
   incrementQuantity(): void {
-    if ((this.currentlySelectedIndex + 1) >= this.maxQuantity) return;
+    let value = this.selectedQuantity?.value;
+    if (!value || parseInt(value) == this.maxQuantity) return;
 
-    this.currentlySelectedIndex++;
-    this.quantitySelector.nativeElement.selectedIndex = this.currentlySelectedIndex;
-    this.quantityChanged.emit(parseInt(this.quantitySelector.nativeElement.value));
+    this.quantityForm.patchValue({
+      selectedQuantity: (parseInt(value) + 1).toString() 
+    });
   }
 }
