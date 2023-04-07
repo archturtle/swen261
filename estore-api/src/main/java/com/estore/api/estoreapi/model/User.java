@@ -62,7 +62,7 @@ public class User {
   }
 
   public void clearCart() {
-    this.cart.clear();
+    this.cart = new ArrayList<>();
   }
 
   @Override

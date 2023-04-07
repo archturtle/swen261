@@ -1,14 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Observable, firstValueFrom } from 'rxjs';
 import { CartItem } from 'src/app/interfaces/cart-item';
+import { CheckoutData } from 'src/app/interfaces/checkout-data';
+import { User } from 'src/app/interfaces/user';
+import { CheckoutService } from 'src/app/services/checkout.service';
+import { NotifcationService } from 'src/app/services/notifcation.service';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css']
 })
-export class CheckoutComponent {
+export class CheckoutComponent implements OnInit {
+  private currentUserID: number = -1;
   private validationErrorString: { [name: string]: string } = {
     firstName: 'First name is required and longer than 1 character.',
     lastName: 'Last name is required and longer than 1 character.',
@@ -26,6 +33,7 @@ export class CheckoutComponent {
     creditCardZipCode: 'Card zip code is required and must be 5 numbers.',
   }
 
+  loggedInUser$: Observable<User> = this.usersService.user$;
   cartItems: CartItem[] = [];
   informationForm: FormGroup = this.formBuilder.group({
     firstName: ['', [Validators.required, Validators.minLength(1)]],
@@ -45,18 +53,37 @@ export class CheckoutComponent {
   });
   validationErrors: string[] = [];
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private usersService: UsersService, private checkoutService: CheckoutService, private notificationService: NotifcationService) {
     const state = this.router.getCurrentNavigation()?.extras.state;
     if (state == null) return;
 
     this.cartItems = state['cart']; 
   }
 
+  ngOnInit(): void {
+    this.loggedInUser$.subscribe(value => this.currentUserID = value.id);
+  }
+
+  get firstName() { return this.informationForm.get('firstName') }
+  get lastName() { return this.informationForm.get('lastName') }
+  get address() { return this.informationForm.get('address') }
+  get city() { return this.informationForm.get('city') }
+  get state() { return this.informationForm.get('state') }
+  get country() { return this.informationForm.get('country') }
+  get zipCode() { return this.informationForm.get('zipCode') }
+  get email() { return this.informationForm.get('email') }
+  get phoneNumber() { return this.informationForm.get('phoneNumber') }
+  get creditCardNumber() { return this.informationForm.get('creditCardNumber') }
+  get creditCardCVC() { return this.informationForm.get('creditCardCVC') }
+  get creditCardHolder() { return this.informationForm.get('creditCardHolder') }
+  get creditCardExpiration() { return this.informationForm.get('creditCardExpiration') }
+  get creditCardZipCode() { return this.informationForm.get('creditCardZipCode') }
+
   getTotalPrice(values: CartItem[]): number {
     return values.reduce((acc, val) => acc + (val.keyboard.price * val.quantity) , 0)
   }
 
-  proceedWithCheckout(): void {
+  async proceedWithCheckout() {
     this.validationErrors = [];
     if (!this.informationForm.valid) {
       Object.keys(this.informationForm.controls).forEach(controlKey => {
@@ -64,6 +91,32 @@ export class CheckoutComponent {
           this.validationErrors.push(this.validationErrorString[controlKey])
         }
       })
+
+      return;
     }
+
+    const checkoutData: CheckoutData = {
+      userID: this.currentUserID,
+      firstName: this.firstName?.value ?? "",
+      lastName: this.lastName?.value ?? "",
+      address: this.address?.value ?? "",
+      city: this.city?.value ?? "",
+      state: this.state?.value ?? "",
+      country: this.country?.value ?? "",
+      zipCode: parseInt(this.zipCode?.value ?? 0),
+      email: this.email?.value ?? "",
+      phoneNumber: this.phoneNumber?.value ?? "",
+      creditCardNumber: this.creditCardNumber?.value ?? "",
+      creditCardCVC: parseInt(this.creditCardCVC?.value ?? 0),
+      creditCardHolder: this.creditCardHolder?.value ?? "",
+      creditCardExpiration: this.creditCardExpiration?.value ?? "",
+      creditCardZipCode: parseInt(this.creditCardZipCode?.value ?? 0)
+    }
+
+    let user = await firstValueFrom(this.checkoutService.checkout$(checkoutData));
+    user = await firstValueFrom(this.usersService.getUserById$(user.id)); 
+
+    this.notificationService.emitError("Checkout Successful!")
+    this.router.navigate(['/']);
   }
 }

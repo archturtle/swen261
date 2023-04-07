@@ -51,7 +51,7 @@ public class CheckoutControllerTest {
   /* The expected credit card number for the checkout data object. */
   private final String expectedCreditCardNumber = "1234123412341234";
   /* The expected credit card expiration for the checkout data object. */
-  private Date expectedCreditCardDate;
+  private final String expectedCreditCardDate = "12/23";
   /* The expected credit card CVC for the checkout data object. */
   private final int expectedCreditCardCVC = 123;
   /* The expected credit card holder for the checkout data object. */
@@ -64,10 +64,6 @@ public class CheckoutControllerTest {
     mockKeyboardFileDAO = mock(KeyboardFileDAO.class);
     mockUserFileDAO = mock(UserFileDAO.class);
     checkoutController = new CheckoutController(mockKeyboardFileDAO, mockUserFileDAO);
-
-    try {
-      this.expectedCreditCardDate = new SimpleDateFormat("MM/yy").parse("12/27");
-    } catch (Exception e) { }
 
     this.checkoutData = new CheckoutData(expectedUserID, expectedFirstName, expectedLastName, expectedAddress, expectedCity, expectedState, expectedCountry, expectedZipCode, expectedEmail, expectedPhoneNumber, expectedCreditCardNumber, expectedCreditCardDate, expectedCreditCardCVC, expectedCreditCardHolder, expectedCreditCardZipCode);
   }
@@ -121,8 +117,8 @@ public class CheckoutControllerTest {
   }
 
   @Test
-  void testCheckoutFailsZipCodeLessThan10000() {
-    this.checkoutData.setZipCode(9999);
+  void testCheckoutFailsZipCodeLessThan100() {
+    this.checkoutData.setZipCode(99);
     
     ResponseEntity<User> response = checkoutController.checkout(checkoutData);
     assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
@@ -145,8 +141,24 @@ public class CheckoutControllerTest {
   }
 
   @Test
+  void testCheckoutFailsExpirationToShort() {
+    this.checkoutData.setCreditCardExpiration("2/21");
+    
+    ResponseEntity<User> response = checkoutController.checkout(checkoutData);
+    assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
+  }
+
+  @Test
+  void testCheckoutFailsExpirationToLong() {
+    this.checkoutData.setCreditCardExpiration("12/2021");
+    
+    ResponseEntity<User> response = checkoutController.checkout(checkoutData);
+    assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
+  }
+
+  @Test
   void testCheckoutFailsExpirationPassed() {
-    this.checkoutData.setCreditCardExpiration(new Date(0));
+    this.checkoutData.setCreditCardExpiration("12/21");
     
     ResponseEntity<User> response = checkoutController.checkout(checkoutData);
     assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
@@ -177,8 +189,8 @@ public class CheckoutControllerTest {
   }
 
   @Test
-  void testCheckoutFailsCardZipCodeLessThan10000() {
-    this.checkoutData.setCreditCardZipCode(9999);
+  void testCheckoutFailsCardZipCodeLessThan100() {
+    this.checkoutData.setCreditCardZipCode(99);
     
     ResponseEntity<User> response = checkoutController.checkout(checkoutData);
     assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());

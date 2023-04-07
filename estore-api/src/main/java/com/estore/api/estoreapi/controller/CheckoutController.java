@@ -1,6 +1,9 @@
 package com.estore.api.estoreapi.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Map;
 import java.util.function.Function;
@@ -67,15 +70,18 @@ public class CheckoutController {
       if (checkoutData.getFirstName().length() < 1 || checkoutData.getLastName().length() < 1 ||
           checkoutData.getAddress().length() < 1 || checkoutData.getCity().length() < 1 ||
           checkoutData.getState().length() != 2 || checkoutData.getCountry().length() < 1 ||
-          checkoutData.getZipCode() < 10000 || checkoutData.getZipCode() > 99999 ||
+          checkoutData.getZipCode() < 100 || checkoutData.getZipCode() > 99999 ||
           checkoutData.getEmail().length() < 1 ||
-          checkoutData.getCreditCardExpiration().before(new Date()) || 
+          checkoutData.getCreditCardExpiration().length() < 5 || 
           checkoutData.getCreditCardNumber().length() != 16 || 
           checkoutData.getCreditCardCVC() < 100 || checkoutData.getCreditCardCVC() > 999 ||
-          checkoutData.getCreditCardZipCode() < 10000 || checkoutData.getCreditCardZipCode() > 99999 || 
+          checkoutData.getCreditCardZipCode() < 100 || checkoutData.getCreditCardZipCode() > 99999 || 
           checkoutData.getCreditCardHolder().length() == 0)
         return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-      
+     
+      Date expiration = new SimpleDateFormat("MM/yy").parse(checkoutData.getCreditCardExpiration());
+      if (expiration.before(Date.from(Instant.now()))) return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        
       User user = this.userDAO.findByID(checkoutData.getUserID());
       if (user == null) 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -91,10 +97,12 @@ public class CheckoutController {
         this.keyboardDAO.update(keyboard);
       }
 
+      System.out.println(user);
       user.clearCart();
+      System.out.println(user);
       User newUser = this.userDAO.update(user);
       return new ResponseEntity<>(newUser, HttpStatus.OK);
-    } catch (IOException e) {
+    } catch (Exception e) {
       LOG.log(Level.SEVERE, e.getLocalizedMessage());
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }

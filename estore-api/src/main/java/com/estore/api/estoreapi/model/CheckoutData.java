@@ -1,11 +1,5 @@
 package com.estore.api.estoreapi.model;
 
-import java.util.Date;
-import java.text.Format;
-import java.text.SimpleDateFormat;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -18,11 +12,6 @@ public class CheckoutData {
    */
   private static final String STRING_FORMAT = "CheckoutData [userID=%d, firstName=%s, lastName=%s, address=%s, city=%s, state=%s, country=%s, zipCode=%d, email=%s, phoneNumber=%s, creditCardNumber=%s, creditCardExpiration=%s, creditCardCVC=%d, creditCardHolder=%s, creditCardZipCode=%d]";
   
-  /**
-   * The date formatter used for toString();
-   */
-  private static final Format DATE_FORMAT = new SimpleDateFormat("MM/YY");
-
   /**
    * The user associated with this {@linkplain CheckoutData checkoutData}.
    */
@@ -86,32 +75,31 @@ public class CheckoutData {
   /**
    * The credit card number associated with this {@linkplain CheckoutData checkoutData}.
    */
-  @JsonProperty("ccNumber")
+  @JsonProperty("creditCardNumber")
   private String creditCardNumber;
 
   /**
    * The credit card expiration date associated with this {@linkplain CheckoutData checkoutData}.
    */
-  @JsonProperty("ccExpiration")
-  @DateTimeFormat(pattern="MM/yy")
-  private Date creditCardExpiration;
+  @JsonProperty("creditCardExpiration")
+  private String creditCardExpiration;
 
   /**
    * The credit card cvc associated with this {@linkplain CheckoutData checkoutData}.
    */
-  @JsonProperty("ccCVC")
+  @JsonProperty("creditCardCVC")
   private int creditCardCVC;
 
   /**
    * The credit card holder associated with this {@linkplain CheckoutData checkoutData}.
    */
-  @JsonProperty("ccHolder")
+  @JsonProperty("creditCardHolder")
   private String creditCardHolder;
 
   /**
    * The credit card zip code associated with this {@linkplain CheckoutData checkoutData}.
    */
-  @JsonProperty("ccZipCode")
+  @JsonProperty("creditCardZipCode")
   private int creditCardZipCode;
 
 
@@ -137,11 +125,11 @@ public class CheckoutData {
     @JsonProperty("zipCode") int zipCode, 
     @JsonProperty("email") String email, 
     @JsonProperty("phoneNumber") String phoneNumber, 
-    @JsonProperty("ccNumber") String creditCardNumber, 
-    @JsonProperty("ccExpiration") @DateTimeFormat(pattern="MM/yy") Date creditCardExpiration, 
-    @JsonProperty("ccCVC") int creditCardCVC, 
-    @JsonProperty("ccHolder") String creditCardHolder, 
-    @JsonProperty("ccZipCode") int creditCardZipCode) {
+    @JsonProperty("creditCardNumber") String creditCardNumber, 
+    @JsonProperty("creditCardExpiration") String creditCardExpiration, 
+    @JsonProperty("creditCardCVC") int creditCardCVC, 
+    @JsonProperty("creditCardHolder") String creditCardHolder, 
+    @JsonProperty("creditCardZipCode") int creditCardZipCode) {
     this.userID = userID;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -362,7 +350,7 @@ public class CheckoutData {
    * 
    * @param expiration The credit card expiration of the checkout data.
    */
-  public void setCreditCardExpiration(Date expiration) {
+  public void setCreditCardExpiration(String expiration) {
     this.creditCardExpiration = expiration;
   } 
 
@@ -371,7 +359,7 @@ public class CheckoutData {
    * 
    * @return The credit card expiration of the checkout data.
    */
-  public Date getCreditCardExpiration() {
+  public String getCreditCardExpiration() {
     return this.creditCardExpiration;
   }
 
@@ -434,6 +422,6 @@ public class CheckoutData {
    */
   @Override
   public String toString() {
-    return String.format(STRING_FORMAT, this.userID, this.firstName, this.lastName, this.address, this.city, this.state, this.country, this.zipCode, this.email, this.phoneNumber, this.creditCardNumber, DATE_FORMAT.format(this.creditCardExpiration), this.creditCardCVC, this.creditCardHolder, this.creditCardZipCode);
+    return String.format(STRING_FORMAT, this.userID, this.firstName, this.lastName, this.address, this.city, this.state, this.country, this.zipCode, this.email, this.phoneNumber, this.creditCardNumber, this.creditCardExpiration, this.creditCardCVC, this.creditCardHolder, this.creditCardZipCode);
   } 
 }

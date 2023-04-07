@@ -39,7 +39,7 @@ public class CheckoutDataTest {
   /* The expected credit card number for the checkout data object. */
   private final String expectedCreditCardNumber = "1234123412341234";
   /* The expected credit card expiration for the checkout data object. */
-  private Date expectedCreditCardDate;
+  private final String expectedCreditCardDate = "12/21";
   /* The expected credit card CVC for the checkout data object. */
   private final int expectedCreditCardCVC = 123;
   /* The expected credit card holder for the checkout data object. */
@@ -51,11 +51,6 @@ public class CheckoutDataTest {
 
   @BeforeEach
   void setupDate() {
-    try {
-      this.expectedCreditCardDate = new SimpleDateFormat("MM/yy").parse("12/21");
-    } catch (Exception e) {
-    }
-
     this.checkoutData = new CheckoutData(expectedUserID, expectedFirstName, expectedLastName, expectedAddress, expectedCity, expectedState, expectedCountry, expectedZipCode, expectedEmail, expectedPhoneNumber, expectedCreditCardNumber, expectedCreditCardDate, expectedCreditCardCVC, expectedCreditCardHolder, expectedCreditCardZipCode);
   }
 
@@ -196,12 +191,7 @@ public class CheckoutDataTest {
    */
   @Test
   void testCreditCardExpiration() {
-    Date newDate = null;
-    try {
-      newDate = new SimpleDateFormat("MM/yy").parse("56/78");
-    } catch (Exception e) {
-    }
-
+    String newDate = "23/32";
     checkoutData.setCreditCardExpiration(newDate);
     assertEquals(checkoutData.getCreditCardExpiration(), newDate);
 
