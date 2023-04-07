@@ -1,12 +1,10 @@
 :host {
   display: flex;
   flex-direction: column;
+  width: 70%;
   height: -webkit-fill-available;
   height: -moz-available;
-}
 
-.container {
-  width: 70%;
   margin-top: 5%;
   margin-left: auto;
   margin-right: auto;
@@ -63,4 +61,8 @@
   font-size: 16px;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.oos-notification {
+  margin-bottom: 10px;
 }

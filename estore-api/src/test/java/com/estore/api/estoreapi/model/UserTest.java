@@ -2,6 +2,9 @@ package com.estore.api.estoreapi.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Tag;
 
@@ -87,6 +90,15 @@ class UserTest {
         assertEquals(expectedCartString, newUser.getCart().toString());
     }
 
+    @Test void testSetCart() {
+        // Checks if getting the cart works
+        User newUser = new User(expectedID, expectedName, expectedRole);
+        List<Integer> newCart = new ArrayList<>(List.of(1, 2, 3));
+
+        newUser.setCart(newCart);
+        assertEquals(newCart, newUser.getCart());
+    }
+
     @Test
     void testRemoveFromCart(){
         //Tests if the card was removed from properly
@@ -98,5 +110,14 @@ class UserTest {
         
         newUser.removeFromCart(newKeyboard.getId());
         assertEquals(newUser.toString(), expectedRemovedString);
+    }
+
+    @Test void testClearCart() {
+        // Checks if getting the cart works
+        User newUser = new User(expectedID, expectedName, expectedRole);
+        newUser.setCart(List.of(1, 2, 3));
+
+        newUser.clearCart();
+        assertEquals(List.of(), newUser.getCart());
     }
 }

@@ -9,12 +9,10 @@ import { NotificationService } from 'src/app/services/notification.service';
 })
 export class SearchComponent {
   searchBox: FormControl = new FormControl('');
-  @Output() onSearchType: EventEmitter<string> = new EventEmitter();
 
-  constructor(private NotificationService: NotificationService) { }
+  constructor(private notificationService: NotificationService) { }
 
   onType(): void {
-    this.onSearchType.emit(this.searchBox.value);
-    this.NotificationService.changeSearch(this.searchBox.value);
+    this.notificationService.searchChanged(this.searchBox.value);
   }
 }

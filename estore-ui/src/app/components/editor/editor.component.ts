@@ -13,8 +13,8 @@ export class EditorComponent implements OnInit {
   editGroup: FormGroup = this.formBuilder.group({
     id: { value: '', disabled: true },
     name: ['', [Validators.required, Validators.minLength(5)]],
-    price: [0, [Validators.required, Validators.min(1)]],
-    quantity: [0, [Validators.required, Validators.min(1)]],
+    price: [0, [Validators.required, Validators.min(0)]],
+    quantity: [0, [Validators.required, Validators.min(0)]],
     description: ['', [Validators.required, Validators.minLength(100)]]
   });
   addKeyboard: boolean = true;

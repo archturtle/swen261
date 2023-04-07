@@ -1,10 +1,8 @@
 <a class="name" [routerLink]="['/']">Keyboard EStore</a>
-<app-search class="{{ currentURL == '/' ? '' : 'hidden' }}"></app-search>
+<app-search *ngIf="router.url == '/'"></app-search>
 
-<ng-container *ngIf="(loggedInUser$ | async) as loggedInUser">
-  <div class="items">
-    <a *ngIf="(loggedInUser | notNullOrEmpty) && loggedInUser.role != 0" class="item" routerLink="/cart">Cart - {{ (loggedInUser$ | async)?.cart?.length }} Items</a>
-    <a *ngIf="!(loggedInUser | notNullOrEmpty)" class="item" routerLink="/login" [queryParams]="{ returnURL: currentURL }">Login</a>
-    <a *ngIf="loggedInUser | notNullOrEmpty" class="item" routerLink="/" (click)="processLogout()">Logout: {{ (loggedInUser$ | async)?.name }} </a>
-  </div>
-</ng-container>
+<div class="items" *ngIf="(loggedInUser$ | async) as loggedInUser">
+  <a *ngIf="(loggedInUser | notNullOrEmpty) && loggedInUser.role != 0" class="item" routerLink="/cart">Cart - {{ loggedInUser.cart.length }} Items</a>
+  <a *ngIf="!(loggedInUser | notNullOrEmpty)" class="item" routerLink="/login" [queryParams]="{ returnURL: router.url }">Login</a>
+  <a *ngIf="loggedInUser | notNullOrEmpty" class="item" routerLink="/" (click)="processLogout()">Logout: {{ loggedInUser.name }} </a>
+</div>

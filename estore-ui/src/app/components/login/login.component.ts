@@ -14,18 +14,17 @@ export class LoginComponent {
   loginForm: FormGroup = this.formBuilder.group({
     username: ['']
   });
-  // hideError: boolean = true;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private UserService: UserService) {  }
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private userService: UserService) {  }
 
   async loginFormSubmitted() {
     const username = this.loginForm.value['username'];
     if (username.trim().length == 0) return;
 
-    let resp = await firstValueFrom(this.UserService.getUser$(username))
+    let resp = await firstValueFrom(this.userService.getUser$(username))
     if (Object.keys(resp).length === 0) {
       const user: User = { id: 0, name: username, role: 1, cart: [] }
-      resp = await firstValueFrom(this.UserService.createUser$(user));
+      resp = await firstValueFrom(this.userService.createUser$(user));
     }
 
     const queryParams = await firstValueFrom(this.activatedRoute.queryParams
