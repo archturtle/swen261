@@ -16,7 +16,7 @@ public class CheckoutData {
    * The format that should be used when printing a {@linkplain CheckoutData checkoutData}
    * object.
    */
-  private static final String STRING_FORMAT = "CheckoutData [userID=%d, creditCardNumber=%s, creditCardExpiration=%s, creditCardCVC=%d, creditCardHolder=%s, creditCardZipCode=%d]";
+  private static final String STRING_FORMAT = "CheckoutData [userID=%d, firstName=%s, lastName=%s, address=%s, city=%s, state=%s, country=%s, zipCode=%d, email=%s, phoneNumber=%s, creditCardNumber=%s, creditCardExpiration=%s, creditCardCVC=%d, creditCardHolder=%s, creditCardZipCode=%d]";
   
   /**
    * The date formatter used for toString();
@@ -28,6 +28,60 @@ public class CheckoutData {
    */
   @JsonProperty("userID")
   private int userID;
+
+  /**
+   * The first name associated with this {@linkplain CheckoutData checkoutData}. 
+   */
+  @JsonProperty("firstName")
+  private String firstName;
+
+  /**
+   * The last name associated with this {@linkplain CheckoutData checkoutData}. 
+   */
+  @JsonProperty("lastName")
+  private String lastName;
+
+  /**
+   * The address associated with this {@linkplain CheckoutData checkoutData}. 
+   */
+  @JsonProperty("address")
+  private String address;
+
+  /**
+   * The city associated with this {@linkplain CheckoutData checkoutData}. 
+   */
+  @JsonProperty("city")
+  private String city;
+
+  /**
+   * The state associated with this {@linkplain CheckoutData checkoutData}. 
+   */
+  @JsonProperty("state")
+  private String state;
+
+  /**
+   * The country associated with this {@linkplain CheckoutData checkoutData}. 
+   */
+  @JsonProperty("country")
+  private String country;
+
+  /**
+   * The zip code associated with this {@linkplain CheckoutData checkoutData}. 
+   */
+  @JsonProperty("zipCode")
+  private int zipCode;
+
+  /**
+   * The email associated with this {@linkplain CheckoutData checkoutData}. 
+   */
+  @JsonProperty("email")
+  private String email;
+
+  /**
+   * The phone number associated with this {@linkplain CheckoutData checkoutData}. 
+   */
+  @JsonProperty("phoneNumber")
+  private String phoneNumber;
 
   /**
    * The credit card number associated with this {@linkplain CheckoutData checkoutData}.
@@ -72,14 +126,199 @@ public class CheckoutData {
    * @param creditCardHolder        The holder of the credit card
    * @param creditCardZipCode       The zip code of the credit card.
    */
-  public CheckoutData(@JsonProperty("userID") int userID, @JsonProperty("ccNumber") String creditCardNumber, @JsonProperty("ccExpiration") @DateTimeFormat(pattern="MM/yy") Date creditCardExpiration, 
-  @JsonProperty("ccCVC") int creditCardCVC, @JsonProperty("ccHolder") String creditCardHolder, @JsonProperty("ccZipCode") int creditCardZipCode) {
+  public CheckoutData(
+    @JsonProperty("userID") int userID,
+    @JsonProperty("firstName") String firstName, 
+    @JsonProperty("lastName") String lastName, 
+    @JsonProperty("address") String address, 
+    @JsonProperty("city") String city, 
+    @JsonProperty("state") String state, 
+    @JsonProperty("country") String country, 
+    @JsonProperty("zipCode") int zipCode, 
+    @JsonProperty("email") String email, 
+    @JsonProperty("phoneNumber") String phoneNumber, 
+    @JsonProperty("ccNumber") String creditCardNumber, 
+    @JsonProperty("ccExpiration") @DateTimeFormat(pattern="MM/yy") Date creditCardExpiration, 
+    @JsonProperty("ccCVC") int creditCardCVC, 
+    @JsonProperty("ccHolder") String creditCardHolder, 
+    @JsonProperty("ccZipCode") int creditCardZipCode) {
     this.userID = userID;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.address = address;
+    this.city = city;
+    this.state = state;
+    this.country = country;
+    this.zipCode = zipCode;
+    this.email = email;
+    this.phoneNumber = phoneNumber;
     this.creditCardNumber = creditCardNumber;
     this.creditCardExpiration = creditCardExpiration;
     this.creditCardCVC = creditCardCVC;
     this.creditCardHolder = creditCardHolder;
     this.creditCardZipCode = creditCardZipCode;
+  }
+
+  /**
+   * Sets the first name of the checkout data.
+   * 
+   * @param firstName The first name of the checkout data.
+   */
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  /**
+   * Retrieves the first name of the checkout data.
+   * 
+   * @return The first name of the checkout data. 
+   */
+  public String getFirstName() {
+    return firstName;
+  }
+
+  /**
+   * Sets the last name of the checkout data.
+   * 
+   * @param lastName The last name of the checkout data.
+   */
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+
+  /**
+   * Retrieves the last name of the checkout data.
+   * 
+   * @return The last name of the checkout data. 
+   */
+  public String getLastName() {
+    return lastName;
+  }
+
+  /**
+   * Sets the address of the checkout data.
+   * 
+   * @param address The address of the checkout data.
+   */
+  public void setAddress(String address) {
+    this.address = address;
+  }
+
+  /**
+   * Retrieves the address of the checkout data.
+   * 
+   * @return The address of the checkout data. 
+   */
+  public String getAddress() {
+    return address;
+  }
+
+  /**
+   * Sets the city of the checkout data.
+   * 
+   * @param city The city of the checkout data.
+   */
+  public void setCity(String city) {
+    this.city = city;
+  }
+
+  /**
+   * Retrieves the city of the checkout data.
+   * 
+   * @return The city of the checkout data. 
+   */
+  public String getCity() {
+    return city;
+  }
+
+  /**
+   * Sets the state of the checkout data.
+   * 
+   * @param state The state of the checkout data.
+   */
+  public void setState(String state) {
+    this.state = state;
+  }
+
+  /**
+   * Retrieves the state of the checkout data.
+   * 
+   * @return The state of the checkout data. 
+   */
+  public String getState() {
+    return state;
+  }
+
+  /**
+   * Sets the country of the checkout data.
+   * 
+   * @param country The country of the checkout data.
+   */
+  public void setCountry(String country) {
+    this.country = country;
+  }
+
+  /**
+   * Retrieves the country of the checkout data.
+   * 
+   * @return The country of the checkout data. 
+   */
+  public String getCountry() {
+    return country;
+  }
+
+  /**
+   * Sets the zipCode of the checkout data.
+   * 
+   * @param zipCode The zipCode of the checkout data.
+   */ 
+  public void setZipCode(int zipCode) {
+    this.zipCode = zipCode;
+  }
+
+  /**
+   * Retrieves the zipCode of the checkout data.
+   * 
+   * @return The zipCode of the checkout data. 
+   */
+  public int getZipCode() {
+    return zipCode;
+  }
+
+  /**
+   * Sets the email of the checkout data.
+   * 
+   * @param email The email of the checkout data.
+   */ 
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  /**
+   * Retrieves the email of the checkout data.
+   * 
+   * @return The email of the checkout data. 
+   */
+  public String getEmail() {
+    return email;
+  }
+
+  /**
+   * Sets the phoneNumber of the checkout data.
+   * 
+   * @param phoneNumber The phoneNumber of the checkout data.
+   */ 
+  public void setPhoneNumber(String phoneNumber) {
+    this.phoneNumber = phoneNumber;
+  }
+
+  /**
+   * Retrieves the phoneNumber of the checkout data.
+   * 
+   * @return The phoneNumber of the checkout data. 
+   */
+  public String getPhoneNumber() {
+    return phoneNumber;
   }
 
   /**
@@ -195,6 +434,6 @@ public class CheckoutData {
    */
   @Override
   public String toString() {
-    return String.format(STRING_FORMAT, this.userID, this.creditCardNumber, DATE_FORMAT.format(this.creditCardExpiration), this.creditCardCVC, this.creditCardHolder, this.creditCardZipCode);
+    return String.format(STRING_FORMAT, this.userID, this.firstName, this.lastName, this.address, this.city, this.state, this.country, this.zipCode, this.email, this.phoneNumber, this.creditCardNumber, DATE_FORMAT.format(this.creditCardExpiration), this.creditCardCVC, this.creditCardHolder, this.creditCardZipCode);
   } 
 }

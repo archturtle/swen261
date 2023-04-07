@@ -26,8 +26,28 @@ public class CheckoutControllerTest {
   private UserFileDAO mockUserFileDAO;
   private KeyboardFileDAO mockKeyboardFileDAO;
 
+  /* The checkout data object used for all tests. */
+  private CheckoutData checkoutData;
   /* The expected User ID for the checkout data object. */
   private final int expectedUserID = 0;
+  /* The expected First name for the checkout data object. */
+  private final String expectedFirstName = "Siddhartha";
+  /* The expected last name for the checkout data object. */
+  private final String expectedLastName = "Juluru";
+  /* The expected address for the checkout data object. */
+  private final String expectedAddress = "1 Lomb Memorial Drive";
+  /* The expected city for the checkout data object. */
+  private final String expectedCity = "Rochester";
+  /* The expected state for the checkout data object. */
+  private final String expectedState = "NY";
+  /* The expected country for the checkout data object. */
+  private final String expectedCountry = "United States";
+  /* The expected zip code for the checkout data object. */
+  private final int expectedZipCode = 14623;
+  /* The expected email for the checkout data object. */
+  private final String expectedEmail = "ssj4651@rit.edu";
+  /* The expected phone number for the checkout data object. */
+  private final String expectedPhoneNumber = "+1 (800) 588-2300";
   /* The expected credit card number for the checkout data object. */
   private final String expectedCreditCardNumber = "1234123412341234";
   /* The expected credit card expiration for the checkout data object. */
@@ -48,12 +68,85 @@ public class CheckoutControllerTest {
     try {
       this.expectedCreditCardDate = new SimpleDateFormat("MM/yy").parse("12/27");
     } catch (Exception e) { }
+
+    this.checkoutData = new CheckoutData(expectedUserID, expectedFirstName, expectedLastName, expectedAddress, expectedCity, expectedState, expectedCountry, expectedZipCode, expectedEmail, expectedPhoneNumber, expectedCreditCardNumber, expectedCreditCardDate, expectedCreditCardCVC, expectedCreditCardHolder, expectedCreditCardZipCode);
+  }
+
+  @Test
+  void testCheckoutFailsFirstNameEmpty() {
+    this.checkoutData.setFirstName("");
+    
+    ResponseEntity<User> response = checkoutController.checkout(checkoutData);
+    assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
+  }
+
+  @Test
+  void testCheckoutFailsLastNameEmpty() {
+    this.checkoutData.setLastName("");
+    
+    ResponseEntity<User> response = checkoutController.checkout(checkoutData);
+    assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
+  }
+
+  @Test
+  void testCheckoutFailsAddressEmpty() {
+    this.checkoutData.setAddress("");
+    
+    ResponseEntity<User> response = checkoutController.checkout(checkoutData);
+    assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
+  }
+
+  @Test
+  void testCheckoutFailsCityEmpty() {
+    this.checkoutData.setCity("");
+    
+    ResponseEntity<User> response = checkoutController.checkout(checkoutData);
+    assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
+  }
+
+  @Test
+  void testCheckoutFailsStateEmpty() {
+    this.checkoutData.setState("");
+    
+    ResponseEntity<User> response = checkoutController.checkout(checkoutData);
+    assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
+  }
+
+  @Test
+  void testCheckoutFailsCountryEmpty() {
+    this.checkoutData.setCountry("");
+    
+    ResponseEntity<User> response = checkoutController.checkout(checkoutData);
+    assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
+  }
+
+  @Test
+  void testCheckoutFailsZipCodeLessThan10000() {
+    this.checkoutData.setZipCode(9999);
+    
+    ResponseEntity<User> response = checkoutController.checkout(checkoutData);
+    assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
+  }
+
+  @Test
+  void testCheckoutFailsZipCodeGreaterThan99999() {
+    this.checkoutData.setZipCode(100000);
+    
+    ResponseEntity<User> response = checkoutController.checkout(checkoutData);
+    assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
+  }
+
+  @Test
+  void testCheckoutFailsEmailEmpty() {
+    this.checkoutData.setEmail("");
+    
+    ResponseEntity<User> response = checkoutController.checkout(checkoutData);
+    assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
   }
 
   @Test
   void testCheckoutFailsExpirationPassed() {
-    CheckoutData checkoutData = new CheckoutData(expectedUserID, expectedCreditCardNumber, new Date(0),
-        expectedCreditCardCVC, expectedCreditCardHolder, expectedCreditCardZipCode);
+    this.checkoutData.setCreditCardExpiration(new Date(0));
     
     ResponseEntity<User> response = checkoutController.checkout(checkoutData);
     assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
@@ -61,8 +154,7 @@ public class CheckoutControllerTest {
 
   @Test
   void testCheckoutFailsCardLengthLessThan16() {
-    CheckoutData checkoutData = new CheckoutData(expectedUserID, "", this.expectedCreditCardDate,
-        expectedCreditCardCVC, expectedCreditCardHolder, expectedCreditCardZipCode);
+    this.checkoutData.setCreditCardNumber("");
     
     ResponseEntity<User> response = checkoutController.checkout(checkoutData);
     assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
@@ -70,8 +162,7 @@ public class CheckoutControllerTest {
 
   @Test
   void testCheckoutFailsCardCVCLessThan100() {
-    CheckoutData checkoutData = new CheckoutData(expectedUserID, expectedCreditCardNumber, this.expectedCreditCardDate,
-        50, expectedCreditCardHolder, expectedCreditCardZipCode);
+    this.checkoutData.setCreditCardCVC(50);
     
     ResponseEntity<User> response = checkoutController.checkout(checkoutData);
     assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
@@ -79,8 +170,7 @@ public class CheckoutControllerTest {
 
   @Test
   void testCheckoutFailsCardCVCGreaterThan999() {
-    CheckoutData checkoutData = new CheckoutData(expectedUserID, expectedCreditCardNumber, this.expectedCreditCardDate,
-        1000, expectedCreditCardHolder, expectedCreditCardZipCode);
+    this.checkoutData.setCreditCardCVC(1000);
     
     ResponseEntity<User> response = checkoutController.checkout(checkoutData);
     assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
@@ -88,8 +178,7 @@ public class CheckoutControllerTest {
 
   @Test
   void testCheckoutFailsCardZipCodeLessThan10000() {
-    CheckoutData checkoutData = new CheckoutData(expectedUserID, expectedCreditCardNumber, this.expectedCreditCardDate,
-        expectedCreditCardCVC, expectedCreditCardHolder, 9999);
+    this.checkoutData.setCreditCardZipCode(9999);
     
     ResponseEntity<User> response = checkoutController.checkout(checkoutData);
     assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
@@ -97,8 +186,7 @@ public class CheckoutControllerTest {
 
   @Test
   void testCheckoutFailsCardZipCodeGreaterThan99999() {
-    CheckoutData checkoutData = new CheckoutData(expectedUserID, expectedCreditCardNumber, this.expectedCreditCardDate,
-        expectedCreditCardCVC, expectedCreditCardHolder, 100000);
+    this.checkoutData.setCreditCardZipCode(100000);
     
     ResponseEntity<User> response = checkoutController.checkout(checkoutData);
     assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
@@ -106,8 +194,7 @@ public class CheckoutControllerTest {
 
   @Test
   void testCheckoutFailsCardHolderEmpty() {
-    CheckoutData checkoutData = new CheckoutData(expectedUserID, expectedCreditCardNumber, this.expectedCreditCardDate,
-        expectedCreditCardCVC, "", expectedCreditCardZipCode);
+    this.checkoutData.setCreditCardHolder("");
     
     ResponseEntity<User> response = checkoutController.checkout(checkoutData);
     assertEquals(HttpStatus.NOT_ACCEPTABLE, response.getStatusCode());
@@ -115,8 +202,6 @@ public class CheckoutControllerTest {
 
   @Test
   void testCheckoutFailsUserDoesntExist() throws IOException {
-    CheckoutData checkoutData = new CheckoutData(expectedUserID, expectedCreditCardNumber, this.expectedCreditCardDate,
-        expectedCreditCardCVC, expectedCreditCardHolder, expectedCreditCardZipCode);
     when(mockUserFileDAO.findByID(expectedUserID)).thenReturn(null);
     
     ResponseEntity<User> response = checkoutController.checkout(checkoutData);
@@ -135,8 +220,6 @@ public class CheckoutControllerTest {
     user.addToCart(1);
 
     Keyboard keyboard = new Keyboard(0, "GMMK PRO", 119.99, "It's a keyboard", 200);
-    CheckoutData checkoutData = new CheckoutData(expectedUserID, expectedCreditCardNumber, this.expectedCreditCardDate,
-        expectedCreditCardCVC, expectedCreditCardHolder, expectedCreditCardZipCode);
     when(mockUserFileDAO.findByID(0)).thenReturn(user);
     when(mockKeyboardFileDAO.findByID(0)).thenReturn(keyboard);
     when(mockKeyboardFileDAO.findByID(1)).thenReturn(null);
@@ -155,8 +238,6 @@ public class CheckoutControllerTest {
 
   @Test
   void testCheckoutFailsExceptionThrown() throws IOException {
-    CheckoutData checkoutData = new CheckoutData(expectedUserID, expectedCreditCardNumber, this.expectedCreditCardDate,
-    expectedCreditCardCVC, expectedCreditCardHolder, expectedCreditCardZipCode);
     when(mockUserFileDAO.findByID(expectedUserID)).thenThrow(IOException.class);
 
     ResponseEntity<User> response = checkoutController.checkout(checkoutData);

@@ -64,7 +64,12 @@ public class CheckoutController {
     LOG.log(Level.INFO,"POST /checkout {0}", checkoutData);
 
     try {
-      if (checkoutData.getCreditCardExpiration().before(new Date()) || 
+      if (checkoutData.getFirstName().length() < 1 || checkoutData.getLastName().length() < 1 ||
+          checkoutData.getAddress().length() < 1 || checkoutData.getCity().length() < 1 ||
+          checkoutData.getState().length() != 2 || checkoutData.getCountry().length() < 1 ||
+          checkoutData.getZipCode() < 10000 || checkoutData.getZipCode() > 99999 ||
+          checkoutData.getEmail().length() < 1 ||
+          checkoutData.getCreditCardExpiration().before(new Date()) || 
           checkoutData.getCreditCardNumber().length() != 16 || 
           checkoutData.getCreditCardCVC() < 100 || checkoutData.getCreditCardCVC() > 999 ||
           checkoutData.getCreditCardZipCode() < 10000 || checkoutData.getCreditCardZipCode() > 99999 || 
