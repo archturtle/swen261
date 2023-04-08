@@ -16,6 +16,7 @@ export class KeyboardComponent implements OnInit {
   loggedInUser$: Observable<User> = this.userService.user$;
   isSelected: boolean = false;
   @Input() keyboard: Keyboard = <Keyboard>{};
+  @Input() isCustomKeyboard: boolean = false;
 
   constructor(private userService: UserService, 
               private keyboardService: KeyboardService, 
@@ -39,7 +40,8 @@ export class KeyboardComponent implements OnInit {
   async keyboardClicked() {
     const user: User = await firstValueFrom(this.loggedInUser$);
     if (Object.keys(user).length === 0 || user.role != 0) {
-      this.router.navigate(['keyboard', this.keyboard.id])
+      if (!this.isCustomKeyboard) this.router.navigate(['keyboard', this.keyboard.id])
+      else this.router.navigate(['/keyboard/configurator']);
       return;
     }
     

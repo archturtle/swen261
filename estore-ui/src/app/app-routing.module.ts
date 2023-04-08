@@ -6,10 +6,12 @@ import { LoginComponent } from './components/login/login.component';
 import { KeyboardDetailComponent } from './components/keyboard-detail/keyboard-detail.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { CheckoutSuccessComponent } from './components/checkout-success/checkout-success.component';
+import { KeyboardConfiguratorComponent } from './components/keyboard-configurator/keyboard-configurator.component';
 
 const routes: Routes = [
   { path: '', component: ClientComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'keyboard/configurator', component: KeyboardConfiguratorComponent },
   { path: 'keyboard/:id', component: KeyboardDetailComponent },
   { path: 'cart', component: CartComponent },
   { path: 'checkout', component: CheckoutComponent },

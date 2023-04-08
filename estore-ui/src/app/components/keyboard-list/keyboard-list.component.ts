@@ -13,6 +13,7 @@ import { KeyboardService } from 'src/app/services/keyboard.service';
 export class KeyboardListComponent {
   private keyboards$: Observable<Keyboard[]> = this.keyboardService.keyboards$;
   filteredKeyboards$: Observable<Keyboard[]> = this.keyboardService.keyboards$;
+  searchBoxEmpty: boolean = true;
 
   constructor(private keyboardService: KeyboardService, private notificationService: NotificationService) { }
 
@@ -22,9 +23,10 @@ export class KeyboardListComponent {
 
     this.notificationService.searchStringChanged
       .subscribe((data: string) => {
+        this.searchBoxEmpty = (data.trim().length === 0);
         this.filteredKeyboards$ = this.keyboards$.pipe(
           map(result => {
-            return result.filter(item => item.name.toLowerCase().startsWith(data.toLowerCase()))
+            return result.filter(item => item.name.toLowerCase().startsWith(data.trim().toLowerCase()))
           })
         );
       });

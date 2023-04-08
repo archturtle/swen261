@@ -1,8 +1,18 @@
 <div *ngIf="loggedInUser$ | async as loggedInUser" class="container {{ isSelected ? 'selected' : '' }}" (click)="keyboardClicked()">
-  <img class="img" src="../../../assets/{{ keyboard.id % 9 }}.webp" alt="Keyboard Image"/>
+  <img *ngIf="!isCustomKeyboard" class="img" src="../../../assets/{{ keyboard.id % 9 }}.webp" alt="Keyboard Image"/>
+  <img *ngIf="isCustomKeyboard" class="img" src="../../../assets/custom_keyboard.webp" alt="Custom Keyboard"/>
+
   <img *ngIf="(loggedInUser | notNullOrEmpty) && loggedInUser.role == 0" class="cancel" src="../../../assets/x-circle.svg" alt="Remove Keyboard From Inventory" (click)="removeKeyboard()" />
-  <p class="prodStock">{{ keyboard.quantity }} in stock</p>
-  <h4 class="prodName">{{ keyboard.name }} {{ (loggedInUser | notNullOrEmpty) && loggedInUser.role == 0 ? '- ID: ' + keyboard.id : '' }}</h4> 
-  <p class="prodPrice">${{ keyboard.price | number: '1.2' }}</p>
-  <app-add-to-cart [keyboard]="keyboard" [quantity]="1"></app-add-to-cart>
+
+  <p *ngIf="!isCustomKeyboard" class="prodStock">{{ keyboard.quantity }} in stock</p>
+  <p *ngIf="isCustomKeyboard" class="prodStock">In stock</p>
+
+  <h4 *ngIf="!isCustomKeyboard" class="prodName">{{ keyboard.name }} {{ (loggedInUser | notNullOrEmpty) && loggedInUser.role == 0 ? '- ID: ' + keyboard.id : '' }}</h4> 
+  <h4 *ngIf="isCustomKeyboard" class="prodName">Custom Keyboard</h4> 
+
+  <p *ngIf="!isCustomKeyboard" class="prodPrice">${{ keyboard.price | number: '1.2' }}</p>
+  <p *ngIf="isCustomKeyboard" class="prodPrice">Price Varies by Configuration</p>
+
+  <app-add-to-cart *ngIf="!isCustomKeyboard" [keyboard]="keyboard" [quantity]="1"></app-add-to-cart>
+  <button class="create" *ngIf="isCustomKeyboard" (click)="$event.stopPropagation()" [routerLink]="['/keyboard/configurator']">Create</button>
 </div>
