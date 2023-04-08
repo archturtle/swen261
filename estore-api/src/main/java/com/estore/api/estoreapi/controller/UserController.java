@@ -1,6 +1,8 @@
 package com.estore.api.estoreapi.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.estore.api.estoreapi.model.CartItem;
 import com.estore.api.estoreapi.model.Keyboard;
 import com.estore.api.estoreapi.model.User;
+import com.estore.api.estoreapi.model.CartItem.Type;
 import com.estore.api.estoreapi.persistence.KeyboardFileDAO;
 import com.estore.api.estoreapi.persistence.UserFileDAO;
 
@@ -155,27 +159,42 @@ public class UserController {
   }
 
   @PostMapping("/{userId}/cart")
-  public ResponseEntity<User> addItemToCart(@PathVariable int userId, @RequestParam int productId, @RequestParam int quantity) {
-    LOG.log(Level.INFO, "POST {0}", String.format("/users/%d/cart?productId=%d&quantity=%d", userId, productId, quantity));
+  // public ResponseEntity<User> addItemToCart(@PathVariable int userId, @RequestParam int productId, @RequestParam int quantity) {
+  public ResponseEntity<User> addItemToCart(@PathVariable int userId, @RequestBody CartItem cartItem) {
+    LOG.log(Level.INFO, "POST {0}", String.format("/%d/cart %s", userId, cartItem));
 
     try {
       User user = this.userDAO.findByID(userId);
-      Keyboard keyboard = this.keyboardDAO.findByID(productId);
-      if (user == null || keyboard == null)
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-      if (user.getRole() == 0) 
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-      if (quantity < 1) 
-        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+      if (user == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      if (user.getRole() == 0) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
-      long currProdInCart = user.getCart().stream()
-      .filter(item -> item == productId).count();
-  
-      if (currProdInCart + quantity > keyboard.getQuantity()) 
-        return new ResponseEntity<>(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE);
+      ArrayList<CartItem> userCart = new ArrayList<>(user.getCart());
+      if (cartItem.getCartItemType() == CartItem.Type.STANDARD_KEYBOARD) {
+        Keyboard keyboard = this.keyboardDAO.findByID(cartItem.getKeyboardID());
+        if (keyboard == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (cartItem.getQuantity() < 1 || cartItem.getQuantity() > keyboard.getQuantity()) return new ResponseEntity<>(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE);
+
+        CartItem itemInCart = userCart.stream()
+          .filter(item -> item.getKeyboardID() == cartItem.getKeyboardID())
+          .findFirst()
+          .orElse(null);
         
-      for (int i = 0; i < quantity; i++) {
-        user.addToCart(productId);
+        if (itemInCart == null) {
+          userCart.add(cartItem);
+          user.setCart(userCart);
+        } else {
+          if (itemInCart.getQuantity() + cartItem.getQuantity() > keyboard.getQuantity())
+            return new ResponseEntity<>(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE);
+          
+          userCart.remove(itemInCart);
+          cartItem.setQuantity(cartItem.getQuantity() + itemInCart.getQuantity());
+          userCart.add(cartItem);
+        }
+      } else {
+        if (cartItem.getCustomKeyboard() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (cartItem.getQuantity() != 1) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        userCart.add(cartItem);
       }
 
       User updatedUser = this.userDAO.update(user); 
@@ -187,27 +206,41 @@ public class UserController {
   }
 
   @DeleteMapping("/{userId}/cart")
-  public ResponseEntity<User> removeItemFromCart(@PathVariable int userId, @RequestParam int productId, @RequestParam int quantity) {
-    LOG.log(Level.INFO, "DELETE {0}", String.format("/users/%d/cart?productId=%d&quantity=%d", userId, productId, quantity));
+  public ResponseEntity<User> removeItemFromCart(@PathVariable int userId, @RequestBody CartItem cartItem) {
+    LOG.log(Level.INFO, "DELETE {0}", String.format("/%d/cart %s", userId, cartItem));
 
     try {
       User user = this.userDAO.findByID(userId);
-      Keyboard keyboard = this.keyboardDAO.findByID(productId);
-      if (user == null || keyboard == null)
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-      if (user.getRole() == 0) 
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-      if (quantity < 1) 
-        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
- 
-      long currProdInCart = user.getCart().stream()
-      .filter(item -> item == productId).count();
-      if (quantity > currProdInCart) quantity = (int) currProdInCart;
+      if (user == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      if (user.getRole() == 0) return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
-      for (int i = 0; i < quantity; i++) {
-        user.removeFromCart(productId);
+      ArrayList<CartItem> userCart = new ArrayList<>(user.getCart());
+      if (cartItem.getCartItemType() == CartItem.Type.STANDARD_KEYBOARD) {
+        Keyboard keyboard = this.keyboardDAO.findByID(cartItem.getKeyboardID());
+        if (keyboard == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (cartItem.getQuantity() < 1) return new ResponseEntity<>(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE);
+
+        CartItem itemInCart = userCart.stream()
+          .filter(item -> item.getKeyboardID() == cartItem.getKeyboardID())
+          .findFirst()
+          .orElse(null);
+         
+        if (itemInCart != null) {
+          userCart.remove(itemInCart);
+          int range = (cartItem.getQuantity() > itemInCart.getQuantity()) ? itemInCart.getQuantity() : cartItem.getQuantity();
+          if (itemInCart.getQuantity() - range != 0) {
+            cartItem.setQuantity(itemInCart.getQuantity() - range);
+            userCart.add(cartItem);
+          }
+        }
+      } else {
+        if (cartItem.getCustomKeyboard() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (cartItem.getQuantity() != 1) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        userCart.remove(cartItem);
       }
 
+      user.setCart(userCart);
       User updatedUser = this.userDAO.update(user); 
       return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     } catch (IOException e) {

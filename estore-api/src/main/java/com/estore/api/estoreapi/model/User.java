@@ -18,15 +18,16 @@ public class User {
   private int role;
 
   @JsonProperty("cart")
-  private List<Integer> cart;
+  private List<CartItem> cart;
 
   public User(@JsonProperty("id") int id, 
               @JsonProperty("name") String name,
-              @JsonProperty("role") int role) {
+              @JsonProperty("role") int role,
+              @JsonProperty("cart") List<CartItem> cart) {
     this.id = id;
     this.name = name;
     this.role = role;
-    this.cart = new ArrayList<>();
+    this.cart = cart;
   }
 
   public int getId() {
@@ -49,24 +50,12 @@ public class User {
     return this.role;
   }
 
-  public List<Integer> getCart() {
+  public List<CartItem> getCart() {
     return this.cart;
   }
 
-  public void setCart(List<Integer> cart) {
+  public void setCart(List<CartItem> cart) {
     this.cart = cart;
-  }
-
-  public boolean addToCart(Integer item) {
-    return this.cart.add(item);
-  }
-
-  public boolean removeFromCart(Integer item) {
-    return this.cart.remove(item);
-  }
-
-  public void clearCart() {
-    this.cart = new ArrayList<>();
   }
 
   @Override

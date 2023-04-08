@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class CustomKeyboard {
   private static final String STRING_FORMAT = "CustomKeyboard [size=%s, price=%f, caseColor=%s, keycapColor=%s, switchColor=%s]";
 
-  enum Size {
+  public enum Size {
     ONE_HUNDRED,
     EIGHTY,
     SIXTY

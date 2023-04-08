@@ -1,7 +1,11 @@
 package com.estore.api.estoreapi.controller;
 
+import java.io.IOException;
+import java.security.Key;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -17,9 +21,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.estore.api.estoreapi.model.CartItem;
 import com.estore.api.estoreapi.model.CheckoutData;
 import com.estore.api.estoreapi.model.Keyboard;
 import com.estore.api.estoreapi.model.User;
+import com.estore.api.estoreapi.model.CartItem.Type;
 import com.estore.api.estoreapi.persistence.KeyboardFileDAO;
 import com.estore.api.estoreapi.persistence.UserFileDAO;
 
@@ -85,24 +91,32 @@ public class CheckoutController {
       if (user == null) 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
      
-      List<Integer> userCart = user.getCart();
-      Map<Integer, Integer> cartItems = userCart.stream()
-        .collect(Collectors.toMap(Function.identity(), item -> 1, Math::addExact));
-      
-      for (Map.Entry<Integer, Integer> entry : cartItems.entrySet()) {
-        Keyboard keyboard = this.keyboardDAO.findByID(entry.getKey());
-        if (keyboard == null) continue;
-        if (keyboard.getQuantity() == 0) continue;
-        if (keyboard.getQuantity() < entry.getValue()) continue;
+      ArrayList<CartItem> userCart = new ArrayList<>(user.getCart());
+      for (CartItem item : user.getCart()) {
+        if (item.getCartItemType() == Type.STANDARD_KEYBOARD) {
+          Keyboard keyboard = this.keyboardDAO.findByID(item.getKeyboardID());
+          if (keyboard == null) {
+            userCart.remove(item);
+            continue;
+          }
 
-        userCart.removeIf(x -> x == entry.getKey());
-        keyboard.setQuantity(keyboard.getQuantity() - entry.getValue());
-        this.keyboardDAO.update(keyboard);
+          if (keyboard.getQuantity() == 0) continue;
+          if (keyboard.getQuantity() < item.getQuantity()) continue;
+
+          // Remove the item and update keyboard
+          userCart.remove(item);
+          keyboard.setQuantity(keyboard.getQuantity() - item.getQuantity());
+          this.keyboardDAO.update(keyboard);
+        } else {
+          // custom keyboard
+          userCart.remove(item);
+        }
       }
-
+      
+      user.setCart(userCart);
       User newUser = this.userDAO.update(user);
       return new ResponseEntity<>(newUser, HttpStatus.OK);
-    } catch (Exception e) {
+    } catch (IOException | ParseException e) {
       LOG.log(Level.SEVERE, e.getLocalizedMessage());
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }

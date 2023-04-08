@@ -2,10 +2,12 @@ package com.estore.api.estoreapi.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+
+import com.estore.api.estoreapi.model.CartItem.Type;
+
 import org.junit.jupiter.api.Tag;
 
 /** 
@@ -23,37 +25,30 @@ class UserTest {
 
     private final int expectedRole = 0; //The role for the user
 
-    private final String expectedRemovedString = "User [id=1, name=Issac, role=0, cart=[\n]]";
-
     private final int keyboardID = 1; //The expected ID for the keyboard
 
-    private final String keyboardName = "GMMK PRO"; //The expected name for the keyboard
-
-    private final double keyboardPrice = 349.99; //The expected price for the keyboard
-
-    private final String keyboardDescription = "It's a keyboard"; //The expected description for the keyboard
-
-    private final int keyboardQuantity = 300; //The expected quantity for the keyboard
-
     //The expected toString for the user after adding to cart
-    private final String combinedToString = "User [id=1, name=Issac, role=0, cart=[\n\t1\n]]";
+    private final String expectedToString = "User [id=1, name=Issac, role=0, cart=[\n]]";
 
-    private final String expectedCartString = "[1]";
+    private final String expectedToStringWithCart = "User [id=1, name=Issac, role=0, cart=[\n\tCartItem [cartItemType=STANDARD_KEYBOARD, quantity=1, keyboardID=1, customKeyboard=null]\n]]";
+
+    private final String expectedCartString = "[CartItem [cartItemType=STANDARD_KEYBOARD, quantity=1, keyboardID=1, customKeyboard=null]]";
 
     @Test
     void testConstruction(){
         //Tests if the user object is constructed correctly
-        User newUser = new User(expectedID, expectedName, expectedRole);
+        User newUser = new User(expectedID, expectedName, expectedRole, List.of());
 
         assertEquals(newUser.getId(), expectedID);
         assertEquals(newUser.getName(), expectedName);
         assertEquals(newUser.getRole(), expectedRole);
+        assertEquals(newUser.getCart(), List.of());
     }
 
     @Test
     void testSetName(){
         //Tests if the user name is set properly
-        User newUser = new User(expectedID, expectedName, expectedRole);
+        User newUser = new User(expectedID, expectedName, expectedRole, List.of());
 
         String newName = "Jennie";
 
@@ -64,60 +59,32 @@ class UserTest {
     @Test
     void testSetRole(){
         //Tests if the user role is set properly
-        User newUser = new User(expectedID, expectedName, expectedRole);
+        User newUser = new User(expectedID, expectedName, expectedRole, List.of());
 
         int newRole = 1;
         newUser.setRole(newRole);
         assertEquals(newUser.getRole(), newRole);
     }
 
-    @Test
-    void testAddToCart(){
-        //Tests if the card was added to properly
-        Keyboard newKeyboard = new Keyboard(keyboardID, keyboardName, keyboardPrice, keyboardDescription, keyboardQuantity);
-        User newUser = new User(expectedID, expectedName, expectedRole);
-
-        newUser.addToCart(newKeyboard.getId());
-        assertEquals(newUser.toString(), combinedToString);
-    }
-
-    @Test void testGetCart() {
+    @Test void testSetCart() {
         // Checks if getting the cart works
-        Keyboard newKeyboard = new Keyboard(keyboardID, keyboardName, keyboardPrice, keyboardDescription, keyboardQuantity);
-        User newUser = new User(expectedID, expectedName, expectedRole);
+        User newUser = new User(expectedID, expectedName, expectedRole, List.of());
+        CartItem cartItem = new CartItem(Type.STANDARD_KEYBOARD, 1, keyboardID, null);
+        newUser.setCart(List.of(cartItem));
 
-        newUser.addToCart(newKeyboard.getId());
         assertEquals(expectedCartString, newUser.getCart().toString());
     }
 
-    @Test void testSetCart() {
-        // Checks if getting the cart works
-        User newUser = new User(expectedID, expectedName, expectedRole);
-        List<Integer> newCart = new ArrayList<>(List.of(1, 2, 3));
-
-        newUser.setCart(newCart);
-        assertEquals(newCart, newUser.getCart());
+    @Test void testToString() {
+        User newUser = new User(expectedID, expectedName, expectedRole, List.of());
+        assertEquals(expectedToString, newUser.toString());
     }
 
-    @Test
-    void testRemoveFromCart(){
-        //Tests if the card was removed from properly
-        Keyboard newKeyboard = new Keyboard(keyboardID, keyboardName, keyboardPrice, keyboardDescription, keyboardQuantity);
-        User newUser = new User(expectedID, expectedName, expectedRole);
+    @Test void testToStringWithCart() {
+        User newUser = new User(expectedID, expectedName, expectedRole, List.of());
+        CartItem cartItem = new CartItem(Type.STANDARD_KEYBOARD, 1, keyboardID, null);
+        newUser.setCart(List.of(cartItem));
 
-        newUser.addToCart(newKeyboard.getId());
-        assertEquals(newUser.toString(), combinedToString);
-        
-        newUser.removeFromCart(newKeyboard.getId());
-        assertEquals(newUser.toString(), expectedRemovedString);
-    }
-
-    @Test void testClearCart() {
-        // Checks if getting the cart works
-        User newUser = new User(expectedID, expectedName, expectedRole);
-        newUser.setCart(List.of(1, 2, 3));
-
-        newUser.clearCart();
-        assertEquals(List.of(), newUser.getCart());
+        assertEquals(expectedToStringWithCart, newUser.toString());
     }
 }

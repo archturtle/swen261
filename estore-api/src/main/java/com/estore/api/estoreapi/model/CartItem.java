@@ -6,7 +6,7 @@ public class CartItem {
   private static final String STRING_FORMAT = "CartItem [cartItemType=%s, quantity=%d, keyboardID=%d, customKeyboard=%s]";
 
   // The type enum
-  enum Type {
+  public enum Type {
     STANDARD_KEYBOARD,
     CUSTOM_KEYBOARD
   }

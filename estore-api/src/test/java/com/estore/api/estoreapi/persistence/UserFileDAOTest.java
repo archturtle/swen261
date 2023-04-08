@@ -12,6 +12,7 @@ import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.estore.api.estoreapi.model.User;
@@ -40,10 +41,10 @@ class UserFileDAOTest {
     void setupUSerFileDAO() throws IOException {
         mockObjectMapper = mock(ObjectMapper.class);
         testUsers = new User[4];
-        testUsers[0] = new User(0, "Smith", 0);
-        testUsers[1] = new User(1, "Bob", 0);
-        testUsers[2] = new User(2, "John", 0);
-        testUsers[3] = new User(3, "Katie", 0);
+        testUsers[0] = new User(0, "Smith", 0, List.of());
+        testUsers[1] = new User(1, "Bob", 0, List.of());
+        testUsers[2] = new User(2, "John", 0, List.of());
+        testUsers[3] = new User(3, "Katie", 0, List.of());
 
         // When the object mapper is supposed to read from the file
         // the mock object mapper will return the user array above
@@ -103,7 +104,7 @@ class UserFileDAOTest {
     @Test
     void testCreate() throws IOException {
         // Setup
-        User newuser = new User(4, "Person", 0);
+        User newuser = new User(4, "Person", 0, List.of());
 
         // Invoke
         User result = assertDoesNotThrow(() -> userFileDAO.create(newuser),
@@ -119,7 +120,7 @@ class UserFileDAOTest {
     @Test
     void testUpdate() throws IOException {
         // Setup
-        User user = new User(3, "Jill", 0);
+        User user = new User(3, "Jill", 0, List.of());
 
         // Invoke
         User result = assertDoesNotThrow(() -> userFileDAO.update(user),
@@ -137,7 +138,7 @@ class UserFileDAOTest {
             .when(mockObjectMapper)
                 .writeValue(any(File.class),any(User[].class));
 
-        User user = new User(104, "Fire", 0);
+        User user = new User(104, "Fire", 0, List.of());
 
         assertThrows(IOException.class,
                         () -> userFileDAO.create(user),
@@ -168,7 +169,7 @@ class UserFileDAOTest {
     @Test
     void testUpdateUserNotFound() {
         // Setup
-        User user = new User(98, "Thunder", 0);
+        User user = new User(98, "Thunder", 0, List.of());
 
         // Invoke
         User result = assertDoesNotThrow(() -> userFileDAO.update(user),

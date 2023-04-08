@@ -3,6 +3,7 @@ package com.estore.api.estoreapi.persistence;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -178,7 +179,7 @@ public class UserFileDAO implements GenericDAO<User> {
   @Override
   public User create(User obj) throws IOException {
     synchronized (this.users) {
-      User newUser = new User(nextId(), obj.getName(), obj.getRole());
+      User newUser = new User(nextId(), obj.getName(), obj.getRole(), List.of());
       this.users.put(newUser.getId(), newUser);
 
       saveData(); // may throw an IOException
