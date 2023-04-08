@@ -10,6 +10,21 @@ public class CustomKeyboard {
     EIGHTY,
     SIXTY
   }
+   
+  public enum SwitchType {
+    GATERON_BLACK,
+    CHERRY_MX_BLACK,
+    GATERON_BLUE,
+    CHERRY_MX_BLUE,
+    GATERON_BROWN,
+    CHERRY_MX_BROWN,
+    GATERON_CLEAR,
+    CHERRY_MX_CLEAR,
+    GATERON_GREEN,
+    CHERRY_MX_GREEN,
+    GATERON_RED,
+    CHERRY_MX_RED
+  }
 
   @JsonProperty("size")
   private Size size;
@@ -24,14 +39,14 @@ public class CustomKeyboard {
   private String keycapColor;
 
   @JsonProperty("switchColor")
-  private String switchColor;
+  private SwitchType switchColor;
 
   public CustomKeyboard(
     @JsonProperty("size") Size size, 
     @JsonProperty("price") double price, 
     @JsonProperty("caseColor") String caseColor, 
     @JsonProperty("keycapColor") String keycapColor, 
-    @JsonProperty("switchColor") String switchColor) {
+    @JsonProperty("switchColor") SwitchType switchColor) {
     this.size = size;
     this.price = price;
     this.caseColor = caseColor;
@@ -71,11 +86,11 @@ public class CustomKeyboard {
     this.keycapColor = keycapColor;
   }
 
-  public String getSwitchColor() {
+  public SwitchType getSwitchType() {
     return switchColor;
   }
 
-  public void setSwitchColor(String switchColor) {
+  public void setSwitchType(SwitchType switchColor) {
     this.switchColor = switchColor;
   }
 

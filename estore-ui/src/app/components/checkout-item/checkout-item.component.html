@@ -1,6 +1,8 @@
-<img class="prod-image" src="../../../assets/{{ item.keyboard.id % 9 }}.webp" alt="Product Image" />
-<div class="prod-info">
-  <h4>{{ item.keyboard.name }}</h4>
-  <p>Quantity: {{ item.quantity }}</p>
-</div>
-<p class="total-price">${{ calculateItemPrice(item) | number: '1.2' }}</p>
+<ng-container *ngIf="keyboardLoaded">
+  <img class="prod-image" src="../../../assets/{{ associatedKeyboard.id % 9 }}.webp" alt="Product Image" />
+  <div class="prod-info">
+    <h4>{{ associatedKeyboard.name }}</h4>
+    <p>Quantity: {{ item.quantity }}</p>
+  </div>
+  <p class="total-price">${{ itemPrice | number: '1.2' }}</p>
+</ng-container>

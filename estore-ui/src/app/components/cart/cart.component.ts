@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { filter, firstValueFrom, forkJoin, map, Observable, of, switchMap } from 'rxjs';
-import { CartItem } from 'src/app/interfaces/cart-item';
+import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
+import { CartItem, CartItemType } from 'src/app/interfaces/cart-item';
 import { Keyboard } from 'src/app/interfaces/keyboard';
 import { User } from 'src/app/interfaces/user';
 import { KeyboardService } from 'src/app/services/keyboard.service';
@@ -14,72 +14,73 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class CartComponent implements OnInit {
   loggedInUser$: Observable<User> = this.userService.user$;
-  cartItems$!: Observable<CartItem[]>;
-  anyOutOfStock: boolean = false;
+  cartItems: CartItem[] = [];
+  associatedKeyboards: Keyboard[] = [];
 
   constructor(private userService: UserService, private keyboardService: KeyboardService, private router: Router) { }
 
   ngOnInit(): void {
-    this.cartItems$ = this.loggedInUser$.pipe(
-      map((value: User): number[] => (Object.keys(value).length > 0) ? value.cart : []),
-      map((values: number[]): Map<number, number> => {
-        return values.reduce((acc: Map<number, number>, item: number) => {
-          let res = acc.get(item);
-          res ? acc.set(item, res + 1) : acc.set(item, 1);
-
-          return acc;
-        }, new Map());
-      }),
-      switchMap((cartIds: Map<number, number>) => {
-        if ([...cartIds.keys()].length == 0) return forkJoin([of(new Map()), of([])]);
-
-        return forkJoin([of(cartIds), forkJoin([...cartIds.keys()].map(id => this.keyboardService.getKeyboardById$(id)))])
-      }),
-      map(([cartIds, items]: [Map<number, number>, Keyboard[]]) => {
-        return items.map((item: Keyboard): CartItem => {
-          if (item.quantity === 0 || cartIds.get(item.id)! > item.quantity) this.anyOutOfStock = true;
-          return { 
-            keyboard: item, 
-            quantity: cartIds.get(item.id)!, 
-            outOfStock: (item.quantity === 0 || cartIds.get(item.id)! > item.quantity) 
-          };
-        });
-      }),
-      map((things: CartItem[]) => [...things].sort((a: CartItem, b: CartItem) => {
-        if (a.keyboard.name > b.keyboard.name) return 1;
-        if (a.keyboard.name < b.keyboard.name) return -1;
-
-        return 0;
-      })),
-    )
-
+    // Check if user is admin/empty
     this.loggedInUser$.subscribe((user: User) => {
-      if (Object.keys(user).length == 0 || user.role == 0) this.router.navigate(['/'])
+      if (Object.keys(user).length == 0 || user.role == 0) { this.router.navigate(['/']); return; }
     });
+
+    // Get all cart items
+    this.loggedInUser$.pipe(
+      map((value: User): CartItem[] => value.cart)
+    ).subscribe(data => this.cartItems = data);
+
+    // Get associated keyboards
+    this.loggedInUser$.pipe(
+      map((value: User): CartItem[] => value.cart),
+      map((value: CartItem[]) => value.filter(item => item.cartItemType === CartItemType.STANDARD_KEYBOARD)),
+      switchMap((value: CartItem[]) => {
+        if (value.length === 0) return of([]);
+        return forkJoin(value.map(item => this.keyboardService.getKeyboardById$(item.keyboardID!)));
+      })
+    ).subscribe(data => this.associatedKeyboards = data);
   }
 
-  getTotalQuantity(values: CartItem[] | null): number {
-    if (!values) return 0;
-    return values.reduce((acc, val) => acc + (!val.outOfStock ? val.quantity : 0), 0)
+  private findKeyboardByID(id: number): Keyboard {
+    let filteredKeyboards = this.associatedKeyboards.filter(i => i.id === id);
+    if (filteredKeyboards.length === 0) return <Keyboard>{};
+
+    return filteredKeyboards[0];
   }
 
-  getTotalPrice(values: CartItem[] | null): number {
-    if (!values) return 0;
-    return values.reduce((acc, val) => acc + (!val.outOfStock ? val.keyboard.price * val.quantity : 0) , 0)
+  private isItemOutOfStock(value: CartItem): boolean {
+    let keyboard = this.findKeyboardByID(value.keyboardID!); 
+    if (Object.keys(keyboard).length === 0) return true;
+    return keyboard.quantity === 0 || value.quantity > keyboard.quantity;
   }
 
-  shouldHideCheckout(values: CartItem[] | null): boolean {
-    if (!values || values.length == 0) return true;
-
-    return values.filter(item => !item.outOfStock).length !== 0;
+  get anyOutOfStock(): boolean {
+    return this.cartItems.filter(value => this.isItemOutOfStock(value)).length !== 0;
   }
 
-  getInStockItems(values: CartItem[] | null): CartItem[] {
-    if (!values) return [];
-    return values.filter(item => !item.outOfStock);
+  getTotalQuantity(): number {
+    return this.cartItems.reduce((acc: number, val: CartItem) => {
+      return this.isItemOutOfStock(val) ? acc : acc + val.quantity;
+    }, 0);
   }
 
-  identifyCartItem(index: any, item: CartItem) {
-    return item.quantity;
+  getTotalPrice(): number {
+    return this.cartItems.reduce((acc: number, val: CartItem) => {
+      if (this.isItemOutOfStock(val)) return acc;
+      let keyboard = this.findKeyboardByID(val.keyboardID!);
+      return acc + (val.quantity * keyboard.price);
+    }, 0);
   }
+
+  shouldShowCheckout(): boolean {
+    if (this.cartItems.length == 0) return false;
+    return this.cartItems.filter(i => this.isItemOutOfStock(i)).length !== this.cartItems.length;
+  }
+
+  getInStockItems(): CartItem[] {
+    if (this.cartItems.length === 0) return [];
+    return this.cartItems.filter(i => !this.isItemOutOfStock(i));
+  }
+
+  identifyCartItem(index: any, item: CartItem) { return item.quantity; }
 }

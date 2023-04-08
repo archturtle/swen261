@@ -1,7 +1,9 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Observable, firstValueFrom } from 'rxjs';
-import { CartItem } from 'src/app/interfaces/cart-item';
+import { CartItem, CartItemType } from 'src/app/interfaces/cart-item';
+import { Keyboard } from 'src/app/interfaces/keyboard';
 import { User } from 'src/app/interfaces/user';
+import { KeyboardService } from 'src/app/services/keyboard.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -9,28 +11,50 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './cart-item.component.html',
   styleUrls: ['./cart-item.component.css']
 })
-export class CartItemComponent {
+export class CartItemComponent implements OnInit {
   loggedInUser$: Observable<User> = this.userService.user$;
   @Input() cartItem!: CartItem;
+  associatedKeyboard: Keyboard = <Keyboard>{};
 
-  constructor(private userService: UserService) { }
+  get itemLoaded(): boolean {
+    return Object.keys(this.associatedKeyboard).length !== 0;
+  }
+
+  get outOfStock(): boolean {
+    return this.associatedKeyboard.quantity === 0 || this.cartItem.quantity > this.associatedKeyboard.quantity;
+  }
+
+  constructor(private userService: UserService, private keyboardService: KeyboardService) { }
+
+  ngOnInit(): void {
+    if (this.cartItem.cartItemType !== CartItemType.STANDARD_KEYBOARD) return;
+    this.keyboardService.getKeyboardById$(this.cartItem.keyboardID!)
+      .subscribe(data => this.associatedKeyboard = data);
+  }
 
   async quantityChanged(value: number) {
-    const currentUser = await firstValueFrom(this.loggedInUser$);
-    if (Object.keys(currentUser).length === 0) return;
+    const user = await firstValueFrom(this.loggedInUser$);
+    if (Object.keys(user).length === 0) return;
+    if (this.cartItem.cartItemType !== CartItemType.STANDARD_KEYBOARD) return;
 
     let difference = this.cartItem.quantity - value;
     if (difference === 0) return;
     if (difference < 0) {
-      this.userService.addToCart$(currentUser.id, this.cartItem.keyboard.id, difference * -1)
-        .subscribe();
+      this.userService.addToCart$(user.id, {
+        cartItemType: this.cartItem.cartItemType,
+        quantity: difference * -1,
+        keyboardID: this.associatedKeyboard.id
+      }).subscribe();
     } else {
-      this.userService.removeFromCart$(currentUser.id, this.cartItem.keyboard.id, difference)
-        .subscribe();
+      this.userService.removeFromCart$(user.id, {
+        cartItemType: this.cartItem.cartItemType,
+        quantity: difference,
+        keyboardID: this.associatedKeyboard.id
+      }).subscribe();
     }
   }
 
   calculateItemPrice(): number {
-    return this.cartItem.quantity * this.cartItem.keyboard.price;
+    return this.cartItem.quantity * this.associatedKeyboard.price;
   }
 }

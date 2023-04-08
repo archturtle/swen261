@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { firstValueFrom, Observable } from 'rxjs';
 import { Keyboard } from 'src/app/interfaces/keyboard';
 import { User } from 'src/app/interfaces/user';
+import { CartItem, CartItemType } from 'src/app/interfaces/cart-item';
 import { NotificationService } from 'src/app/services/notification.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -29,12 +30,15 @@ export class AddToCartComponent {
       return;
     }
     
-    this.userService.addToCart$(user.id, this.keyboard.id, this.quantity)
-      .subscribe({
-        error: (err) => { 
-          if ((err as HttpErrorResponse).status != HttpStatusCode.RangeNotSatisfiable) return;
-          this.notificationService.postMessage("Purchase quantity exceeds amount in stock!");
-        }
-      });
+    this.userService.addToCart$(user.id, {
+      cartItemType: CartItemType.STANDARD_KEYBOARD,
+      quantity: this.quantity,
+      keyboardID: this.keyboard.id 
+    }).subscribe({
+      error: (err) => { 
+        if ((err as HttpErrorResponse).status != HttpStatusCode.RangeNotSatisfiable) return;
+        this.notificationService.postMessage("Purchase quantity exceeds amount in stock!");
+      }
+    });
   }
 }

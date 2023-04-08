@@ -2,8 +2,6 @@
   display: flex;
   flex-direction: column;
   width: 70%;
-  height: -webkit-fill-available;
-  height: -moz-available;
 
   margin-top: 5%;
   margin-left: auto;

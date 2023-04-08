@@ -2,7 +2,6 @@ package com.estore.api.estoreapi.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.estore.api.estoreapi.model.CartItem;
 import com.estore.api.estoreapi.model.Keyboard;
 import com.estore.api.estoreapi.model.User;
-import com.estore.api.estoreapi.model.CartItem.Type;
 import com.estore.api.estoreapi.persistence.KeyboardFileDAO;
 import com.estore.api.estoreapi.persistence.UserFileDAO;
 
@@ -197,6 +195,7 @@ public class UserController {
         userCart.add(cartItem);
       }
 
+      user.setCart(userCart);
       User updatedUser = this.userDAO.update(user); 
       return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     } catch (IOException e) {

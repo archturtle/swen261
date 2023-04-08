@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, map, Observable, tap } from 'rxjs';
 import { User } from '../interfaces/user';
+import { CartItem } from '../interfaces/cart-item';
 
 @Injectable({
   providedIn: 'root'
@@ -46,18 +47,22 @@ export class UserService {
       );
   }
 
-  addToCart$(userId: number, keyboardId: number, quantity: number): Observable<User> {
-    return this.httpService.post<User>(`http://localhost:8080/users/${userId}/cart/?productId=${keyboardId}&quantity=${quantity}`, <User>{})
+  addToCart$(userId: number, cartItem: CartItem): Observable<User> {
+    return this.httpService.post<User>(`http://localhost:8080/users/${userId}/cart`, cartItem, UserService.HTTP_OPTIONS)
       .pipe(
-        tap({ next: (value: User) => { this._user.next(value); } })
-      )
-  } 
+        tap({ next: (value: User) => { this._user.next(value) } })
+      );
+  }
 
-  removeFromCart$(userId: number, keyboardId: number, quantity: number): Observable<User> {
-    return this.httpService.delete<User>(`http://localhost:8080/users/${userId}/cart/?productId=${keyboardId}&quantity=${quantity}`)
-      .pipe(
-        tap({ next: (value: User) => { this._user.next(value); } })
-      )
+  removeFromCart$(userId: number, cartItem: CartItem): Observable<User> {
+    return this.httpService.delete<User>(`http://localhost:8080/users/${userId}/cart`, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      body: cartItem
+    }).pipe(
+      tap({ next: (value: User) => { this._user.next(value) } })
+    );
   } 
 
   logOut$(): void {

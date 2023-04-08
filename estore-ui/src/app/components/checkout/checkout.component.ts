@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable, firstValueFrom } from 'rxjs';
-import { CartItem } from 'src/app/interfaces/cart-item';
+import { Observable, firstValueFrom, forkJoin, map } from 'rxjs';
+import { CartItem, CartItemType } from 'src/app/interfaces/cart-item';
 import { CheckoutData } from 'src/app/interfaces/checkout-data';
+import { Keyboard } from 'src/app/interfaces/keyboard';
 import { User } from 'src/app/interfaces/user';
 import { CheckoutService } from 'src/app/services/checkout.service';
+import { KeyboardService } from 'src/app/services/keyboard.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -15,7 +17,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./checkout.component.css']
 })
 export class CheckoutComponent implements OnInit {
-  private currentUserID: number = -1;
+  private currentUserID!: number;
   private validationErrorString: { [name: string]: string } = {
     firstName: 'First name is required and longer than 1 character.',
     lastName: 'Last name is required and longer than 1 character.',
@@ -35,6 +37,8 @@ export class CheckoutComponent implements OnInit {
 
   loggedInUser$: Observable<User> = this.userService.user$;
   cartItems: CartItem[] = [];
+  associatedKeyboards: Keyboard[] = [];
+  validationErrors: string[] = [];
   informationForm: FormGroup = this.formBuilder.group({
     firstName: ['', [Validators.required, Validators.minLength(1)]],
     lastName: ['', [Validators.required, Validators.minLength(1)]],
@@ -51,23 +55,6 @@ export class CheckoutComponent implements OnInit {
     creditCardExpiration: ['', [Validators.required, Validators.pattern("^[0-9]{2}\/[0-9]{2}$")]],
     creditCardZipCode: ['', [Validators.required, Validators.pattern("^[0-9]{5}$")]],
   });
-  validationErrors: string[] = [];
-
-  constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService, private checkoutService: CheckoutService, private notificationService: NotificationService) {
-    const state = this.router.getCurrentNavigation()?.extras.state;
-    if (state == null) return;
-
-    this.cartItems = state['cart']; 
-  }
-
-  ngOnInit(): void {
-    this.loggedInUser$.subscribe((user: User) => {
-      if (Object.keys(user).length == 0 || user.role == 0) this.router.navigate(['/']);
-
-      this.currentUserID = user.id;
-    });
-  }
-
   get firstName() { return this.informationForm.get('firstName') }
   get lastName() { return this.informationForm.get('lastName') }
   get address() { return this.informationForm.get('address') }
@@ -83,21 +70,55 @@ export class CheckoutComponent implements OnInit {
   get creditCardExpiration() { return this.informationForm.get('creditCardExpiration') }
   get creditCardZipCode() { return this.informationForm.get('creditCardZipCode') }
 
-  getTotalPrice(values: CartItem[]): number {
-    return values.reduce((acc, val) => acc + (val.keyboard.price * val.quantity) , 0)
+  constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService, private checkoutService: CheckoutService, private keyboardService: KeyboardService, private notificationService: NotificationService) {
+    const state = this.router.getCurrentNavigation()?.extras.state;
+    if (state == null) return;
+
+    this.cartItems = state['cart']; 
+  }
+
+  ngOnInit(): void {
+    this.loggedInUser$.subscribe((user: User) => {
+      if (Object.keys(user).length == 0 || user.role == 0) this.router.navigate(['/']);
+      this.currentUserID = user.id;
+    });
+
+    this.informationForm.valueChanges.subscribe(() => {
+      this.validationErrors = [];
+      if (!this.informationForm.valid) {
+        Object.keys(this.informationForm.controls).forEach(controlKey => {
+          if (!this.informationForm.get(controlKey)?.valid) {
+            this.validationErrors.push(this.validationErrorString[controlKey])
+          }
+        })
+  
+        return;
+      }
+    });
+    
+    forkJoin(
+      this.cartItems.filter(i => i.cartItemType === CartItemType.STANDARD_KEYBOARD)
+        .map(i => this.keyboardService.getKeyboardById$(i.keyboardID!))
+    ).subscribe(data => this.associatedKeyboards = data);
+  }
+
+  private getKeyboardByID(id: number): Keyboard {
+    const filteredKeyboards = this.associatedKeyboards.filter(i => i.id === id);
+    if (filteredKeyboards.length === 0) return <Keyboard>{};
+    return filteredKeyboards[0];
+  }
+
+  get totalPrice(): number {
+    return this.cartItems.reduce((acc: number, val: CartItem) => {
+      let keyboard = this.getKeyboardByID(val.keyboardID!);
+      if (Object.keys(keyboard).length === 0) return acc;
+
+      return acc + (val.quantity * keyboard.price);
+    }, 0);
   }
 
   async proceedWithCheckout() {
-    this.validationErrors = [];
-    if (!this.informationForm.valid) {
-      Object.keys(this.informationForm.controls).forEach(controlKey => {
-        if (!this.informationForm.get(controlKey)?.valid) {
-          this.validationErrors.push(this.validationErrorString[controlKey])
-        }
-      })
-
-      return;
-    }
+    if (!this.informationForm.valid) return;
 
     const checkoutData: CheckoutData = {
       userID: this.currentUserID,

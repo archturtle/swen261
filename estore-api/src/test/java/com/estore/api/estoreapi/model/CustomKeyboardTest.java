@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import com.estore.api.estoreapi.model.CustomKeyboard.Size;
+import com.estore.api.estoreapi.model.CustomKeyboard.SwitchType;
 
 @Tag("Model-tier")
 public class CustomKeyboardTest {
@@ -13,9 +14,9 @@ public class CustomKeyboardTest {
   private double expectedCustomKeyboardPrice = 399.99;
   private String expectedKeyboardCaseColor = "#FF0000";
   private String expectedKeyboardKeyCapColor = "#00FF00";
-  private String expectedKeyboardSwitchColor = "#0000FF";
-  private String expectedToString = "CustomKeyboard [size=ONE_HUNDRED, price=399.990000, caseColor=#FF0000, keycapColor=#00FF00, switchColor=#0000FF]";
-  private CustomKeyboard customKeyboard = new CustomKeyboard(expectedCustomKeyboardSize, expectedCustomKeyboardPrice, expectedKeyboardCaseColor, expectedKeyboardKeyCapColor, expectedKeyboardSwitchColor);
+  private CustomKeyboard.SwitchType expectedCustomKeyboardSwitchType = SwitchType.CHERRY_MX_BLACK;
+  private CustomKeyboard customKeyboard = new CustomKeyboard(expectedCustomKeyboardSize, expectedCustomKeyboardPrice, expectedKeyboardCaseColor, expectedKeyboardKeyCapColor, expectedCustomKeyboardSwitchType);
+  private String expectedToString = "CustomKeyboard [size=ONE_HUNDRED, price=399.990000, caseColor=#FF0000, keycapColor=#00FF00, switchColor=CHERRY_MX_BLACK]";
 
   @Test
   void testGetCaseColor() {
@@ -39,7 +40,7 @@ public class CustomKeyboardTest {
 
   @Test
   void testGetSwitchColor() {
-    assertEquals(expectedKeyboardSwitchColor, this.customKeyboard.getSwitchColor());
+    assertEquals(expectedCustomKeyboardSwitchType, this.customKeyboard.getSwitchType());
   }
 
   @Test
@@ -72,9 +73,9 @@ public class CustomKeyboardTest {
 
   @Test
   void testSetSwitchColor() {
-    String newColor = "#00F0F0";
-    this.customKeyboard.setSwitchColor(newColor);
-    assertEquals(newColor, this.customKeyboard.getSwitchColor());
+    SwitchType newType = SwitchType.GATERON_CLEAR; 
+    this.customKeyboard.setSwitchType(newType);
+    assertEquals(newType, this.customKeyboard.getSwitchType());
   }
 
   @Test

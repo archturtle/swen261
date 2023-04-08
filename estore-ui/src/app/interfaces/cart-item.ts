@@ -1,7 +1,13 @@
-import { Keyboard } from "./keyboard";
+import { CustomKeyboard } from "./custom-keyboard";
+
+export enum CartItemType {
+  STANDARD_KEYBOARD = "STANDARD_KEYBOARD",
+  CUSTOM_KEYBOARD = "CUSTOM_KEYBOARD"
+}
 
 export interface CartItem {
-  keyboard: Keyboard;
+  cartItemType: CartItemType;
   quantity: number;
-  outOfStock: boolean;
+  keyboardID?: number;
+  customKeyboard?: CustomKeyboard;
 }

@@ -44,7 +44,7 @@
   </div>
 
   <div class="preview">
-    <h3>Purchase Preview - Total: ${{ getTotalPrice(cartItems) | number: '1.2' }}</h3>
+    <h3>Purchase Preview - Total: ${{ totalPrice | number: '1.2' }}</h3>
     <div class="items">
       <app-checkout-item *ngFor="let item of cartItems" [item]="item"></app-checkout-item>
     </div>

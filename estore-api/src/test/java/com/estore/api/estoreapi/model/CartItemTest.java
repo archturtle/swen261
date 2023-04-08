@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import com.estore.api.estoreapi.model.CartItem.Type;
 import com.estore.api.estoreapi.model.CustomKeyboard.Size;
+import com.estore.api.estoreapi.model.CustomKeyboard.SwitchType;
 
 @Tag("Model-tier")
 public class CartItemTest {
@@ -46,7 +47,7 @@ public class CartItemTest {
 
   @Test
   void testSetCustomKeyboard() {
-    CustomKeyboard newKeyboard = new CustomKeyboard(Size.ONE_HUNDRED, 119.99, "#ff0000", "#00ff00", "#0000ff");
+    CustomKeyboard newKeyboard = new CustomKeyboard(Size.ONE_HUNDRED, 119.99, "#ff0000", "#00ff00", SwitchType.GATERON_BLACK);
     this.cartItem.setCustomKeyboard(newKeyboard);
     assertEquals(newKeyboard, cartItem.getCustomKeyboard());
   }
