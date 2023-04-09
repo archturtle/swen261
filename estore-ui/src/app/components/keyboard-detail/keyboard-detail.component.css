@@ -1,11 +1,3 @@
-:host {
-  display: flex;
-  flex-direction: column;
-
-  height: -webkit-fill-available;
-  height: -moz-available;
-}
-
 .content {
   display: flex;
   justify-content: center;
