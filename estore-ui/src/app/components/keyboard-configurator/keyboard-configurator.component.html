@@ -1,2 +1,13 @@
+<h4 class="sizeLabel">Keyboard Form Factor</h4>
 <app-segmented-control [controlNames]="['100%', '80%', '60%']" (controlChanged)="controlSelected($event)"></app-segmented-control>
-<h4 class="sizeLabel">Keyboard Size</h4>
+
+<div class="container">
+  <div style="flex: 0.775; display: flex; flex-direction: row; column-gap: 10px;">
+    <svg width="62" height="62">
+      <rect x="1" y="1" rx="5" ry="5" width="60" height="60" style="fill: hsl(0, 0%, 79%); stroke: black; stroke-width: 1; stroke-opacity: .4;" />
+      <rect x="8" y="6" rx="5" ry="5" width="45" height="45" style="fill: hsl(0, 0%, 95%); stroke: black; stroke-width: 1; stroke-opacity: .2;" />
+      <text x="12" y="21" font-size="13" font-family="Open Sans, sans-serif" style="fill: black;">Esc</text>
+    </svg>    
+  </div>
+  <a style="background-color: green; flex: 0.225;">Hello</a>
+</div>
