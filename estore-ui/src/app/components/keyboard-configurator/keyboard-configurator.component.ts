@@ -36,4 +36,8 @@ export class KeyboardConfiguratorComponent implements AfterViewInit, OnDestroy {
     //   this.sliderThumb.nativeElement.style.top = (sliderLayerRect.bottom - (sliderThumbRect.height)).toString() + "px";
     // }
   }
+
+  controlSelected(index: number) {
+    console.log(index)
+  }
 }

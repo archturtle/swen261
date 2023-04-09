@@ -24,6 +24,7 @@ import { CartItemComponent } from './components/cart-item/cart-item.component';
 import { CheckoutItemComponent } from './components/checkout-item/checkout-item.component';
 import { CheckoutSuccessComponent } from './components/checkout-success/checkout-success.component';
 import { KeyboardConfiguratorComponent } from './components/keyboard-configurator/keyboard-configurator.component';
+import { SegmentedControlComponent } from './components/segmented-control/segmented-control.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { KeyboardConfiguratorComponent } from './components/keyboard-configurato
     CheckoutItemComponent,
     CheckoutSuccessComponent,
     KeyboardConfiguratorComponent,
+    SegmentedControlComponent,
   ],
   imports: [
     BrowserModule,

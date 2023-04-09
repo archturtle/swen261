@@ -1,10 +1,2 @@
-<!-- <div class="slider">
-  <div class="slider-content">
-    <span class="slider-thumb" (click)="thumbPosition = !thumbPosition; click()" #sliderThumb></span>
-    <span class="slider-layer" #sliderLayer></span>
-  </div>
-  <div class="slider-label">
-    <p>Keycaps</p>
-    <p>Case</p>
-  </div>
-</div> -->
+<app-segmented-control [controlNames]="['100%', '80%', '60%']" (controlChanged)="controlSelected($event)"></app-segmented-control>
+<h4 class="sizeLabel">Keyboard Size</h4>
