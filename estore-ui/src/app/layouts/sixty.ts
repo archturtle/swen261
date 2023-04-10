@@ -1,3 +1,4 @@
+import { CustomKeyboardSize } from "../interfaces/custom-keyboard";
 import { KeyCapOrientation, KeyCapSize, KEY_CAP_SIZE } from "./key-cap";
 import { KeyboardLayout } from "./keyboard-layout";
 
@@ -76,5 +77,6 @@ export const SixtyLayout: KeyboardLayout = {
     ],
   ],
   totalKeys: 62,
-  price: 110.00
+  price: 110.00,
+  size: CustomKeyboardSize.SIXTY
 };

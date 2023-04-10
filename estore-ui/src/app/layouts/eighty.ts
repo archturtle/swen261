@@ -1,3 +1,4 @@
+import { CustomKeyboardSize } from "../interfaces/custom-keyboard";
 import { KeyCapSize, KeyCapOrientation, KEY_CAP_SIZE } from "./key-cap";
 import { KeyboardLayout } from "./keyboard-layout";
 
@@ -150,5 +151,6 @@ export const EightyLayout: KeyboardLayout = {
     ],
   ],
   totalKeys: 87,
-  price: 130.00
+  price: 130.00,
+  size: CustomKeyboardSize.EIGHTY
 };

@@ -1,3 +1,4 @@
+import { CustomKeyboardSize } from "../interfaces/custom-keyboard";
 import { Key } from "./key-cap";
 
 export interface KeyboardLayout {
@@ -9,4 +10,5 @@ export interface KeyboardLayout {
   typingKeys: Key[][];
   totalKeys: number;
   price: number;
+  size: CustomKeyboardSize;
 }

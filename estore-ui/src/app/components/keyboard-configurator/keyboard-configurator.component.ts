@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { CustomKeyboardSwitchType, PricePerSwitchType } from 'src/app/interfaces/custom-keyboard';
+import { Router } from '@angular/router';
+import { Observable, firstValueFrom } from 'rxjs';
+import { CartItem, CartItemType } from 'src/app/interfaces/cart-item';
+import { CustomKeyboard, CustomKeyboardSize, CustomKeyboardSwitchType, PricePerSwitchType } from 'src/app/interfaces/custom-keyboard';
+import { User } from 'src/app/interfaces/user';
 import { EightyLayout } from 'src/app/layouts/eighty';
 import { KeyCapOrientation, KeyCap, Key, Spacer } from 'src/app/layouts/key-cap';
 import { KeyboardLayout } from 'src/app/layouts/keyboard-layout';
 import { OneHundredLayout } from 'src/app/layouts/one_hundred';
 import { SixtyLayout } from 'src/app/layouts/sixty';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-keyboard-configurator',
@@ -13,6 +18,9 @@ import { SixtyLayout } from 'src/app/layouts/sixty';
   styleUrls: ['./keyboard-configurator.component.css']
 })
 export class KeyboardConfiguratorComponent implements OnInit {
+  // Observable
+  loggedInUser$: Observable<User> = this.userService.user$;
+
   // Form for color
   customKeyboardForm: FormGroup = this.formBuilder.group({
     boardColor: ['#8A2BE2'],
@@ -29,7 +37,7 @@ export class KeyboardConfiguratorComponent implements OnInit {
   selectedLayout: KeyboardLayout = OneHundredLayout;
   keyCapHSLColor: [number, number, number] = this.convertHextoHSL("#f2f2f2");
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
     this.customKeyboardForm.valueChanges.subscribe((data) => {
@@ -75,10 +83,6 @@ export class KeyboardConfiguratorComponent implements OnInit {
     return item as Spacer;
   }
 
-  keyClicked(event: any) { console.log(event) }
-
-  caseClicked() { }
-
   getSwitchPrice(name: string): number {
     return this.selectedLayout.totalKeys * (name.includes("GATERON") ? PricePerSwitchType.GATERON : PricePerSwitchType.CHERRY_MX);
   }
@@ -93,9 +97,9 @@ export class KeyboardConfiguratorComponent implements OnInit {
     return formattedName;
   }
 
-  getTotalPrice(): string {
+  getTotalPrice(): number {
     let switchPrice = this.getSwitchPrice(this.switchType?.value ?? "");
-    return (this.selectedLayout.price + switchPrice).toFixed(2);
+    return this.selectedLayout.price + switchPrice
   }
 
   // Helpers for keyboard colors
@@ -143,5 +147,33 @@ export class KeyboardConfiguratorComponent implements OnInit {
     s = (delta == 0) ? 0 : delta / (1 - Math.abs(2 * l - 1));
 
     return [ h, s * 100, l * 100 ]
+  }
+
+  // Sending to cart
+  async sendToCart(): Promise<void> {
+    const user = await firstValueFrom(this.loggedInUser$);
+    if (Object.keys(user).length === 0) {
+      this.router.navigate(
+        ['login'],
+        { queryParams: { returnURL: this.router.url } }
+      );
+      return;
+    }
+
+    const cartItem: CartItem = {
+      cartItemType: CartItemType.CUSTOM_KEYBOARD,
+      quantity: 1,
+      customKeyboard: {
+        size: this.selectedLayout.size,
+        price: this.getTotalPrice(),
+        caseColor: this.boardColor?.value,
+        keycapColor: this.keyCapColor?.value,
+        labelColor: this.labelColor?.value,
+        switchType: this.switchType?.value
+      }
+    };
+
+    this.userService.addToCart$(user.id, cartItem)
+      .subscribe();
   }
 }

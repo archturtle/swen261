@@ -29,5 +29,6 @@ export interface CustomKeyboard {
   price: number;
   caseColor: string;
   keycapColor: string;
+  labelColor: string;
   switchType: CustomKeyboardSwitchType;
 }

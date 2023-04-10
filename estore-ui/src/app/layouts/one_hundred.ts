@@ -1,3 +1,4 @@
+import { CustomKeyboardSize } from "../interfaces/custom-keyboard";
 import { KeyCapSize, KeyCapOrientation, KEY_CAP_SIZE } from "./key-cap";
 import { KeyboardLayout } from "./keyboard-layout";
 
@@ -193,5 +194,6 @@ export const OneHundredLayout: KeyboardLayout = {
     ],
   ],
   totalKeys: 104,
-  price: 150.00
+  price: 150.00,
+  size: CustomKeyboardSize.ONE_HUNDRED
 };
