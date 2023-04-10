@@ -1,5 +1,119 @@
 @startuml "Model_Classes"
 
+class CartItem {
+  -cartItemType: Type
+  -quantity: int
+  -keyboardID: int
+  -customKeyboard: CustomKeyboard
+  +CartItem(cartItemType: Type, quantity: int, keyboardID: int, customKeyboard: CustomKeyboard)
+  +getCartItemType(): Type
+  +setCartItemType(Type cartItemType): void
+  +getQuantity(): int
+  +setQuantity(int quantity): void
+  +getKeyboardID(): int
+  +setKeyboardID(int keyboardID): void
+  +getCustomKeyboard(): CustomKeyboard
+  +setCustomKeyboard(CustomKeyboard customKeyboard): void
+}
+
+enum Type {
+  STANDARD_KEYBOARD
+  CUSTOM_KEYBOARD
+}
+
+class CustomKeyboard {
+  -size: Size;
+  -price: double;
+  -caseColor: String;
+  -keycapColor: String;
+  -labelColor: String;
+  -switchType: SwitchType;
+
+  +CustomKeyboard(size: Size, price: double, caseColor: String, keycapColor: String, labelColor: String, switchType: SwitchType)
+  +getSize(): Size
+  +setSize(size: Size): void
+  +getPrice(): double
+  +setPrice(price: double): void
+  +getCaseColor(): String
+  +setCaseColor(caseColor: String): void
+  +getKeycapColor(): String
+  +setKeycapColor(keycapColor: String): void
+  +getLabelColor(): String
+  +setLabelColor(labelColor: String): void
+  +getSwitchType(): SwitchType
+  +setSwitchType(switchType: SwitchType): void
+}
+
+enum SwitchType {
+  GATERON_BLACK
+  CHERRY_MX_BLACK
+  GATERON_BLUE
+  CHERRY_MX_BLUE
+  GATERON_BROWN
+  CHERRY_MX_BROWN
+  GATERON_CLEAR
+  CHERRY_MX_CLEAR
+  GATERON_GREEN
+  CHERRY_MX_GREEN
+  GATERON_RED
+  CHERRY_MX_RED
+}
+  
+enum Size {
+ ONE_HUNDRED
+ EIGHTY
+ SIXTY
+}
+
+class CheckoutData {
+  private int userID;
+  private String firstName;
+  private String lastName;
+  private String address;
+  private String city;
+  private String state;
+  private String country;
+  private int zipCode;
+  private String email;
+  private String phoneNumber;
+  private String creditCardNumber;
+  private String creditCardExpiration;
+  private int creditCardCVC;
+  private String creditCardHolder;
+  private int creditCardZipCode;
+  +CheckoutData(userID: int, firstName: String, lastName: String, address: String, city: String, state: String, country: String, zipCode: int, email: String, phoneNumber: String, creditCardNumber: String, creditCardExpiration: String, creditCardCVC: int, creditCardHolder: String, creditCardZipCode: int)
+  +setFirstName(firstName: String): void
+  +getFirstName(): String
+  +setLastName(lastName: String): void
+  +getLastName(): String
+  +setAddress(address: String): void
+  +getAddress(): String
+  +setCity(city: String): void
+  +getCity(): String
+  +setState(state: String): void
+  +getState(): String
+  +setCountry(country: String): void
+  +getCountry(): String
+  +setZipCode(zipCode: int): void
+  +getZipCode(): int
+  +setEmail(email: String): void
+  +getEmail(): String 
+  +setPhoneNumber(phoneNumber: String): void
+  +getPhoneNumber(): String
+  +setUserID(id: int): void
+  +getUserID(): int
+  +setCreditCardNumber(number: String): void
+  +getCreditCardNumber(): String
+  +setCreditCardExpiration(expiration: String): void
+  +getCreditCardExpiration(): String
+  +setCreditCardCVC(cvc: int): void
+  +getCreditCardCVC(): int
+  +setCreditCardHolder(holder: String): void 
+  +getCreditCardHolder(): String
+  +setCreditCardZipCode(zipCode: int): void
+  +getCreditCardZipCode(): int
+}
+
 class Keyboard {
   -id: int
   -name: String
@@ -19,14 +133,21 @@ class User {
   -id: int
   -name: String
   -role: int
-  -cart: List<Integer>
-  +User(id: int, name: String, role: int)
+  -cart: List<CartItem>
+  +User(id: int, name: String, role: int, cart: List<CartItem>)
   +getId(): int
   +setName(name: String): void
   +getName(): String
   +setRole(role: int): void
   +getRole(): int
-  +getCart(): List<Keyboard>
-  +addToCart(item: Keyboard): void
-  +removeFromCart(item: Keyboard): void
+  +setCart(cart: List<CartItem>): void
+  +getCart(): List<CartItem>
 }
+
+CartItem --> Type
+CartItem --> CustomKeyboard
+CustomKeyboard --> SwitchType
+CustomKeyboard --> Size
+User --> CartItem
+
+@enduml
