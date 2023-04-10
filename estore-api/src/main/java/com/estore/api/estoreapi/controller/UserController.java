@@ -32,18 +32,29 @@ public class UserController {
    * The logger used to print out messages to standard out.
    */
   private static final Logger LOG = Logger.getLogger(UserController.class.getName());
+
   /**
    * The {@linkplain UserFileDAO User Data Access Object}. Look at
    * {@link UserController#UserController(UserFileDAO)} for more
    * information on how this is set.
    */
   private UserFileDAO userDAO;
+
+  /**
+   * The {@linkplain KeyboardFileDAO Keyboard Data Access Object}. Look at
+   * {@link KeyboardController#KeyboardController(KeyboardFileDAO)} for more
+   * information on how this is set.
+   */
   private KeyboardFileDAO keyboardDAO;
 
   /**
    * Creates a REST API controller to reponds to requests
    *
    * @param userDao The {@link UserDAO User Data Access Object} to
+   *                    perform CRUD operations
+   *                    <br>
+   *                    This dependency is injected by the Spring Framework
+   * @param keyboardDao The {@link KeyboardFileDAO Keyboard Data Access Object} to
    *                    perform CRUD operations
    *                    <br>
    *                    This dependency is injected by the Spring Framework
@@ -158,8 +169,26 @@ public class UserController {
     }
   }
 
+  /**
+   * Add a {@linkplain CartItem cartItem} to a {@linkplain User user} cart.
+   *
+   * @param userId - The id of the {@link User user} whose cart should be modified 
+   *
+   * @return ResponseEntity with updated {@link User user} object and HTTP
+   *         status of OK<br>
+   *         ResponseEntity with HTTP status of NOT_FOUND if {@link User
+   *         user} doesn't exist.<br>
+   *         ResponseEntity with HTTP status of FORBIDDEN if {@link User
+   *         user} is an admin.<br>
+   *         ResponseEntity with HTTP status of NOT_FOUND if {@link Keyboard
+   *         keyboard} doesn't exist.<br>
+   *         ResponseEntity with HTTP status of REQUESTED_RANGE_NOT_SATISFIABLE if 
+   *         requested quantity cannot be satisfied.<br>
+   *         ResponseEntity with HTTP status of BAD_REQUEST if CustomKeyboard is added
+   *         with sending the keyboard or if quantity is less than 1.
+   *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+   */
   @PostMapping("/{userId}/cart")
-  // public ResponseEntity<User> addItemToCart(@PathVariable int userId, @RequestParam int productId, @RequestParam int quantity) {
   public ResponseEntity<User> addItemToCart(@PathVariable int userId, @RequestBody CartItem cartItem) {
     LOG.log(Level.INFO, "POST {0}", String.format("/%d/cart %s", userId, cartItem));
 
@@ -218,6 +247,25 @@ public class UserController {
     }
   }
 
+  /**
+   * Deletes a {@linkplain CartItem cartItem} to a {@linkplain User user} cart.
+   *
+   * @param userId - The id of the {@link User user} whose cart should be modified 
+   *
+   * @return ResponseEntity with updated {@link User user} object and HTTP
+   *         status of OK<br>
+   *         ResponseEntity with HTTP status of NOT_FOUND if {@link User
+   *         user} doesn't exist.<br>
+   *         ResponseEntity with HTTP status of FORBIDDEN if {@link User
+   *         user} is an admin.<br>
+   *         ResponseEntity with HTTP status of NOT_FOUND if {@link Keyboard
+   *         keyboard} doesn't exist.<br>
+   *         ResponseEntity with HTTP status of REQUESTED_RANGE_NOT_SATISFIABLE if 
+   *         requested quantity cannot be satisfied.<br>
+   *         ResponseEntity with HTTP status of BAD_REQUEST if CustomKeyboard is removed
+   *         with sending the keyboard or if quantity is less than 1.
+   *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+   */
   @DeleteMapping("/{userId}/cart")
   public ResponseEntity<User> removeItemFromCart(@PathVariable int userId, @RequestBody CartItem cartItem) {
     LOG.log(Level.INFO, "DELETE {0}", String.format("/%d/cart %s", userId, cartItem));

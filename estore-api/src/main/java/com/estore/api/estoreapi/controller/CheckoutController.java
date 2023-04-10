@@ -31,6 +31,7 @@ public class CheckoutController {
    * The logger used to print out messages to standard out.
    */
   private static final Logger LOG = Logger.getLogger(CheckoutController.class.getName());
+
   /**
    * The {@linkplain KeyboardFileDAO Keyboard Data Access Object}. Look at
    * {@link CheckoutController#CheckoutController(KeyboardFileDAO, UserFileDAO)} for more
@@ -62,6 +63,20 @@ public class CheckoutController {
     this.userDAO = userDAO;
   }
 
+  /**
+   * Purchases all the {@linkplain CartItem cartItems} in a {@linkplain User user} cart.
+   *
+   * @param checkoutData - The {@linkplain CheckoutData checkoutData} associated with the checkout
+   *                       request. 
+   *
+   * @return ResponseEntity with updated {@link User user} object and HTTP
+   *         status of OK<br>
+   *         ResponseEntity with HTTP status of NOT_ACCEPTABLE if {@link CheckoutData
+   *         checkoutData} fails validation.<br>
+   *         ResponseEntity with HTTP status of NOT_FOUND if {@link User
+   *         user} doesn't exist.<br>
+   *         ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+   */
   @PostMapping("")
   public ResponseEntity<User> checkout(@RequestBody CheckoutData checkoutData) {
     LOG.log(Level.INFO,"POST /checkout {0}", checkoutData);

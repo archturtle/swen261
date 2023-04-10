@@ -102,17 +102,24 @@ public class CheckoutData {
   @JsonProperty("creditCardZipCode")
   private int creditCardZipCode;
 
-
   /**
-   * Create a CheckoutData object with the given userID, creditCardNumber, creditCardExpiration, 
-   * creditCardCVC, creditCardHolder and creditCardZipCode.
+   * Creates a checkout data object with the passed parameters.
    * 
-   * @param userId                  The userID associated with the checkout data. 
-   * @param creditCardNumber        The number of the credit card
-   * @param creditCardExpiration    The expiration of the credit card
-   * @param creditCardCVC           The cvc of the credit card
-   * @param creditCardHolder        The holder of the credit card
-   * @param creditCardZipCode       The zip code of the credit card.
+   * @param userID The user id represented by the checkout data.
+   * @param firstName The first name of the checkout data.
+   * @param lastName The last name of the checkout data.
+   * @param address The address of the checkout data.
+   * @param city The city of the checkout data.
+   * @param state The state of the checkout data.
+   * @param country The country of the checkout data.
+   * @param zipCode The zipCode of the checkout data.
+   * @param email The email of the checkout data.
+   * @param phoneNumber The phone number of the checkout data.
+   * @param creditCardNumber The credit card number of the checkout data.
+   * @param creditCardExpiration The credit card expiration of the checkout data.
+   * @param creditCardCVC The credit card cvc of the checkout data.
+   * @param creditCardHolder The credit card holder of the checkout data.
+   * @param creditCardZipCode The credit card zip code of the checkout data.
    */
   public CheckoutData(
     @JsonProperty("userID") int userID,

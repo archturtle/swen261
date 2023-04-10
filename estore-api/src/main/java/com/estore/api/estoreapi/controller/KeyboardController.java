@@ -35,6 +35,7 @@ public class KeyboardController {
    * The logger used to print out messages to standard out.
    */
   private static final Logger LOG = Logger.getLogger(KeyboardController.class.getName());
+  
   /**
    * The {@linkplain KeyboardFileDAO Keyboard Data Access Object}. Look at
    * {@link KeyboardController#KeyboardController(KeyboardFileDAO)} for more
