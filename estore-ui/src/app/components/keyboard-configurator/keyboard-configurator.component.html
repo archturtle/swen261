@@ -2,7 +2,7 @@
 <app-segmented-control [controlNames]="['100%', '80%', '60%']" (controlChanged)="controlSelected($event)"></app-segmented-control>
 
 <div class="container">
-  <div class="keyboard" [ngStyle]="{ 'background-color': boardColor?.value }">
+  <div class="keyboard" [ngStyle]="{ '--background-fill': boardColor?.value }">
     <!-- Section 1 -->
     <div class="section-one">
       <div *ngIf="selectedLayout.functionKeys">
@@ -96,13 +96,15 @@
           rx="5" ry="5" 
           [attr.width]="keyCap.orientation === keyCapOrientation.HORIZONTAL ? math.ceil(keyCap.size * 64) - 2 : 62" 
           [attr.height]="keyCap.orientation === keyCapOrientation.HORIZONTAL ? 62 : math.ceil(keyCap.size * 64) - 2" 
-          [ngStyle]="{ 'fill': toHSLString(keyCapHSLColor, 15), 'stroke': 'black', 'stroke-width': 1, 'stroke-opacity': .4 }" />
+          [ngStyle]="{ '--outer-fill': toHSLString(keyCapHSLColor, 15),  '--outer-active-fill': toHSLString(keyCapHSLColor, 25), 'stroke': 'black', 'stroke-width': 1, 'stroke-opacity': .4 }" 
+          class="outer" />
 
     <rect x="7" y="5" 
           rx="5" ry="5" 
           [attr.width]="keyCap.orientation === keyCapOrientation.HORIZONTAL ? 50 + (math.ceil((keyCap.size - 1) * 64) - 2) : 50"
           [attr.height]="keyCap.orientation === keyCapOrientation.HORIZONTAL ? 50 : 50 + (math.ceil((keyCap.size - 1) * 64) - 2)" 
-          [ngStyle]="{ 'fill': toHSLString(keyCapHSLColor), 'stroke': 'black', 'stroke-width': 1, 'stroke-opacity': .2 }" />
+          [ngStyle]="{ '--inner-fill': toHSLString(keyCapHSLColor), '--inner-active-fill': toHSLString(keyCapHSLColor, 10), 'stroke': 'black', 'stroke-width': 1, 'stroke-opacity': .2 }" 
+          class="inner" />
 
     <text x="12" y="20" font-size="13" font-family="Open Sans, sans-serif" [ngStyle]="{ 'fill': labelColor?.value}">{{ keyCap.topLabel }}</text>
     <text *ngIf="keyCap.bottomLabel" x="12" y="44" font-size="13" font-family="Open Sans, sans-serif" [ngStyle]="{ 'fill': labelColor?.value}">{{ keyCap.bottomLabel }}</text>

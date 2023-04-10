@@ -31,6 +31,7 @@ div {
   padding: 15px;
   border-radius: 10px;
   cursor: pointer;
+  background-color: var(--background-fill);
 }
 
 .keyCap {
@@ -127,4 +128,28 @@ option {
 .total-price {
   font-size: 16px;
   margin-bottom: 5px;
+}
+
+svg {
+  pointer-events: all;
+}
+
+rect, text {
+  pointer-events: none;
+}
+
+.keyCap .inner {
+  fill: var(--inner-fill);
+}
+
+.keyCap:active .inner {
+  fill: var(--inner-active-fill);
+}
+
+.keyCap .outer {
+  fill: var(--outer-fill);
+}
+
+.keyCap:active .outer {
+  fill: var(--outer-active-fill);
 }

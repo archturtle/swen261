@@ -45,6 +45,7 @@ export class KeyboardConfiguratorComponent implements OnInit {
     });
   }
 
+  // Getters for form control;
   get boardColor() { return this.customKeyboardForm.get('boardColor'); }
   get keyCapColor() { return this.customKeyboardForm.get('keyCapColor'); }
   get labelColor() { return this.customKeyboardForm.get('labelColor'); }
