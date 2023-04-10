@@ -111,4 +111,35 @@ public class CustomKeyboard {
   public String toString() {
     return String.format(STRING_FORMAT, size, price, caseColor, keycapColor, labelColor, switchType);
   }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public boolean equals(Object obj) {
+      boolean result = false;
+
+      if (obj instanceof CustomKeyboard) {
+          CustomKeyboard other = (CustomKeyboard) obj;
+          result = this.size.equals(other.size) &&
+                   this.price == other.price &&
+                   this.caseColor.equals(other.caseColor) &&
+                   this.keycapColor.equals(other.keycapColor) &&
+                   this.labelColor.equals(other.labelColor) &&
+                   this.switchType.equals(other.switchType); 
+      }
+
+      return result;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public int hashCode() {
+    return Double.hashCode(this.price) * 
+           this.size.hashCode() * this.caseColor.hashCode() * 
+           this.labelColor.hashCode() * this.keycapColor.hashCode() * 
+           this.switchType.hashCode();
+  }
 }

@@ -34,6 +34,7 @@ export class QuantitySelectorComponent implements OnInit {
     this.quantityForm.patchValue({
       selectedQuantity: (parseInt(value) - 1).toString()
     });
+    this.quantityChanged.emit(parseInt(value) - 1);
   }
 
   quantitySelected(): void {
@@ -50,5 +51,6 @@ export class QuantitySelectorComponent implements OnInit {
     this.quantityForm.patchValue({
       selectedQuantity: (parseInt(value) + 1).toString() 
     });
+    this.quantityChanged.emit(parseInt(value) + 1);
   }
 }

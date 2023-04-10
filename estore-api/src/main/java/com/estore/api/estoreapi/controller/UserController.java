@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.estore.api.estoreapi.model.CartItem;
+import com.estore.api.estoreapi.model.CustomKeyboard;
 import com.estore.api.estoreapi.model.Keyboard;
 import com.estore.api.estoreapi.model.User;
 import com.estore.api.estoreapi.persistence.KeyboardFileDAO;
@@ -223,7 +224,7 @@ public class UserController {
           .filter(item -> item.getKeyboardID() == cartItem.getKeyboardID())
           .findFirst()
           .orElse(null);
-         
+
         if (itemInCart != null) {
           userCart.remove(itemInCart);
           int range = (cartItem.getQuantity() > itemInCart.getQuantity()) ? itemInCart.getQuantity() : cartItem.getQuantity();
@@ -236,7 +237,14 @@ public class UserController {
         if (cartItem.getCustomKeyboard() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         if (cartItem.getQuantity() != 1) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        userCart.remove(cartItem);
+        userCart.stream()
+        .filter(item -> item.getCartItemType() == CartItem.Type.CUSTOM_KEYBOARD)
+        .filter(item -> {
+          CustomKeyboard kb = item.getCustomKeyboard();
+          return kb.equals(cartItem.getCustomKeyboard());
+        })
+        .findFirst()
+        .ifPresent(item -> userCart.remove(item));
       }
 
       user.setCart(userCart);

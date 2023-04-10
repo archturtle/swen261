@@ -49,6 +49,8 @@ export class CartComponent implements OnInit {
   }
 
   private isItemOutOfStock(value: CartItem): boolean {
+    if (value.cartItemType === CartItemType.CUSTOM_KEYBOARD) return false;
+
     let keyboard = this.findKeyboardByID(value.keyboardID!); 
     if (Object.keys(keyboard).length === 0) return true;
     return keyboard.quantity === 0 || value.quantity > keyboard.quantity;
@@ -67,6 +69,8 @@ export class CartComponent implements OnInit {
   getTotalPrice(): number {
     return this.cartItems.reduce((acc: number, val: CartItem) => {
       if (this.isItemOutOfStock(val)) return acc;
+      if (val.cartItemType === CartItemType.CUSTOM_KEYBOARD) return acc + (val.quantity * (val?.customKeyboard?.price ?? 0))
+      
       let keyboard = this.findKeyboardByID(val.keyboardID!);
       return acc + (val.quantity * keyboard.price);
     }, 0);

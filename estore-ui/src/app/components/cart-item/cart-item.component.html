@@ -1,15 +1,19 @@
 <tr *ngIf="itemLoaded" class="item-row {{ outOfStock ? 'out-of-stock': '' }}">
   <td class="item-image">
-    <img class="product-image" src="../../../assets/{{ this.associatedKeyboard.id % 9 }}.webp">
-    <p>{{ this.associatedKeyboard.name }}</p>
+    <img class="product-image" src="../../../assets/{{ cartItem.cartItemType === cartItemTypes.STANDARD_KEYBOARD ? this.associatedKeyboard.id % 9 : 'custom_keyboard' }}.webp">
+    <p>{{ cartItem.cartItemType === cartItemTypes.STANDARD_KEYBOARD ? this.associatedKeyboard.name : 'Custom Keyboard' }}</p>
   </td>
   <td class="item-data">
     <div class="centering">
-      <app-quantity-selector *ngIf="!outOfStock" [maxQuantity]="this.associatedKeyboard.quantity" [initialQuantity]="cartItem.quantity" (quantityChanged)="quantityChanged($event)"></app-quantity-selector>
-      <p *ngIf="outOfStock">{{ cartItem.quantity }}</p>
+      <app-quantity-selector *ngIf="!outOfStock && cartItem.cartItemType !== cartItemTypes.CUSTOM_KEYBOARD" [maxQuantity]="this.associatedKeyboard.quantity" [initialQuantity]="cartItem.quantity" (quantityChanged)="quantityChanged($event)"></app-quantity-selector>
+      <p *ngIf="outOfStock || cartItem.cartItemType === cartItemTypes.CUSTOM_KEYBOARD">
+        {{ cartItem.quantity }}
+      </p>
     </div>
   </td>
-  <td class="item-data">${{ this.associatedKeyboard.price | number: '1.2' }}</td>
+  <td class="item-data">
+    ${{ (cartItem.cartItemType === cartItemTypes.STANDARD_KEYBOARD ? this.associatedKeyboard.price : (cartItem.customKeyboard?.price ?? 0)) | number: '1.2' }}
+  </td>
   <td class="item-data">${{ calculateItemPrice() | number: '1.2' }}</td>
   <td class="item-data">
     <div>

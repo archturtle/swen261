@@ -15,12 +15,15 @@ export class CartItemComponent implements OnInit {
   loggedInUser$: Observable<User> = this.userService.user$;
   @Input() cartItem!: CartItem;
   associatedKeyboard: Keyboard = <Keyboard>{};
+  cartItemTypes = CartItemType;
 
   get itemLoaded(): boolean {
+    if (this.cartItem.cartItemType === CartItemType.CUSTOM_KEYBOARD) return true;
     return Object.keys(this.associatedKeyboard).length !== 0;
   }
 
   get outOfStock(): boolean {
+    if (this.cartItem.cartItemType === CartItemType.CUSTOM_KEYBOARD) return false;
     return this.associatedKeyboard.quantity === 0 || this.cartItem.quantity > this.associatedKeyboard.quantity;
   }
 
@@ -35,26 +38,30 @@ export class CartItemComponent implements OnInit {
   async quantityChanged(value: number) {
     const user = await firstValueFrom(this.loggedInUser$);
     if (Object.keys(user).length === 0) return;
-    if (this.cartItem.cartItemType !== CartItemType.STANDARD_KEYBOARD) return;
 
-    let difference = this.cartItem.quantity - value;
-    if (difference === 0) return;
-    if (difference < 0) {
-      this.userService.addToCart$(user.id, {
-        cartItemType: this.cartItem.cartItemType,
-        quantity: difference * -1,
-        keyboardID: this.associatedKeyboard.id
-      }).subscribe();
+    if (this.cartItem.cartItemType === CartItemType.STANDARD_KEYBOARD) {
+      let difference = this.cartItem.quantity - value;
+      if (difference === 0) return;
+      if (difference < 0) {
+        this.userService.addToCart$(user.id, {
+          cartItemType: this.cartItem.cartItemType,
+          quantity: difference * -1,
+          keyboardID: this.associatedKeyboard.id
+        }).subscribe();
+      } else {
+        this.userService.removeFromCart$(user.id, {
+          cartItemType: this.cartItem.cartItemType,
+          quantity: difference,
+          keyboardID: this.associatedKeyboard.id
+        }).subscribe();
+      }
     } else {
-      this.userService.removeFromCart$(user.id, {
-        cartItemType: this.cartItem.cartItemType,
-        quantity: difference,
-        keyboardID: this.associatedKeyboard.id
-      }).subscribe();
+      this.userService.removeFromCart$(user.id, this.cartItem)
+        .subscribe();
     }
   }
 
   calculateItemPrice(): number {
-    return this.cartItem.quantity * this.associatedKeyboard.price;
+    return (this.cartItem.cartItemType === CartItemType.STANDARD_KEYBOARD) ? this.cartItem.quantity * this.associatedKeyboard.price : (this.cartItem.customKeyboard?.price ?? 0);
   }
 }
