@@ -3,7 +3,7 @@ package com.estore.api.estoreapi.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CustomKeyboard {
-  private static final String STRING_FORMAT = "CustomKeyboard [size=%s, price=%f, caseColor=%s, keycapColor=%s, switchColor=%s]";
+  private static final String STRING_FORMAT = "CustomKeyboard [size=%s, price=%f, caseColor=%s, keycapColor=%s, labelColor=%s, switchType=%s]";
 
   public enum Size {
     ONE_HUNDRED,
@@ -38,20 +38,25 @@ public class CustomKeyboard {
   @JsonProperty("keycapColor")
   private String keycapColor;
 
-  @JsonProperty("switchColor")
-  private SwitchType switchColor;
+  @JsonProperty("labelColor")
+  private String labelColor;
+
+  @JsonProperty("switchType")
+  private SwitchType switchType;
 
   public CustomKeyboard(
     @JsonProperty("size") Size size, 
     @JsonProperty("price") double price, 
     @JsonProperty("caseColor") String caseColor, 
     @JsonProperty("keycapColor") String keycapColor, 
-    @JsonProperty("switchColor") SwitchType switchColor) {
+    @JsonProperty("labelColor") String labelColor,
+    @JsonProperty("switchType") SwitchType switchType) {
     this.size = size;
     this.price = price;
     this.caseColor = caseColor;
     this.keycapColor = keycapColor;
-    this.switchColor = switchColor;
+    this.labelColor = labelColor;
+    this.switchType = switchType;
   }
 
   public Size getSize() {
@@ -86,16 +91,24 @@ public class CustomKeyboard {
     this.keycapColor = keycapColor;
   }
 
-  public SwitchType getSwitchType() {
-    return switchColor;
+  public String getLabelColor() {
+    return this.labelColor;
   }
 
-  public void setSwitchType(SwitchType switchColor) {
-    this.switchColor = switchColor;
+  public void setLabelColor(String labelColor) {
+    this.labelColor = labelColor;
+  }
+
+  public SwitchType getSwitchType() {
+    return switchType;
+  }
+
+  public void setSwitchType(SwitchType switchType) {
+    this.switchType = switchType;
   }
 
   @Override
   public String toString() {
-    return String.format(STRING_FORMAT, size, price, caseColor, keycapColor, switchColor);
+    return String.format(STRING_FORMAT, size, price, caseColor, keycapColor, labelColor, switchType);
   }
 }

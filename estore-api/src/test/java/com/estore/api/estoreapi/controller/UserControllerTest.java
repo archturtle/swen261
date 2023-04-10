@@ -191,7 +191,7 @@ class UserControllerTest {
     @Test
     void testAddUserCartFailsCustomKeyboardQuantityNot1() throws IOException {
         User user = new User(0, "Issac", 1, List.of());
-        CustomKeyboard customKeyboard = new CustomKeyboard(Size.ONE_HUNDRED, 119.99, "#ff0000", "#00ff00", SwitchType.CHERRY_MX_BLUE);
+        CustomKeyboard customKeyboard = new CustomKeyboard(Size.ONE_HUNDRED, 119.99, "#ff0000", "#00ff00", "#000000", SwitchType.CHERRY_MX_BLUE);
         CartItem cartItem = new CartItem(Type.CUSTOM_KEYBOARD, 20, -1, customKeyboard);        
         when(mockUserFileDao.findByID(0)).thenReturn(user);
 
@@ -245,7 +245,7 @@ class UserControllerTest {
     @Test
     void testAddUserCartSucceedsItemIsCustomKeyboard() throws IOException {
         User user = new User(0, "Issac", 1, List.of());
-        CustomKeyboard customKeyboard = new CustomKeyboard(Size.ONE_HUNDRED, 119.99, "#ff0000", "#00ff00", SwitchType.CHERRY_MX_BLUE);
+        CustomKeyboard customKeyboard = new CustomKeyboard(Size.ONE_HUNDRED, 119.99, "#ff0000", "#00ff00", "#000000", SwitchType.CHERRY_MX_BLUE);
         CartItem cartItem = new CartItem(Type.CUSTOM_KEYBOARD, 1, -1, customKeyboard);    
 
         when(mockUserFileDao.findByID(0)).thenReturn(user);
@@ -318,7 +318,7 @@ class UserControllerTest {
     @Test
     void testRemoveUserCartFailsCustomKeyboardQuantityNot1() throws IOException {
         User user = new User(0, "Issac", 1, List.of());
-        CustomKeyboard customKeyboard = new CustomKeyboard(Size.ONE_HUNDRED, 119.99, "#ff0000", "#00ff00", SwitchType.CHERRY_MX_BLUE);
+        CustomKeyboard customKeyboard = new CustomKeyboard(Size.ONE_HUNDRED, 119.99, "#ff0000", "#00ff00", "#000000", SwitchType.CHERRY_MX_BLUE);
         CartItem cartItem = new CartItem(Type.CUSTOM_KEYBOARD, 20, -1, customKeyboard);        
         when(mockUserFileDao.findByID(0)).thenReturn(user);
 
@@ -402,7 +402,7 @@ class UserControllerTest {
     @Test
     void testRemoveUserCartSucceedsItemIsCustomKeyboard() throws IOException {
         User user = new User(0, "Issac", 1, List.of());
-        CustomKeyboard customKeyboard = new CustomKeyboard(Size.ONE_HUNDRED, 119.99, "#ff0000", "#00ff00", SwitchType.CHERRY_MX_GREEN);
+        CustomKeyboard customKeyboard = new CustomKeyboard(Size.ONE_HUNDRED, 119.99, "#ff0000", "#00ff00", "#000000", SwitchType.CHERRY_MX_GREEN);
         CartItem cartItem = new CartItem(Type.CUSTOM_KEYBOARD, 1, -1, customKeyboard);    
 
         when(mockUserFileDao.findByID(0)).thenReturn(user);

@@ -14,9 +14,10 @@ public class CustomKeyboardTest {
   private double expectedCustomKeyboardPrice = 399.99;
   private String expectedKeyboardCaseColor = "#FF0000";
   private String expectedKeyboardKeyCapColor = "#00FF00";
+  private String expectedKeyboardLabelColor = "#000000";
   private CustomKeyboard.SwitchType expectedCustomKeyboardSwitchType = SwitchType.CHERRY_MX_BLACK;
-  private CustomKeyboard customKeyboard = new CustomKeyboard(expectedCustomKeyboardSize, expectedCustomKeyboardPrice, expectedKeyboardCaseColor, expectedKeyboardKeyCapColor, expectedCustomKeyboardSwitchType);
-  private String expectedToString = "CustomKeyboard [size=ONE_HUNDRED, price=399.990000, caseColor=#FF0000, keycapColor=#00FF00, switchColor=CHERRY_MX_BLACK]";
+  private CustomKeyboard customKeyboard = new CustomKeyboard(expectedCustomKeyboardSize, expectedCustomKeyboardPrice, expectedKeyboardCaseColor, expectedKeyboardKeyCapColor, expectedKeyboardLabelColor, expectedCustomKeyboardSwitchType);
+  private String expectedToString = "CustomKeyboard [size=ONE_HUNDRED, price=399.990000, caseColor=#FF0000, keycapColor=#00FF00, labelColor=#000000, switchType=CHERRY_MX_BLACK]";
 
   @Test
   void testGetCaseColor() {
@@ -39,8 +40,13 @@ public class CustomKeyboardTest {
   }
 
   @Test
-  void testGetSwitchColor() {
+  void testGetSwitchType() {
     assertEquals(expectedCustomKeyboardSwitchType, this.customKeyboard.getSwitchType());
+  }
+
+  @Test
+  void testGetLabelColor() {
+    assertEquals(expectedKeyboardLabelColor, this.customKeyboard.getLabelColor());
   }
 
   @Test
@@ -58,6 +64,13 @@ public class CustomKeyboardTest {
   }
 
   @Test
+  void testSetLabelColor() {
+    String newColor = "#FFFFFF";
+    this.customKeyboard.setLabelColor(newColor);
+    assertEquals(newColor, this.customKeyboard.getLabelColor());
+  }
+
+  @Test
   void testSetPrice() {
     double newPrice = 1229.99;
     this.customKeyboard.setPrice(newPrice);
@@ -72,7 +85,7 @@ public class CustomKeyboardTest {
   }
 
   @Test
-  void testSetSwitchColor() {
+  void testSetSwitchType() {
     SwitchType newType = SwitchType.GATERON_CLEAR; 
     this.customKeyboard.setSwitchType(newType);
     assertEquals(newType, this.customKeyboard.getSwitchType());

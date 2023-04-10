@@ -47,7 +47,7 @@ public class CartItemTest {
 
   @Test
   void testSetCustomKeyboard() {
-    CustomKeyboard newKeyboard = new CustomKeyboard(Size.ONE_HUNDRED, 119.99, "#ff0000", "#00ff00", SwitchType.GATERON_BLACK);
+    CustomKeyboard newKeyboard = new CustomKeyboard(Size.ONE_HUNDRED, 119.99, "#ff0000", "#00ff00", "#000000", SwitchType.GATERON_BLACK);
     this.cartItem.setCustomKeyboard(newKeyboard);
     assertEquals(newKeyboard, cartItem.getCustomKeyboard());
   }
