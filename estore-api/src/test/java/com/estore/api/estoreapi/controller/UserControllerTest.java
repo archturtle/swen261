@@ -192,7 +192,7 @@ class UserControllerTest {
     void testAddUserCartFailsCustomKeyboardQuantityNot1() throws IOException {
         User user = new User(0, "Issac", 1, List.of());
         CustomKeyboard customKeyboard = new CustomKeyboard(Size.ONE_HUNDRED, 119.99, "#ff0000", "#00ff00", "#000000", SwitchType.CHERRY_MX_BLUE);
-        CartItem cartItem = new CartItem(Type.CUSTOM_KEYBOARD, 20, -1, customKeyboard);        
+        CartItem cartItem = new CartItem(Type.CUSTOM_KEYBOARD, 0, -1, customKeyboard);        
         when(mockUserFileDao.findByID(0)).thenReturn(user);
 
         ResponseEntity<User> response = userController.addItemToCart(user.getId(), cartItem);
@@ -319,7 +319,7 @@ class UserControllerTest {
     void testRemoveUserCartFailsCustomKeyboardQuantityNot1() throws IOException {
         User user = new User(0, "Issac", 1, List.of());
         CustomKeyboard customKeyboard = new CustomKeyboard(Size.ONE_HUNDRED, 119.99, "#ff0000", "#00ff00", "#000000", SwitchType.CHERRY_MX_BLUE);
-        CartItem cartItem = new CartItem(Type.CUSTOM_KEYBOARD, 20, -1, customKeyboard);        
+        CartItem cartItem = new CartItem(Type.CUSTOM_KEYBOARD, 0, -1, customKeyboard);        
         when(mockUserFileDao.findByID(0)).thenReturn(user);
 
         ResponseEntity<User> response = userController.removeItemFromCart(user.getId(), cartItem);

@@ -31,7 +31,8 @@ export class CheckoutItemComponent implements OnInit {
   }
 
   get itemPrice(): number {
-    if (this.item.cartItemType === CartItemType.CUSTOM_KEYBOARD) return this.item.customKeyboard?.price ?? 0;
-    return this.item.quantity * this.associatedKeyboard.price;
+    return this.item.quantity * ((this.item.cartItemType === CartItemType.STANDARD_KEYBOARD) ? 
+                                  this.associatedKeyboard.price : 
+                                  (this.item.customKeyboard?.price ?? 0));
   }
 }

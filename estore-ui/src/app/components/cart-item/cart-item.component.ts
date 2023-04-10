@@ -39,29 +39,28 @@ export class CartItemComponent implements OnInit {
     const user = await firstValueFrom(this.loggedInUser$);
     if (Object.keys(user).length === 0) return;
 
-    if (this.cartItem.cartItemType === CartItemType.STANDARD_KEYBOARD) {
-      let difference = this.cartItem.quantity - value;
-      if (difference === 0) return;
-      if (difference < 0) {
-        this.userService.addToCart$(user.id, {
-          cartItemType: this.cartItem.cartItemType,
-          quantity: difference * -1,
-          keyboardID: this.associatedKeyboard.id
-        }).subscribe();
-      } else {
-        this.userService.removeFromCart$(user.id, {
-          cartItemType: this.cartItem.cartItemType,
-          quantity: difference,
-          keyboardID: this.associatedKeyboard.id
-        }).subscribe();
-      }
+    let difference = this.cartItem.quantity - value;
+    if (difference === 0) return;
+
+    // const data: CartItem = (this.cartItem.cartItemType === CartItemType.STANDARD_KEYBOARD) ? {
+    //   cartItemType: this.cartItem.cartItemType,
+    //   quantity: difference * ((difference < 0) ? -1 : 1),
+    //   keyboardID: this.associatedKeyboard.id 
+    // }
+
+    const data: CartItem = this.cartItem;
+    data.quantity = (difference < 0) ? (difference * -1) : difference;
+
+    if (difference < 0) {
+      this.userService.addToCart$(user.id, data).subscribe();
     } else {
-      this.userService.removeFromCart$(user.id, this.cartItem)
-        .subscribe();
+      this.userService.removeFromCart$(user.id, data).subscribe();
     }
   }
 
   calculateItemPrice(): number {
-    return (this.cartItem.cartItemType === CartItemType.STANDARD_KEYBOARD) ? this.cartItem.quantity * this.associatedKeyboard.price : (this.cartItem.customKeyboard?.price ?? 0);
+    return this.cartItem.quantity * ((this.cartItem.cartItemType === CartItemType.STANDARD_KEYBOARD) ? 
+                                      this.associatedKeyboard.price : 
+                                      (this.cartItem.customKeyboard?.price ?? 0));
   }
 }
