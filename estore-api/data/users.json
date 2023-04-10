@@ -1,1 +1,1 @@
-[{"id":1,"name":"admin","role":0,"cart":[]},{"id":2,"name":"siddhartha","role":1,"cart":[]}]
+[{"id":1,"name":"admin","role":0,"cart":[]},{"id":2,"name":"siddhartha","role":1,"cart":[{"cartItemType":"CUSTOM_KEYBOARD","quantity":1,"keyboardID":0,"customKeyboard":{"size":"ONE_HUNDRED","price":191.6,"caseColor":"#8A2BE2","keycapColor":"#f2f2f2","labelColor":"#000000","switchType":"CHERRY_MX_BLACK"}}]}]
