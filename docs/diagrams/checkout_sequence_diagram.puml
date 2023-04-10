@@ -1,0 +1,76 @@
+@startuml "Checkout_Sequence_Diagram"
+
+"Checkout Service" -> "API" : POST /checkout
+activate "API"
+
+database Database as Storage
+"API" --> "API": Validate Checkout Data
+break #Pink Checkout Data Invalid
+  "API" -> "Checkout Service": 406 Not Acceptable\t\t
+end
+
+"API" -> "API": Parse Credit Card Expiration
+break #Pink Parse Failed
+  "API" --> "Checkout Service": 500 Internal Service Error
+end
+break #Pink Credit Card Expired
+  "API" --> "Checkout Service": 406 Not Acceptable
+end
+
+"API" -> Storage : Find User with ID 
+activate Storage
+break #Pink IOExecption 
+  "API" --> "Checkout Service": 500 Internal Service Error
+end
+Storage -> "API"
+deactivate Storage
+
+break #Pink User Not Found
+  "API" --> "Checkout Service": 404 Not Found
+end
+
+loop Through Cart Items
+  alt #LightBlue Item is Standard Keyboard
+    "API" --> Storage: Find Keyboard
+    activate Storage
+
+      break #Pink IOExecption
+        "API" -> "Checkout Service": 500 Internal Service Error
+      end
+
+    Storage -> API
+    deactivate Storage
+
+   alt #LightBlue Enough In Stock
+    "API" --> "API": Remove from Cart and Update Stock
+    "API" -> Storage: Update Keyboard with New Stock
+    activate Storage
+
+    break #Pink IOExecption
+      "API" --> "Checkout Service": 500 Internal Service Error 
+    end 
+
+    Storage --> "API"
+    deactivate Storage
+   else #LightGreen Not Enough In Stock
+     "API" -> "API": Skip Item
+   end
+  else #LightGreen Item is Custom Keyboard
+    "API" --> "API": Remove Item From Cart
+  end
+end
+
+"API" -> Storage: Save Updated User
+activate Storage
+
+break #Pink IOExecption
+  "API" --> "Checkout Service": 500 Internal Service Error
+end
+
+Storage -> "API"
+deactivate Storage
+
+"API" -> "Checkout Service": Updated User Object, 200 OK
+deactivate "API"
+
+@enduml
