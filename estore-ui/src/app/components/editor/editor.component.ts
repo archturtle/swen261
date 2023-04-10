@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Keyboard } from 'src/app/interfaces/keyboard';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -19,6 +19,7 @@ export class EditorComponent implements OnInit {
   });
   addKeyboard: boolean = true;
   edited: boolean = false;
+  @ViewChild("descriptionArea") descriptionArea!: ElementRef<HTMLTextAreaElement>;
 
   constructor(private formBuilder: FormBuilder, private keyboardService: KeyboardService, private notificationService: NotificationService) {  }
 
@@ -61,6 +62,12 @@ export class EditorComponent implements OnInit {
 
   get description() {
     return this.editGroup.controls['description'];
+  }
+
+  textAreaChanged() {
+    const element = this.descriptionArea.nativeElement;
+    element.style.height = "1px";
+    element.style.height = `${element.scrollHeight}px`;
   }
 
   clearForm(): void {
