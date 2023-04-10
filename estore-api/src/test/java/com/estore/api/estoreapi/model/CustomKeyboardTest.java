@@ -1,6 +1,8 @@
 package com.estore.api.estoreapi.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -94,5 +96,63 @@ public class CustomKeyboardTest {
   @Test
   void testToString() {
     assertEquals(expectedToString, this.customKeyboard.toString());
+  }
+
+  @Test
+  void testEqualsAndHashCode() {
+    CustomKeyboard x = new CustomKeyboard(expectedCustomKeyboardSize, expectedCustomKeyboardPrice, expectedKeyboardCaseColor, expectedKeyboardKeyCapColor, expectedKeyboardLabelColor, expectedCustomKeyboardSwitchType);
+    CustomKeyboard y = new CustomKeyboard(expectedCustomKeyboardSize, expectedCustomKeyboardPrice, expectedKeyboardCaseColor, expectedKeyboardKeyCapColor, expectedKeyboardLabelColor, expectedCustomKeyboardSwitchType);
+    assertTrue(x.equals(y));
+    assertTrue(y.equals(x));
+    assertTrue(x.hashCode() == y.hashCode());
+  }
+
+
+  @Test
+  void testEqualsFailsTypesDifferent() {
+    CustomKeyboard x = new CustomKeyboard(expectedCustomKeyboardSize, expectedCustomKeyboardPrice, expectedKeyboardCaseColor, expectedKeyboardKeyCapColor, expectedKeyboardLabelColor, expectedCustomKeyboardSwitchType);
+    assertFalse(x.equals(new String("Hello")));
+  }
+
+  @Test
+  void testEqualsFailsSizeDifferent() {
+    CustomKeyboard x = new CustomKeyboard(expectedCustomKeyboardSize, expectedCustomKeyboardPrice, expectedKeyboardCaseColor, expectedKeyboardKeyCapColor, expectedKeyboardLabelColor, expectedCustomKeyboardSwitchType);
+    CustomKeyboard y = new CustomKeyboard(Size.EIGHTY, expectedCustomKeyboardPrice, expectedKeyboardCaseColor, expectedKeyboardKeyCapColor, expectedKeyboardLabelColor, expectedCustomKeyboardSwitchType);
+    assertFalse(x.equals(y));
+  }
+
+  @Test
+  void testEqualsFailsPriceDifferent() {
+    CustomKeyboard x = new CustomKeyboard(expectedCustomKeyboardSize, expectedCustomKeyboardPrice, expectedKeyboardCaseColor, expectedKeyboardKeyCapColor, expectedKeyboardLabelColor, expectedCustomKeyboardSwitchType);
+    CustomKeyboard y = new CustomKeyboard(expectedCustomKeyboardSize, 100.00, expectedKeyboardCaseColor, expectedKeyboardKeyCapColor, expectedKeyboardLabelColor, expectedCustomKeyboardSwitchType);
+    assertFalse(x.equals(y));
+  }
+
+  @Test
+  void testEqualsFailsCaseColorDifferent() {
+    CustomKeyboard x = new CustomKeyboard(expectedCustomKeyboardSize, expectedCustomKeyboardPrice, expectedKeyboardCaseColor, expectedKeyboardKeyCapColor, expectedKeyboardLabelColor, expectedCustomKeyboardSwitchType);
+    CustomKeyboard y = new CustomKeyboard(expectedCustomKeyboardSize, expectedCustomKeyboardPrice, "#F3F3F3", expectedKeyboardKeyCapColor, expectedKeyboardLabelColor, expectedCustomKeyboardSwitchType);
+    assertFalse(x.equals(y));
+  }
+
+  @Test
+  void testEqualsFailsKeycapColorDifferent() {
+    CustomKeyboard x = new CustomKeyboard(expectedCustomKeyboardSize, expectedCustomKeyboardPrice, expectedKeyboardCaseColor, expectedKeyboardKeyCapColor, expectedKeyboardLabelColor, expectedCustomKeyboardSwitchType);
+    CustomKeyboard y = new CustomKeyboard(expectedCustomKeyboardSize, expectedCustomKeyboardPrice, expectedKeyboardCaseColor, "#F3F3F3", expectedKeyboardLabelColor, expectedCustomKeyboardSwitchType);
+    assertFalse(x.equals(y));
+  }
+
+  @Test
+  void testEqualsFailsLabelColorDifferent() {
+    CustomKeyboard x = new CustomKeyboard(expectedCustomKeyboardSize, expectedCustomKeyboardPrice, expectedKeyboardCaseColor, expectedKeyboardKeyCapColor, expectedKeyboardLabelColor, expectedCustomKeyboardSwitchType);
+    CustomKeyboard y = new CustomKeyboard(expectedCustomKeyboardSize, expectedCustomKeyboardPrice, expectedKeyboardCaseColor, expectedKeyboardKeyCapColor, "#F3F3F3", expectedCustomKeyboardSwitchType);
+    assertFalse(x.equals(y));
+  }
+
+  @Test
+  void testEqualsFailsSwitchTypeDifferent() {
+    CustomKeyboard x = new CustomKeyboard(expectedCustomKeyboardSize, expectedCustomKeyboardPrice, expectedKeyboardCaseColor, expectedKeyboardKeyCapColor, expectedKeyboardLabelColor, expectedCustomKeyboardSwitchType);
+    CustomKeyboard y = new CustomKeyboard(expectedCustomKeyboardSize, expectedCustomKeyboardPrice, expectedKeyboardCaseColor, expectedKeyboardKeyCapColor, expectedKeyboardLabelColor, SwitchType.CHERRY_MX_GREEN);
+    assertFalse(x.equals(y));
   }
 }

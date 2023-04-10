@@ -254,9 +254,31 @@ class UserControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
-    
+    @Test
+    void testAddUserCartSucceedsItemIsCustomKeyboardWithStandardKeyboardInCart() throws IOException {
+        User user = new User(0, "Issac", 1, List.of());
+        CartItem standardCartItem = new CartItem(Type.STANDARD_KEYBOARD, 1, 0, null);
+        CustomKeyboard customKeyboard = new CustomKeyboard(Size.ONE_HUNDRED, 119.99, "#ff0000", "#00ff00", "#000000", SwitchType.CHERRY_MX_BLUE);
+        CartItem customCartItem = new CartItem(Type.CUSTOM_KEYBOARD, 1, -1, customKeyboard);    
+        user.setCart(List.of(standardCartItem));
 
+        when(mockUserFileDao.findByID(0)).thenReturn(user);
+        ResponseEntity<User> response = userController.addItemToCart(user.getId(), customCartItem);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
     
+    @Test
+    void testAddUserCartSucceedsItemIsCustomKeyboardWithAlreadyInCart() throws IOException {
+        User user = new User(0, "Issac", 1, List.of());
+        CustomKeyboard customKeyboard = new CustomKeyboard(Size.ONE_HUNDRED, 119.99, "#ff0000", "#00ff00", "#000000", SwitchType.CHERRY_MX_BLUE);
+        CartItem customCartItem = new CartItem(Type.CUSTOM_KEYBOARD, 1, -1, customKeyboard);    
+        CartItem newCartItem = new CartItem(Type.CUSTOM_KEYBOARD, 4, 0, customKeyboard);
+        user.setCart(List.of(customCartItem));
+
+        when(mockUserFileDao.findByID(0)).thenReturn(user);
+        ResponseEntity<User> response = userController.addItemToCart(user.getId(), newCartItem);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
 
     @Test
     void testRemoveUserCartUserNotFound() throws IOException {
@@ -408,6 +430,58 @@ class UserControllerTest {
         when(mockUserFileDao.findByID(0)).thenReturn(user);
 
         ResponseEntity<User> response = userController.removeItemFromCart(user.getId(), cartItem);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    void testRemoveUserCartSucceedsItemIsCustomKeyboardWithStandardKeyboardInCart() throws IOException {
+        User user = new User(0, "Issac", 1, List.of());
+        CartItem standardCartItem = new CartItem(Type.STANDARD_KEYBOARD, 1, 0, null);
+        CustomKeyboard customKeyboard = new CustomKeyboard(Size.ONE_HUNDRED, 119.99, "#ff0000", "#00ff00", "#000000", SwitchType.CHERRY_MX_GREEN);
+        CartItem cartItem = new CartItem(Type.CUSTOM_KEYBOARD, 1, -1, customKeyboard);
+        user.setCart(List.of(standardCartItem));
+
+        when(mockUserFileDao.findByID(0)).thenReturn(user);
+        ResponseEntity<User> response = userController.removeItemFromCart(user.getId(), cartItem);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+    
+    @Test
+    void testRemoveUserCartSucceedsItemIsCustomKeyboardWithAlreadyInCart() throws IOException {
+        User user = new User(0, "Issac", 1, List.of());
+        CustomKeyboard customKeyboard = new CustomKeyboard(Size.ONE_HUNDRED, 119.99, "#ff0000", "#00ff00", "#000000", SwitchType.CHERRY_MX_GREEN);
+        CartItem customCartItem = new CartItem(Type.CUSTOM_KEYBOARD, 10, -1, customKeyboard);    
+        CartItem newCartItem = new CartItem(Type.CUSTOM_KEYBOARD, 4, 0, customKeyboard);
+        user.setCart(List.of(customCartItem));
+
+        when(mockUserFileDao.findByID(0)).thenReturn(user);
+        ResponseEntity<User> response = userController.removeItemFromCart(user.getId(), newCartItem);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    void testRemoveUserCartSucceedsItemIsCustomKeyboardWithAlreadyInCartAndRemoveAll() throws IOException {
+        User user = new User(0, "Issac", 1, List.of());
+        CustomKeyboard customKeyboard = new CustomKeyboard(Size.ONE_HUNDRED, 119.99, "#ff0000", "#00ff00", "#000000", SwitchType.CHERRY_MX_GREEN);
+        CartItem customCartItem = new CartItem(Type.CUSTOM_KEYBOARD, 10, -1, customKeyboard);    
+        CartItem newCartItem = new CartItem(Type.CUSTOM_KEYBOARD, 10, 0, customKeyboard);
+        user.setCart(List.of(customCartItem));
+
+        when(mockUserFileDao.findByID(0)).thenReturn(user);
+        ResponseEntity<User> response = userController.removeItemFromCart(user.getId(), newCartItem);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    void testRemoveUserCartSucceedsItemIsCustomKeyboardWithAlreadyInCartAndRemoveMoreThanInCart() throws IOException {
+        User user = new User(0, "Issac", 1, List.of());
+        CustomKeyboard customKeyboard = new CustomKeyboard(Size.ONE_HUNDRED, 119.99, "#ff0000", "#00ff00", "#000000", SwitchType.CHERRY_MX_GREEN);
+        CartItem customCartItem = new CartItem(Type.CUSTOM_KEYBOARD, 10, -1, customKeyboard);    
+        CartItem newCartItem = new CartItem(Type.CUSTOM_KEYBOARD, 20, 0, customKeyboard);
+        user.setCart(List.of(customCartItem));
+
+        when(mockUserFileDao.findByID(0)).thenReturn(user);
+        ResponseEntity<User> response = userController.removeItemFromCart(user.getId(), newCartItem);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
