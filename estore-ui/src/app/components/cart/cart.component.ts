@@ -85,6 +85,4 @@ export class CartComponent implements OnInit {
     if (this.cartItems.length === 0) return [];
     return this.cartItems.filter(i => !this.isItemOutOfStock(i));
   }
-
-  identifyCartItem(index: any, item: CartItem) { return item.quantity; }
 }

@@ -13,7 +13,7 @@
     <td colspan="5" class="hr"> <hr /> </td>      
   </tr>
 
-  <app-cart-item *ngFor="let cartItem of cartItems; trackBy: identifyCartItem" [cartItem]="cartItem"></app-cart-item>
+  <app-cart-item *ngFor="let cartItem of cartItems;" [cartItem]="cartItem"></app-cart-item>
 </table>
 
 <div *ngIf="shouldShowCheckout()" class="checkout">
