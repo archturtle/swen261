@@ -1,8 +1,82 @@
-import { KeyCapOrientation, KeyCapSize, KEY_CAP_SIZE } from "./key-cap";
+import { KeyCapSize, KeyCapOrientation, KEY_CAP_SIZE } from "./key-cap";
 import { KeyboardLayout } from "./keyboard-layout";
 
-export const SixtyLayout: KeyboardLayout = {
+export const EightyLayout: KeyboardLayout = {
+  functionKeys: [
+    { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: 'Esc' },
+    { width: KEY_CAP_SIZE, height: KEY_CAP_SIZE }, // Spacer
+    { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: 'F1' },
+    { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: 'F2' },
+    { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: 'F3' },
+    { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: 'F4' },
+    { width: KEY_CAP_SIZE / 2.0, height: KEY_CAP_SIZE }, // Spacer
+    { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: 'F5' },
+    { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: 'F6' },
+    { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: 'F7' },
+    { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: 'F8' },
+    { width: KEY_CAP_SIZE / 2.0, height: KEY_CAP_SIZE }, // Spacer
+    { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: 'F9' },
+    { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: 'F10' },
+    { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: 'F11' },
+    { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: 'F12' },
+  ],
+  editingKeys: [
+    [
+      { width: KEY_CAP_SIZE / 4.0, height: KEY_CAP_SIZE },
+      { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: 'PrtSc' },
+      { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: 'ScrLk' }, 
+      { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: 'Pause', bottomLabel: 'Break' },
+      { width: KEY_CAP_SIZE / 4.0, height: KEY_CAP_SIZE },
+    ],
+    [
+      { width: KEY_CAP_SIZE / 4.0, height: (KEY_CAP_SIZE / 2.0) - 5.0 },
+      { width: KEY_CAP_SIZE, height: (KEY_CAP_SIZE / 2.0) - 5.0 },
+      { width: KEY_CAP_SIZE, height: (KEY_CAP_SIZE / 2.0) - 5.0 },
+      { width: KEY_CAP_SIZE, height: (KEY_CAP_SIZE / 2.0) - 5.0 },
+      { width: KEY_CAP_SIZE / 4.0, height: (KEY_CAP_SIZE / 2.0) - 5.0 },
+    ],
+    [
+      { width: KEY_CAP_SIZE / 4.0, height: KEY_CAP_SIZE },
+      { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: 'Insert' },
+      { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: 'Home' }, 
+      { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: 'PgUp' },
+      { width: KEY_CAP_SIZE / 4.0, height: KEY_CAP_SIZE },
+    ],
+    [
+      { width: KEY_CAP_SIZE / 4.0, height: KEY_CAP_SIZE },
+      { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: 'Del' },
+      { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: 'End' }, 
+      { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: 'PgDn' },
+      { width: KEY_CAP_SIZE / 4.0, height: KEY_CAP_SIZE },
+    ],
+    [
+      { width: KEY_CAP_SIZE / 4.0, height: KEY_CAP_SIZE },
+      { width: KEY_CAP_SIZE, height: KEY_CAP_SIZE },
+      { width: KEY_CAP_SIZE, height: KEY_CAP_SIZE },
+      { width: KEY_CAP_SIZE, height: KEY_CAP_SIZE },
+      { width: KEY_CAP_SIZE / 4.0, height: KEY_CAP_SIZE },
+    ]
+  ],
+  arrowKeys: [
+    [
+      { width: KEY_CAP_SIZE / 4.0, height: KEY_CAP_SIZE },
+      { width: KEY_CAP_SIZE, height: KEY_CAP_SIZE },
+      { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: '↑' }, 
+      { width: KEY_CAP_SIZE, height: KEY_CAP_SIZE },
+      { width: KEY_CAP_SIZE / 4.0, height: KEY_CAP_SIZE },
+    ],
+    [
+      { width: KEY_CAP_SIZE / 4.0, height: KEY_CAP_SIZE },
+      { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: '←' }, 
+      { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: '↓' }, 
+      { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: '→' }, 
+      { width: KEY_CAP_SIZE / 4.0, height: KEY_CAP_SIZE },
+    ]
+  ],
   typingKeys: [
+    [
+      { width: KEY_CAP_SIZE, height: (KEY_CAP_SIZE / 2.0) - 5 }
+    ],
     [ 
       { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: '~', bottomLabel: '`' },
       { size: KeyCapSize.ONE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: '!', bottomLabel: '1' },
@@ -75,6 +149,6 @@ export const SixtyLayout: KeyboardLayout = {
       { size: KeyCapSize.ONE_POINT_TWO_FIVE_U, orientation: KeyCapOrientation.HORIZONTAL, topLabel: 'Ctrl' },
     ],
   ],
-  totalKeys: 62,
-  price: 110.00
+  totalKeys: 87,
+  price: 130.00
 };

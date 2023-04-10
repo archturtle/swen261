@@ -1,9 +1,12 @@
-import { Key, KeyCap } from "./key-cap";
+import { Key } from "./key-cap";
 
 export interface KeyboardLayout {
-  functionKeys?: KeyCap[];
-  editingKeys?: KeyCap[][];
-  arrowKeys?: KeyCap[][];
-  numberPad?: KeyCap[][];
-  typingKeys: KeyCap[][];
+  functionKeys?: Key[];
+  editingKeys?: Key[][];
+  arrowKeys?: Key[][];
+  numberPad?: Key[][];
+  numberPadEndColumn?: Key[];
+  typingKeys: Key[][];
+  totalKeys: number;
+  price: number;
 }

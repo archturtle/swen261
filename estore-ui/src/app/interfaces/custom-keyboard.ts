@@ -6,7 +6,7 @@ export enum CustomKeyboardSize {
 
 export enum CustomKeyboardSwitchType {
   GATERON_BLACK = "GATERON_BLACK",
-  CHERRY_MX_BLACK = "GATERON_MX_BLACK",
+  CHERRY_MX_BLACK = "CHERRY_MX_BLACK",
   GATERON_BLUE = "GATERON_BLUE",
   CHERRY_MX_BLUE = "CHERRY_MX_BLUE",
   GATERON_BROWN = "GATERON_BROWN",
@@ -18,6 +18,11 @@ export enum CustomKeyboardSwitchType {
   GATERON_RED = "GATERON_RED",
   CHERRY_MX_RED = "CHERRY_MX_RED"
 } 
+
+export enum PricePerSwitchType {
+  GATERON = 0.27,
+  CHERRY_MX = 0.40
+}
 
 export interface CustomKeyboard {
   size: CustomKeyboardSize;
