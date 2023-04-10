@@ -1,0 +1,117 @@
+<h1 class="sizeLabel">Keyboard Form Factor</h1>
+<app-segmented-control [controlNames]="['100%', '80%', '60%']" (controlChanged)="controlSelected($event)"></app-segmented-control>
+
+<div class="container">
+  <div class="keyboard" [ngStyle]="{ '--background-fill': boardColor?.value }">
+    <!-- Section 1 -->
+    <div class="section-one">
+      <div *ngIf="selectedLayout.functionKeys">
+        <ng-container *ngFor="let key of selectedLayout.functionKeys" 
+                      [ngTemplateOutlet]="isKey(key) ? isKeyCap : isSpacer" 
+                      [ngTemplateOutletContext]="{ keyCap: asKeyCap(key), spacer: asSpacer(key) }"/>
+      </div>
+  
+      <div *ngFor="let row of selectedLayout.typingKeys">
+        <ng-container *ngFor="let key of row" 
+                      [ngTemplateOutlet]="isKey(key) ? isKeyCap : isSpacer" 
+                      [ngTemplateOutletContext]="{ keyCap: asKeyCap(key), spacer: asSpacer(key) }"/>
+      </div>
+    </div>
+
+    <!-- Section 2 -->
+    <div class="section-two">
+      <div *ngFor="let row of selectedLayout.editingKeys">
+        <ng-container *ngFor="let key of row" 
+                      [ngTemplateOutlet]="isKey(key) ? isKeyCap : isSpacer" 
+                      [ngTemplateOutletContext]="{ keyCap: asKeyCap(key), spacer: asSpacer(key) }"/> 
+      </div> 
+
+      <div *ngFor="let row of selectedLayout.arrowKeys">
+        <ng-container *ngFor="let key of row" 
+                      [ngTemplateOutlet]="isKey(key) ? isKeyCap : isSpacer" 
+                      [ngTemplateOutletContext]="{ keyCap: asKeyCap(key), spacer: asSpacer(key) }"/> 
+       </div>
+    </div>
+
+    <!-- Section 3 -->
+    <div class="section-three">
+      <!-- Equal Columns -->
+      <div class="section-three-sub">
+        <div *ngFor="let row of selectedLayout.numberPad">
+          <ng-container *ngFor="let key of row;" 
+                        [ngTemplateOutlet]="isKey(key) ? isKeyCap : isSpacer" 
+                        [ngTemplateOutletContext]="{ keyCap: asKeyCap(key), spacer: asSpacer(key) }"/>  
+        </div>
+      </div>
+
+      <!-- Unequal Columns -->
+      <div class="section-three-sub">
+        <ng-container *ngFor="let key of selectedLayout.numberPadEndColumn"
+                      [ngTemplateOutlet]="isKey(key) ? isKeyCap : isSpacer" 
+                      [ngTemplateOutletContext]="{ keyCap: asKeyCap(key), spacer: asSpacer(key) }"/>
+      </div>
+    </div>
+  </div>
+
+  <div class="form" [formGroup]="customKeyboardForm">
+    <div class="control-changes">
+      <div class="input-div">
+        <input class="color-input" type="color" name="board-color" formControlName="boardColor"/>
+        <p>Board Color</p>
+        <p><b>Current:</b> {{ boardColor?.value }}</p>
+      </div>
+
+      <div class="input-div">
+        <input class="color-input" type="color" name="keycap-color" formControlName="keyCapColor"/>
+        <p>KeyCap Color</p>
+        <p><b>Current:</b> {{ keyCapColor?.value }}</p>
+      </div>
+
+      <div class="input-div">
+        <input class="color-input" type="color" name="label-color" formControlName="labelColor"/>
+        <p>Label Color</p>
+        <p><b>Current:</b> {{ labelColor?.value }}</p>
+      </div>
+    </div>
+
+    <div class="switch-selection">
+      <select class="switch-select" formControlName="selectedSwitch">
+        <option *ngFor="let val of switchTypes;" [value]="val">{{ getSwitchName(val) + ' +$' + getSwitchPrice(val).toFixed(2) }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="purchase">
+    <p class="total-price">Total Price: ${{ getTotalPrice() | number: '1.2' }}</p>
+    <button class="add-to-cart" (click)="sendToCart()">Add To Cart</button>
+  </div>
+</div>
+
+<!-- Is a key cap -->
+<ng-template #isKeyCap let-keyCap="keyCap">
+  <svg [attr.width]="keyCap.orientation === keyCapOrientation.HORIZONTAL ? math.ceil(keyCap.size * 64) : 64" 
+       [attr.height]="keyCap.orientation === keyCapOrientation.HORIZONTAL ? 64 : math.ceil(keyCap.size * 64)"
+       class="keyCap">
+    <rect x="1" y="1" 
+          rx="5" ry="5" 
+          [attr.width]="keyCap.orientation === keyCapOrientation.HORIZONTAL ? math.ceil(keyCap.size * 64) - 2 : 62" 
+          [attr.height]="keyCap.orientation === keyCapOrientation.HORIZONTAL ? 62 : math.ceil(keyCap.size * 64) - 2" 
+          [ngStyle]="{ '--outer-fill': toHSLString(keyCapHSLColor, 15),  '--outer-active-fill': toHSLString(keyCapHSLColor, 25), 'stroke': 'black', 'stroke-width': 1, 'stroke-opacity': .4 }" 
+          class="outer" />
+
+    <rect x="7" y="5" 
+          rx="5" ry="5" 
+          [attr.width]="keyCap.orientation === keyCapOrientation.HORIZONTAL ? 50 + (math.ceil((keyCap.size - 1) * 64) - 2) : 50"
+          [attr.height]="keyCap.orientation === keyCapOrientation.HORIZONTAL ? 50 : 50 + (math.ceil((keyCap.size - 1) * 64) - 2)" 
+          [ngStyle]="{ '--inner-fill': toHSLString(keyCapHSLColor), '--inner-active-fill': toHSLString(keyCapHSLColor, 10), 'stroke': 'black', 'stroke-width': 1, 'stroke-opacity': .2 }" 
+          class="inner" />
+
+    <text x="12" y="20" font-size="13" font-family="Open Sans, sans-serif" [ngStyle]="{ 'fill': labelColor?.value}">{{ keyCap.topLabel }}</text>
+    <text *ngIf="keyCap.bottomLabel" x="12" y="44" font-size="13" font-family="Open Sans, sans-serif" [ngStyle]="{ 'fill': labelColor?.value}">{{ keyCap.bottomLabel }}</text>
+  </svg>
+</ng-template>
+
+<!-- Is a spacer -->
+<ng-template #isSpacer let-spacer="spacer">
+  <svg [attr.width]="spacer.width" [attr.height]="spacer.height"></svg>
+</ng-template>

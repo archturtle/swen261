@@ -3,6 +3,7 @@
 
 * {
   margin: 0;
+  padding: 0;
   font-family: 'Open Sans', sans-serif;
   color: rgb(208, 207, 207);
 }
@@ -14,7 +15,11 @@ a {
 }
 
 html, body {
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* align-items: stretch; */
+
+  width: 100vw;
+  height: 100vh;
   background-color: rgb(29, 28, 28);
-  width: 100%;
-  height: calc(100% - 40px); 
 }

@@ -1,1 +1,2 @@
 <app-keyboard *ngFor="let keyboard of filteredKeyboards$ | async" [keyboard]="keyboard"></app-keyboard>
+<app-keyboard *ngIf="searchBoxEmpty && (loggedInUser$ | async)?.role !== 0" [isCustomKeyboard]="true"></app-keyboard>

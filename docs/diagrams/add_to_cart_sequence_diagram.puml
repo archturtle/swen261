@@ -1,0 +1,83 @@
+@startuml "Add_To_Cart_Sequence_Diagram"
+
+"Users Service" -> "API" : POST /users/{userID}/cart 
+activate "API"
+
+database Database as Storage
+"API" -> Storage : Find User with ID 
+activate Storage
+break #Pink IOExecption 
+  "API" --> "Users Service": 500 Internal Service Error
+end
+Storage --> "API"
+deactivate Storage
+
+break #Pink User Not Found
+  "API" -> "Users Service": 404 Not Found
+end
+
+"API" -> "API": Check if User Admin
+break #Pink User Is Admin
+  "API" --> "Users Service": 403 Forbidden
+end
+
+"API" -> "API": Check Type of Product
+alt #LightBlue Standard Keyboard
+  "API" --> Storage : Find Keyboard
+  activate Storage
+  break #Pink IOExecption 
+    "API" --> "Users Service": 500 Internal Service Error
+  end
+  Storage -> "API"
+  deactivate Storage
+
+  break #Pink Keyboard Not Found
+    "API" --> "Users Service": 404 Not Found
+  end
+
+  "API" -> "API": Check Requested Quantity
+  break #Pink Quantity <1 or Quantity > In Stock
+    "API" --> "Users Service": 416 Requested Range Not Satisfiable
+  end
+
+  "API" -> "API": Search User Cart for Product
+  alt #LightBlue Product Exists In Cart
+    break #Pink Current Quantity + Requested Quantity > In Stock
+      "API" --> "Users Service": 416 Requested Range Not Satisfiable\t\t\t
+    end
+
+    "API" -> "API": Update Item Quantity in Cart
+  else #LightGreen Product Doesn't Exist In Cart
+    "API" -> "API": Add Product to User Cart
+  end
+else #LightGreen Custom Keyboard
+  "API" --> "API": Get Custom Keyboard\nfrom Post Body
+  break #Pink Custom Keyboard Not Attached
+    "API" --> "Users Service": 400 Bad Request
+  end
+
+  "API" -> "API": Check Requested Quantity
+  break #Pink Quantity <1 
+    "API" --> "Users Service": 400 Bad Request 
+  end
+
+  "API" -> "API": Search User Cart for Product\t\t
+  alt #LightBlue Product Exists In Cart
+    "API" -> "API": Update Item Quantity in Cart
+  else #LightGreen Product Doesn't Exist In Cart
+    "API" -> "API": Add Product to User Cart
+  end
+end
+
+"API" -> Storage: Save Updated User
+activate Storage
+break #Pink IOExecption 
+  "API" --> "Users Service": 500 Internal Service Error
+end
+Storage --> "API"
+deactivate Storage
+
+"API" -> "Users Service": Updated User Object, 200 OK
+deactivate "API"
+
+@enduml

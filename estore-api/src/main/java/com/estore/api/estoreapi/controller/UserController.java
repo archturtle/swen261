@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.estore.api.estoreapi.model.CartItem;
+import com.estore.api.estoreapi.model.CustomKeyboard;
 import com.estore.api.estoreapi.model.Keyboard;
 import com.estore.api.estoreapi.model.User;
+import com.estore.api.estoreapi.model.CartItem.Type;
 import com.estore.api.estoreapi.persistence.KeyboardFileDAO;
 import com.estore.api.estoreapi.persistence.UserFileDAO;
 
@@ -179,20 +181,32 @@ public class UserController {
         
         if (itemInCart == null) {
           userCart.add(cartItem);
-          user.setCart(userCart);
         } else {
           if (itemInCart.getQuantity() + cartItem.getQuantity() > keyboard.getQuantity())
             return new ResponseEntity<>(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE);
-          
+        
           userCart.remove(itemInCart);
           cartItem.setQuantity(cartItem.getQuantity() + itemInCart.getQuantity());
           userCart.add(cartItem);
         }
       } else {
         if (cartItem.getCustomKeyboard() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        if (cartItem.getQuantity() != 1) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (cartItem.getQuantity() < 1) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        userCart.add(cartItem);
+        userCart.stream()
+          .filter(item -> item.getCartItemType() == Type.CUSTOM_KEYBOARD)
+          .filter(item -> {
+            CustomKeyboard kb = item.getCustomKeyboard();
+            return kb.equals(cartItem.getCustomKeyboard());
+          })
+          .findFirst()
+          .ifPresentOrElse(item -> {
+            userCart.remove(item);
+            item.setQuantity(item.getQuantity() + cartItem.getQuantity());
+            userCart.add(item);
+          }, () -> {
+            userCart.add(cartItem);
+          });
       }
 
       user.setCart(userCart);
@@ -219,24 +233,36 @@ public class UserController {
         if (keyboard == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         if (cartItem.getQuantity() < 1) return new ResponseEntity<>(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE);
 
-        CartItem itemInCart = userCart.stream()
+        userCart.stream()
           .filter(item -> item.getKeyboardID() == cartItem.getKeyboardID())
           .findFirst()
-          .orElse(null);
-         
-        if (itemInCart != null) {
-          userCart.remove(itemInCart);
-          int range = (cartItem.getQuantity() > itemInCart.getQuantity()) ? itemInCart.getQuantity() : cartItem.getQuantity();
-          if (itemInCart.getQuantity() - range != 0) {
-            cartItem.setQuantity(itemInCart.getQuantity() - range);
-            userCart.add(cartItem);
-          }
-        }
+          .ifPresent(item -> {
+            userCart.remove(item);
+            int range = (cartItem.getQuantity() > item.getQuantity()) ? item.getQuantity() : cartItem.getQuantity();
+            if (item.getQuantity() - range != 0) {
+              cartItem.setQuantity(item.getQuantity() - range);
+              userCart.add(cartItem);
+            }
+          });
       } else {
         if (cartItem.getCustomKeyboard() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        if (cartItem.getQuantity() != 1) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (cartItem.getQuantity() < 1) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        userCart.remove(cartItem);
+        userCart.stream()
+        .filter(item -> item.getCartItemType() == CartItem.Type.CUSTOM_KEYBOARD)
+        .filter(item -> {
+          CustomKeyboard kb = item.getCustomKeyboard();
+          return kb.equals(cartItem.getCustomKeyboard());
+        })
+        .findFirst()
+        .ifPresent(item -> {
+          userCart.remove(item);
+          int range = (cartItem.getQuantity() > item.getQuantity()) ? item.getQuantity() : cartItem.getQuantity();
+          if (item.getQuantity() - range != 0) {
+            cartItem.setQuantity(item.getQuantity() - range);
+            userCart.add(cartItem);
+          }
+        });
       }
 
       user.setCart(userCart);

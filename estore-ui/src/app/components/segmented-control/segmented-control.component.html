@@ -1,0 +1,1 @@
+<p *ngFor="let item of controlNames; let i = index" class="control-item {{ i === selectedIndex ? 'selected' : '' }}" (click)="setSelectedIndex(i)">{{ item }}</p>

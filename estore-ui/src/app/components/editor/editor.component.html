@@ -23,7 +23,7 @@
 
   <div class="form-item description">
     <label for="description-input">Keyboard Description</label>
-      <textarea class="description-input" type="text" name="description-input" formControlName="description"></textarea>
+      <textarea class="description-input" type="text" name="description-input" formControlName="description" (ngModelChange)="textAreaChanged()" #descriptionArea></textarea>
   </div>
 
   <div class="button-div">

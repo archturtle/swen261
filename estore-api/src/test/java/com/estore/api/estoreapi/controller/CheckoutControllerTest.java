@@ -236,7 +236,7 @@ public class CheckoutControllerTest {
     CartItem cartItem4 = new CartItem(Type.STANDARD_KEYBOARD, 1, keyboard4.getId(), null);
     Keyboard keyboard5 = new Keyboard(4, "GMMK 5", 100.00, "It's the new keyboard", 1);
     CartItem cartItem5 = new CartItem(Type.STANDARD_KEYBOARD, 10, keyboard5.getId(), null);
-    CustomKeyboard keyboard6 = new CustomKeyboard(Size.ONE_HUNDRED, 119.99, "#FF0000", "#FF0000", SwitchType.GATERON_CLEAR);
+    CustomKeyboard keyboard6 = new CustomKeyboard(Size.ONE_HUNDRED, 119.99, "#FF0000", "#FF0000", "#000000", SwitchType.GATERON_CLEAR);
     CartItem cartItem6 = new CartItem(Type.CUSTOM_KEYBOARD, 1, -1, keyboard6);
 
     User user = new User(expectedUserID, "Siddhartha", 1, List.of(cartItem, cartItem2, cartItem3, cartItem4, cartItem5, cartItem6));

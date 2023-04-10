@@ -15,6 +15,15 @@
   border-radius: 5px;
 }
 
+.product-label {
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-info {
+  font-size: 12px;
+}
+
 .item-image {
   display: flex;
   align-items: center;

@@ -1,7 +1,7 @@
 <ng-container *ngIf="keyboardLoaded">
-  <img class="prod-image" src="../../../assets/{{ associatedKeyboard.id % 9 }}.webp" alt="Product Image" />
+  <img class="prod-image" src="../../../assets/{{ item.cartItemType === cartItemTypes.STANDARD_KEYBOARD ? associatedKeyboard.id % 9 : 'custom_keyboard' }}.webp" alt="Product Image" />
   <div class="prod-info">
-    <h4>{{ associatedKeyboard.name }}</h4>
+    <h4>{{ item.cartItemType === cartItemTypes.STANDARD_KEYBOARD ? associatedKeyboard.name : 'Custom Keyboard' }}</h4>
     <p>Quantity: {{ item.quantity }}</p>
   </div>
   <p class="total-price">${{ itemPrice | number: '1.2' }}</p>
