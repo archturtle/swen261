@@ -1,7 +1,12 @@
 <tr *ngIf="itemLoaded" class="item-row {{ outOfStock ? 'out-of-stock': '' }}">
   <td class="item-image">
     <img class="product-image" src="../../../assets/{{ cartItem.cartItemType === cartItemTypes.STANDARD_KEYBOARD ? this.associatedKeyboard.id % 9 : 'custom_keyboard' }}.webp">
-    <p>{{ cartItem.cartItemType === cartItemTypes.STANDARD_KEYBOARD ? this.associatedKeyboard.name : 'Custom Keyboard' }}</p>
+    <div class="product-label">
+      <p>{{ cartItem.cartItemType === cartItemTypes.STANDARD_KEYBOARD ? this.associatedKeyboard.name : 'Custom Keyboard' }}</p>
+      <p class="custom-info" *ngIf="cartItem.cartItemType === cartItemTypes.CUSTOM_KEYBOARD">
+        {{ 'Case Color: ' + cartItem.customKeyboard?.caseColor + ', Keycap Color: ' + cartItem.customKeyboard?.keycapColor + ', Label Color: ' + cartItem.customKeyboard?.labelColor }}
+      </p>
+    </div>
   </td>
   <td class="item-data">
     <div class="centering">
