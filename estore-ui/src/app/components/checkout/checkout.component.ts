@@ -110,7 +110,7 @@ export class CheckoutComponent implements OnInit {
 
   get totalPrice(): number {
     return this.cartItems.reduce((acc: number, val: CartItem) => {
-      if (val.cartItemType === CartItemType.CUSTOM_KEYBOARD) return acc + (val.customKeyboard?.price ?? 0);
+      if (val.cartItemType === CartItemType.CUSTOM_KEYBOARD) return acc + (val.quantity * (val.customKeyboard?.price ?? 0));
       let keyboard = this.getKeyboardByID(val.keyboardID!);
       if (Object.keys(keyboard).length === 0) return acc;
 
