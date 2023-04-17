@@ -37,7 +37,7 @@ This section describes all the features of the application.
 
 The MVP is defined as following list of features:
 
-- Customer:
+- **Customer**:
   - The customer is able to view all the products available at the store.
   - The customer is able to use the search to filter the products.
   - A customer is able to create a user account, which lets them have a cart 
@@ -46,7 +46,7 @@ The MVP is defined as following list of features:
   the cart.
   - The customers cart is saved whenever they leave the website and restored when 
   they come back.
-- Admin:
+- **Admin**:
   - The admin is able to log into the EStore with a the reserved admin account. 
   - The admin account is able to modify the inventory in any way: add, remove, 
   update products.
@@ -56,41 +56,41 @@ The MVP is defined as following list of features:
 
 The top-level stories that are associated with the MVP are as follows:
 
-- Create New Product
+- **Create New Product**
   - As a Developer I want to submit a request to create a new product (name, price, quantity) so that it is available to in the inventory.
-- Get a Single Product
+- **Get a Single Product**
   - As a Developer I want to submit a request to get a single product so that I can access the price and quantity.
-- Delete a Single Product
+- **Delete a Single Product**
   - As a Developer I want to submit a request to delete a single product so that it is no longer in the inventory.
-- Get Products by Name
+- **Get Products by Name**
   - As a Developer I want to submit a request to get products by name so that I can see all products that share a similar name.
-- Get Entire Inventory
+- **Get Entire Inventory**
   - As a Developer I want to submit a request to get the entire inventory so that I have access to all of the products.
-- Update a Product
+- **Update a Product**
   - As a Developer I want to submit a request to get the entire inventory so that I have access to all products and their details.
-- Add Admin Login
+- **Add Admin Login**
   - As a owner I want to add a admin login so that I have access to manipulate products.
-- Add Product Inventory Manipulation
+- **Add Product Inventory Manipulation**
   - As a owner, I want a product inventory so that I can add, remove, and edit the product data in the inventory.
-- Search for Products
+- **Search for Products**
   - As a User I want to submit a request to get the products in the inventory whose name contains the given text so that I have access to only those products.
-- Add Shopping Cart
+- **Add Shopping Cart**
   - As a user, I want a shopping cart so that I can keep track of items I want to buy.
-- Add Customer Login
+- **Add Customer Login**
   - As a customer I want to have a login so that I can save and buy my products.
-- Add Description to Keyboard
+- **Add Description to Keyboard**
   - As a customer I want to be able to see the description so that I can know if the keyboard is something I would like to invest in.
-- Add the Ability to Checkout
+- **Add the Ability to Checkout**
   - As a customer, I want the ability to checkout, so that I can purchase my products.
-- 10%: Keycaps
+- **10%: Keycaps**
   - As a customer I want to pick out my keycaps so that I can build my desired keyboard
-- 10%: Switches
+- **10%: Switches**
   - As a customer I want to pick out my switches so that I can build my desired keyboard.
-- 10%: Keyboard Case
+- **10%: Keyboard Case**
   - As a customer I want to pick out my keyboard case so that I can build my desired keyboard.
-- 10%: Keyboard Size
+- **10%: Keyboard Size**
   - As a customer I want to pick out my keyboard size so that I can build my desired keyboard.
-- 10%: Add Keyboard Customizer
+- **10%: Add Keyboard Customizer**
   - As a customer, I want to be able to customize my keyboard so that I can design it to my preferences.
 
 ### Roadmap of Enhancements
@@ -207,16 +207,6 @@ From the diagram above, we can see that the Model Tier is composed of five diffe
 - **User**: The User model is used to represent a user that is currently registered with the EStore. The User model has a cart field which is a list of CartItem models.
 
 ### Static Code Analysis/Design Improvements
-> _Discuss design improvements that you would make if the project were
-> to continue. These improvement should be based on your direct
-> analysis of where there are problems in the code base which could be
-> addressed with design changes, and describe those suggested design
-> improvements._
-
-> _With the results from the Static Code Analysis exercise, 
-> discuss the resulting issues/metrics measurements along with your analysis
-> and recommendations for further improvements. Where relevant, include 
-> screenshots from the tool and/or corresponding source code that was flagged._
 
 Though SICA's goal is to write clean, safe, and reusable code, it was inevitable that a project this big is to have some bugs that slip through the cracks as shown below. 
 
