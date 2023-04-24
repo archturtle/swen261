@@ -1,0 +1,46 @@
+class CustomKeyboard {
+  -size: Size;
+  -price: double;
+  -caseColor: String;
+  -keycapColor: String;
+  -labelColor: String;
+  -switchType: SwitchType;
+
+  +CustomKeyboard(size: Size, price: double, caseColor: String, keycapColor: String, labelColor: String, switchType: SwitchType)
+  +getSize(): Size
+  +setSize(size: Size): void
+  +getPrice(): double
+  +setPrice(price: double): void
+  +getCaseColor(): String
+  +setCaseColor(caseColor: String): void
+  +getKeycapColor(): String
+  +setKeycapColor(keycapColor: String): void
+  +getLabelColor(): String
+  +setLabelColor(labelColor: String): void
+  +getSwitchType(): SwitchType
+  +setSwitchType(switchType: SwitchType): void
+}
+
+enum SwitchType {
+  GATERON_BLACK
+  CHERRY_MX_BLACK
+  GATERON_BLUE
+  CHERRY_MX_BLUE
+  GATERON_BROWN
+  CHERRY_MX_BROWN
+  GATERON_CLEAR
+  CHERRY_MX_CLEAR
+  GATERON_GREEN
+  CHERRY_MX_GREEN
+  GATERON_RED
+  CHERRY_MX_RED
+}
+  
+enum Size {
+ ONE_HUNDRED
+ EIGHTY
+ SIXTY
+}
+
+CustomKeyboard --> SwitchType
+CustomKeyboard --> Size

@@ -148,6 +148,6 @@ CartItem --> Type
 CartItem --> CustomKeyboard
 CustomKeyboard --> SwitchType
 CustomKeyboard --> Size
-User --> CartItem
+User "1" *-- "n" CartItem
 
 @enduml
