@@ -206,6 +206,92 @@ From the diagram above, we can see that the Model Tier is composed of five diffe
 - **Keyboard**: The Keyboard model is used to represent a keyboard that is currently listed for sale on the EStore. 
 - **User**: The User model is used to represent a user that is currently registered with the EStore. The User model has a cart field which is a list of CartItem models.
 
+## Design Principles Analysis
+
+This selection provides an analysis on some of the design principles that were applied in the creation of the product.
+
+### Single Responsibility
+> **[Definition:](https://en.wikipedia.org/wiki/Single-responsibility_principle)** The single-responsibility principle (SRP)
+> is a computer programming principle that states that "A module should be 
+> responsible to one, and only one, actor."
+
+Due to the code complexity and reusability benefit that this principle provides, it is implemented in numerous places throughout the API and the 
+UI. On the API side, Single Responsibility is implemented by seperating the 
+controller, models, and DAOs into their own folders. Every file that exists 
+in these folders represents a specific feature associated with the folder 
+type. For example, in the `controller` folder, there exists 
+`CheckoutController.java`, `KeyboardController.java`, 
+and `UserController.java`. As their name suggests, each file contains the 
+handlers for the routes associated with a specific feature. The separation 
+of controllers by their feature allows for modifications to be done with 
+minimal refactoring. The same seperation is used for DAOs, with 
+`KeyboardFileDAO.java` and `UserFileDAO.java` existing in the `persistence` 
+folder. On the UI side, Single Responsibility is implemeneted through the 
+concept of Angular Components. Angular components allow for the reuse of 
+specific HTML templates without duplicating the code and logic associated 
+with them.  
+
+### Dependency Injection/Inversion
+> **[Definition:](https://en.wikipedia.org/wiki/Dependency_inversion_principle)** In object-oriented design, the dependency
+> inversion principle is a specific methodology for loosely coupled software
+> modules. When following this principle, the conventional dependency
+> relationships established from high-level, policy-setting modules to
+> low-level, dependency modules are reversed, thus rendering high-level
+> modules independent of the low-level module implementation details. The
+> principle states:
+> - High-level modules should not import anything from low-level modules.
+> Both should depend on abstractions (e.g., interfaces).
+> - Abstractions should not depend on details. Details (concrete
+> implementations) should depend on abstractions.
+
+Dependency Injection/Inversion is used in the project to help the project 
+conform to the Loose Coupling principle. Dependency Injection/Inversion also 
+helps when we test our code since it greatly reduces the steps needs to 
+create a working test and allows individual pieces to be tested. As with the 
+previous principle, this principle is also used in both the API and the UI. 
+On the API side, dependency injection is used so that the Spring Controller 
+can automatically get a shared instance of the DAO classes used to interface 
+with the JSON files. In the UI, dependency injection is used to instantiate 
+any app-wide services that may be needed to interface with the API. 
+Dependency injection helps us create a single instance of a service so that 
+any changes can be viewed the entire app and not just the one who made the 
+change. In our UI, services like user service, keyboard service, checkout 
+service, and the notification service follow this principle. The user 
+service handles user creation, user deletion, editing user information, and 
+modifying the shopping cart. The keyboard service handles the fetching, 
+deleting, and editing of all the keyboards that are stored on the API side. 
+The checkout service handles the entire checkout workflow by managing the 
+HTTP requests to the API. Finally, the notification service exists to reduce 
+“event-chaining” (passing an event up through many components). With the 
+notification service, a component can post an app-wide notification so that 
+any component that wants to listen to it can subscribe while those who can’t 
+ignore it. All these services are fully managed by Angular, minimizing the 
+workload on the developer and improving overall efficiency. 
+
+### Open/Closed
+> **[Definition:](https://en.wikipedia.org/wiki/Open–closed_principle)** In
+> object-oriented programming, the open–closed principle (OCP) states
+> "software entities (classes, modules, functions, etc.) should be open for
+> extension, but closed for modification"; that is, such an entity can allow
+> its behaviour to be extended without modifying its source code.
+
+In our project, the Open/Closed principle is applied on both the API and the 
+UI side. On the API side, the principle is applied through the existence of 
+the `GenericDAO` interface within the `persistence` folder. The `GenericDAO` 
+interface was created to minimize the duplicated code that existed in the 
+original backing interfaces for `KeyboardFileDAO` and `UserFileDAO`, as both 
+DAOs share similar method names, with only differing types. To comply with 
+the principle, the `GenericDAO` only specifies the barebones methods that 
+both DAOs implement. This way, each DAO is free to add any extra methods to 
+their implementation without requiring a full change to the backing 
+interface. On the UI side, the principle is used for displaying the keyboard 
+on the keyboard customizer page. Each keyboard layout is defined as a 
+separate Typescript file (`sixty.ts`, `eighty.ts`, and `one-hundred.ts`), 
+each which extended a common interface (`keyboard-layout.ts`) that defines 
+how the data should be structured. Doing it this way allows for each layout 
+to be modified without needing to change the code that actually renders each 
+layout on the page.
+
 ### Static Code Analysis/Design Improvements
 
 Though SICA's goal is to write clean, safe, and reusable code, it was inevitable that a project this big is to have some bugs that slip through the cracks as shown below. 
